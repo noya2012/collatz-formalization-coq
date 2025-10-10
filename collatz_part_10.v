@@ -1,0 +1,343 @@
+Load "collatz_part_9.v".
+
+(* repeat_R0 生成的列表长度等于 d *)
+Lemma repeat_R0_length : forall d,
+  length (repeat_R0 d) = d.
+Proof.
+induction d as [|d' IH].
+- simpl. reflexivity.
+- simpl. rewrite IH. reflexivity.
+Qed.
+
+(* repeat_R0 中 R0 操作的个数等于 d *)
+Lemma repeat_R0_count_R0 : forall d,
+  count_R0 (repeat_R0 d) = d.
+Proof.
+induction d as [|d' IH].
+- simpl. reflexivity.
+- simpl. rewrite IH. reflexivity.
+Qed.
+
+(* repeat_R0 中连续 R0 模式的个数（d>=1时）等于 d *)
+Lemma repeat_R0_consecutive_count : forall d,
+  d >= 1 ->
+  count_consecutive_R0 (repeat_R0 d) = d.
+Proof.
+induction d as [|d' IH]; intros Hd.
+- lia.
+- simpl.
+destruct d' as [|d''].
++ simpl. reflexivity.
++ assert (Hd': S d'' >= 1) by lia.
+specialize (IH Hd').
+rewrite IH.
+reflexivity.
+Qed.
+
+(* d=1 时 R0 入口数对应的操作序列有效性 *)
+Lemma valid_R0_d1_produces_R0 : forall n,
+  n >= 1 ->
+  let m := valid_R0R0_entry_number 1 n in
+  valid_sequence [R0] m /\ count_consecutive_R0 [R0] = 1.
+Proof.
+intros n Hn m. unfold m.
+pose proof (valid_R0R0_entry_number_properties 1 n (le_n 1) Hn) as [Hvalid_m Heven_m].
+split.
+- unfold valid_sequence. intros i Hi. simpl in Hi.
+destruct i as [|i'].
++ simpl. exact Heven_m.
++ lia.
+- simpl. reflexivity.
+Qed.
+
+(* R0 模式的封闭递推性质 *)
+Lemma R0_pattern_closure : forall d n,
+  d >= 2 -> n >= 1 ->
+  let m := valid_R0R0_entry_number d n in
+  sequence_end m [R0] = valid_R0R0_entry_number (d-1) (n).
+Proof.
+intros d n Hd Hn m. unfold m.
+unfold sequence_end, valid_R0R0_entry_number.
+simpl.
+unfold collatz_step.
+assert (H_even: is_even (n * 2^d)).
+{ unfold is_even.
+assert (H_pow_even: is_even (2^d)) by (apply pow2_even_when_ge_2; exact Hd).
+unfold is_even in H_pow_even.
+rewrite Nat.even_mul.
+rewrite H_pow_even.
+destruct (Nat.even n); reflexivity. }
+rewrite H_even.
+simpl.
+destruct d as [|d'].
+- lia.
+-
+simpl (2^(S d')).
+simpl (S d' - 1).
+assert (H_sub: d' - 0 = d') by lia.
+rewrite H_sub.
+assert (H_arith: 2 ^ d' + (2 ^ d' + 0) = 2 * 2^d').
+{ ring. }
+rewrite H_arith.
+assert (H_div: fst (divmod (n * (2 * 2^d')) 1 0 1) = (n * (2 * 2^d')) / 2).
+{ apply div2_divmod_eq. }
+rewrite H_div.
+assert (H_rearrange: n * (2 * 2^d') = 2 * (n * 2^d')).
+{ ring. }
+rewrite H_rearrange.
+apply even_div2_mul2.
+apply Nat.mul_pos_pos; try lia.
+apply gt_0_2_pow.
+Qed.
+
+(* R0 入口数生成 repeat_R0 D 的有效性和计数 *)
+Lemma valid_R0_produces_R0_general : forall D n,
+  D >= 1 ->
+  n >= 1 ->
+  let m := valid_R0R0_entry_number D n in
+  valid_sequence (repeat_R0 D) m /\
+  count_consecutive_R0 (repeat_R0 D) = D.
+Proof.
+intros D. induction D as [|D' IH]; intros n HD Hn m; unfold m.
+- lia.
+- destruct D' as [|d1].
++
+apply valid_R0_d1_produces_R0; assumption.
++
+set (Dfull := S (S d1)).
+assert (Hd_full: Dfull >= 1) by lia.
+assert (Hd_full_ge_2: Dfull >= 2) by lia.
+pose proof (valid_R0R0_entry_number_properties Dfull n Hd_full Hn) as [_ Heven_m].
+pose proof (R0_pattern_closure Dfull n Hd_full_ge_2 Hn) as Hcl.
+assert (Hd_tail: S d1 >= 1) by lia.
+assert (Hn_tail: n >= 1) by exact Hn.
+specialize (IH n Hd_tail Hn_tail).
+destruct IH as [Hseq_tail Hcount_tail].
+split.
+* intros i Hi. simpl in Hi. destruct i as [|i']; [simpl; exact Heven_m |].
+simpl.
+change (collatz_step (nth_sequence_value (valid_R0R0_entry_number Dfull n) i'))
+with (nth_sequence_value (valid_R0R0_entry_number Dfull n) (S i')).
+change (nth_sequence_value (valid_R0R0_entry_number Dfull n) (S i'))
+with (nth_sequence_value (valid_R0R0_entry_number Dfull n) (1 + i')).
+rewrite (nth_sequence_value_app (valid_R0R0_entry_number Dfull n) 1 i').
+change (nth_sequence_value (valid_R0R0_entry_number Dfull n) 1)
+with (sequence_end (valid_R0R0_entry_number Dfull n) [R0]).
+rewrite Hcl.
+apply Hseq_tail.
+rewrite repeat_R0_length in Hi |- *.
+simpl in Hi. lia.
+* simpl.
+destruct d1 as [|d1'].
+--
+unfold Dfull. simpl. reflexivity.
+--
+rewrite repeat_R0_consecutive_count.
+++ unfold Dfull. reflexivity.
+++
+apply le_n_S. apply Nat.le_0_l.
+Qed.
+
+(* R0 入口数生成 repeat_R0 d 的有效性和计数（简化包装） *)
+Lemma R0_entry_number_produces_repeat : forall d n,
+  d >= 1 -> n >= 1 ->
+  let m := valid_R0R0_entry_number d n in
+  valid_sequence (repeat_R0 d) m /\ count_consecutive_R0 (repeat_R0 d) = d.
+Proof.
+intros d n Hd Hn m. unfold m.
+apply valid_R0_produces_R0_general; assumption.
+Qed.
+
+(* R0R0 入口数生成 repeat_R0 d 的有效性和计数（别名） *)
+Lemma R0R0_entry_number_produces_repeat : forall d n,
+  d >= 1 -> n >= 1 ->
+  let m := valid_R0R0_entry_number d n in
+  valid_sequence (repeat_R0 d) m /\ count_consecutive_R0 (repeat_R0 d) = d.
+Proof.
+intros d n Hd Hn m. unfold m. apply valid_R0_produces_R0_general; assumption.
+Qed.
+
+(* repeat_R0 D 操作后终值为 n *)
+Lemma repeat_R0_output_reaches_one : forall D n,
+  D >= 1 -> n >= 1 ->
+  let m := valid_R0R0_entry_number D n in
+  sequence_end m (repeat_R0 D) = n.
+Proof.
+intro D.
+induction D as [|D' IH]; intros n HD Hn.
+- lia.
+- destruct D' as [|d].
++
+simpl.
+unfold sequence_end, valid_R0R0_entry_number.
+simpl.
+unfold collatz_step.
+assert (H_even: is_even (n * 2)).
+{ unfold is_even. rewrite Nat.even_mul.
+simpl. destruct (Nat.even n); reflexivity. }
+rewrite H_even.
+simpl.
+assert (H_div_eq: fst (divmod (n * 2) 1 0 1) = (n * 2) / 2).
+{ apply div2_divmod_eq. }
+rewrite H_div_eq.
+apply Nat.div_mul.
+lia.
++
+unfold sequence_end.
+rewrite repeat_R0_length.
+assert (H_add: S (S d) = 1 + S d) by lia.
+rewrite H_add.
+rewrite nth_sequence_value_app.
+assert (H_step_eq: nth_sequence_value (valid_R0R0_entry_number (1 + S d) n) 1 =
+collatz_step (valid_R0R0_entry_number (1 + S d) n)).
+{ unfold nth_sequence_value. simpl. reflexivity. }
+rewrite H_step_eq.
+assert (H_closure: collatz_step (valid_R0R0_entry_number (1 + S d) n) =
+valid_R0R0_entry_number (S d) n).
+{
+assert (H_back: 1 + S d = S (S d)) by lia.
+rewrite H_back.
+assert (H_ge2: S (S d) >= 2) by lia.
+assert (H_seq_eq: collatz_step (valid_R0R0_entry_number (S (S d)) n) =
+sequence_end (valid_R0R0_entry_number (S (S d)) n) [R0]).
+{ unfold sequence_end. simpl. reflexivity. }
+rewrite H_seq_eq.
+apply R0_pattern_closure; lia.
+}
+rewrite H_closure.
+assert (H_ih_eq: nth_sequence_value (valid_R0R0_entry_number (S d) n) (S d) =
+sequence_end (valid_R0R0_entry_number (S d) n) (repeat_R0 (S d))).
+{ unfold sequence_end. rewrite repeat_R0_length. reflexivity. }
+rewrite H_ih_eq.
+apply IH; lia.
+Qed.
+
+(* 推论：当n=1时，连续D个R0操作的输出为1 *)
+Corollary repeat_R0_output_one_when_n_one : forall D,
+  D >= 1 ->
+  let m := valid_R0R0_entry_number D 1 in
+  sequence_end m (repeat_R0 D) = 1.
+Proof.
+intros D HD.
+apply repeat_R0_output_reaches_one; try lia.
+Qed.
+
+(* n 为奇数时，repeat_R0 D 操作后终值仍为奇数 *)
+Lemma repeat_R0_output_odd_if_n_odd : forall D n,
+  D >= 1 -> n >= 1 ->
+  let m := valid_R0R0_entry_number D n in
+  Nat.odd n = true ->
+  Nat.odd (sequence_end m (repeat_R0 D)) = true.
+Proof.
+intros D n HD Hn m Hodd.
+unfold m.
+rewrite (repeat_R0_output_reaches_one D n HD Hn).
+exact Hodd.
+Qed.
+
+(* repeat_R0 k 前缀作用下的终值表达 *)
+Lemma sequence_end_valid_R0_prefix : forall D n k,
+  D >= 1 -> n >= 1 ->
+  k <= D ->
+  let m := valid_R0R0_entry_number D n in
+  sequence_end m (repeat_R0 k) = valid_R0R0_entry_number (D - k) n.
+Proof.
+intros D n k HD Hn Hk.
+revert D n HD Hn Hk.
+induction k as [|k' IHK]; intros D n HD Hn Hk; simpl.
+-
+rewrite Nat.sub_0_r; reflexivity.
+-
+assert (Hk'_bound: k' <= D - 1) by lia.
+change (R0 :: repeat_R0 k') with ([R0] ++ repeat_R0 k') in *.
+rewrite sequence_end_app.
+destruct (Nat.eq_dec D 1) as [HD1 | HD1].
++
+subst D.
+assert (k'_zero: k' = 0) by lia.
+subst k'.
+simpl.
+pose proof (repeat_R0_output_reaches_one 1 n HD Hn) as H_reaches.
+simpl in H_reaches.
+rewrite H_reaches.
+assert (H_seq_empty: sequence_end n [] = n) by reflexivity.
+rewrite H_seq_empty.
+unfold valid_R0R0_entry_number.
+simpl.
+rewrite Nat.mul_1_r.
+reflexivity.
++
+assert (HDge2: D >= 2) by lia.
+pose proof (R0_pattern_closure D n HDge2 Hn) as HR0.
+rewrite HR0.
+assert (H_D_minus_1_ge_1: D - 1 >= 1) by lia.
+assert (H_k'_le_D_minus_1: k' <= D - 1) by lia.
+pose proof (IHK (D - 1) n H_D_minus_1_ge_1 Hn H_k'_le_D_minus_1) as IH_applied.
+simpl in IH_applied.
+assert (H_arith: D - S k' = (D - 1) - k') by lia.
+rewrite H_arith.
+exact IH_applied.
+Qed.
+
+(* repeat_R0 末尾追加一个 R0 等于 S 次 repeat *)
+Lemma repeat_R0_append_single : forall k,
+  repeat_R0 k ++ [R0] = repeat_R0 (S k).
+Proof.
+induction k as [|k' IHk].
+-
+simpl. reflexivity.
+-
+simpl.
+rewrite IHk.
+simpl.
+reflexivity.
+Qed.
+
+(* build_k_steps 从 R0R0 入口数生成 k 个 R0 操作 *)
+Lemma build_k_steps_on_valid_R0R0_prefix : forall D n k,
+  D >= 1 -> n >= 1 ->
+  k <= D ->
+  let m := valid_R0R0_entry_number D n in
+  build_k_steps m k = repeat_R0 k.
+Proof.
+intros D n k HD Hn Hk.
+revert D n HD Hn Hk.
+induction k as [|k' IHK]; intros D n HD Hn Hk; simpl.
+- reflexivity.
+- assert (Hk'_bound: k' <= D) by lia.
+pose proof (IHK D n HD Hn Hk'_bound) as IHk_full.
+simpl.
+rewrite IHk_full.
+set (m := valid_R0R0_entry_number D n).
+set (prev := repeat_R0 k').
+pose proof (sequence_end_valid_R0_prefix D n k' HD Hn Hk'_bound) as Hseq.
+unfold build_k_steps; simpl.
+assert (Hdrem_ge1: D - k' >= 1) by lia.
+pose proof (valid_R0R0_entry_number_properties (D - k') n Hdrem_ge1 Hn) as Hprops.
+destruct Hprops as [_ Heven].
+assert (H_even_goal: Nat.even (sequence_end m prev) = true).
+{
+unfold m, prev.
+rewrite Hseq.
+exact Heven. }
+rewrite H_even_goal.
+unfold prev.
+assert (H_list_eq: repeat_R0 k' ++ [R0] = R0 :: repeat_R0 k').
+{
+rewrite repeat_R0_append_single.
+simpl.
+reflexivity. }
+exact H_list_eq.
+Qed.
+
+(* build_k_steps 从 R0R0 入口数完整生成 repeat_R0 D *)
+Lemma build_k_steps_on_valid_R0R0 : forall D n,
+  D >= 1 -> n >= 1 ->
+  let m := valid_R0R0_entry_number D n in
+  build_k_steps m D = repeat_R0 D.
+Proof.
+intros D n HD Hn m.
+apply build_k_steps_on_valid_R0R0_prefix; auto; lia.
+Qed.
+
+

@@ -1,0 +1,24 @@
+# 忽略所有子目录
+theories/
+coqsysbase/
+codetools/
+.github/
+.kilocode/
+.roo/
+.trae/
+.vscode/
+
+# 忽略辅助文件
+*.aux
+*.glob
+*.cache
+
+# 忽略Python和JavaScript文件（只保留Coq文件）
+*.py
+*.js
+
+# 忽略其他非Coq文件
+collatzlite.txt
+trick.txt
+*.json
+_CoqProject
