@@ -2,13 +2,13 @@ Load "collatz_part_5.v".
 
 
 
-(* “我们必须知道，我们必将知道。”（"Wir müssen wissen. Wir werden wissen."） *)
-(*从这里我们根据前面得到的信息，开始全局证明
-我们使用人工推导和机器推导的结合，利用本框架可靠的序列分解构造方法*)
+(* "We must know. We will know." ("Wir müssen wissen. Wir werden wissen.") *)
+(* From here, based on the information obtained earlier, we begin the global proof
+We use a combination of manual derivation and machine derivation, utilizing the reliable sequence decomposition construction method of this framework *)
 
 
 
-(* 序列构造的性质 *)
+(* Properties of sequence construction *)
 Lemma build_k_steps_valid : forall n k,
   valid_input n ->
   valid_sequence (build_k_steps n k) n.
@@ -97,7 +97,7 @@ exact Hvalid_new.
 Qed.
 
 
-(* 关于序列构造的辅助引理 *)
+(* Auxiliary lemma about sequence construction *)
 Lemma build_k_steps_Sn : forall n k,
   valid_input n ->
   build_k_steps n (S k) =
@@ -111,7 +111,7 @@ intros n k Hvalid.
 simpl. reflexivity.
 Qed.
 
-(* R1计数单调递增 *)
+(* R1 count monotonically increases *)
 Lemma R1_count_monotone : forall n k,
   valid_input n ->
   let (_, r1s) := count_operations (build_k_steps n k) in
@@ -140,7 +140,7 @@ destruct H_app as [_ Heq].
 rewrite Heq. lia.
 Qed.
 
-(* 序列长度至少为k *)
+(* Sequence length is at least k *)
 Lemma build_k_steps_length_min : forall n k,
   valid_input n ->
   length (build_k_steps n k) >= k.
@@ -158,7 +158,7 @@ specialize (IHk Hvalid).
 lia.
 Qed.
 
-(* 序列长度至少为k 且最多为2k *)
+(* Sequence length is at least k and at most 2k *)
 Lemma build_k_steps_length_bound : forall n k,
   valid_input n ->
   k <= length (build_k_steps n k) <= 2 * k.
@@ -188,7 +188,7 @@ lia.
 lia.
 Qed.
 
-(* R0计数等于k *)
+(* R0 count equals k *)
 Lemma R0_count_eq_k : forall n k ops,
   valid_input n ->
   k >= 1 ->
@@ -275,18 +275,20 @@ rewrite H_prev.
 reflexivity.
 Qed.
 
-(* 主定理：证明在k步序列中，R0操作次数恰好为k，则R1操作次数不超过k，且总长度不超过2k。
-   这表明R0操作（n/2）在序列中占主导地位，支持了序列最终会收敛的直觉。 *)
+(* Main theorem: Proof that in a k-step sequence, the number of R0 operations is exactly k, 
+   then the number of R1 operations does not exceed k, and the total length does not exceed 2k.
+   This shows that R0 operations (n/2) dominate in the sequence, supporting the intuition 
+   that the sequence will eventually converge. *)
 Theorem build_k_steps_structure : forall n k,
   valid_input n ->
   k >= 2 ->
   exists ops r0s r1s,
   build_k_steps n k = ops /\
   count_operations ops = (r0s, r1s) /\
-  r0s = k /\           (* 加强：R0的数量精确等于k *)
-  r1s <= k /\          (* R1的数量最多为k *)
-  r1s = length ops - k (* 新增：R1的精确值 *) /\
-  length ops <= 2 * k. (* 总长度最多为2k *)
+  r0s = k /\           (* Strengthened: R0 count is exactly k *)
+  r1s <= k /\          (* R1 count is at most k *)
+  r1s = length ops - k (* New: Exact value of R1 *) /\
+  length ops <= 2 * k. (* Total length is at most 2k *)
 Proof.
 intros n k Hvalid Hk.
 assert (HR0: let (r0s, _) := count_operations (build_k_steps n k) in r0s = k).
@@ -321,17 +323,17 @@ lia.
 assumption.
 Qed.
 
-(* 动态性质的定理  所有合法k长度序列的结构证明了R0的增长是线性和可预测的
-限制了R1的增长速率
-支持了"R0操作在序列中占主导地位"的结论 *)
+(* Theorem of dynamic properties: The structure of all valid k-length sequences proves that 
+   the growth of R0 is linear and predictable, limits the growth rate of R1, and supports 
+   the conclusion that "R0 operations dominate in the sequence" *)
 
 Theorem build_k_steps_increment_basic : forall n k,
   valid_input n ->
   k >= 2 ->
   let (r0s_k, r1s_k) := count_operations (build_k_steps n k) in
   let (r0s_next, r1s_next) := count_operations (build_k_steps n (S k)) in
-  r0s_next = r0s_k + 1 /\                    (* R0精确增加1 *)
-  r1s_next <= r1s_k + 1.                     (* R1最多增加1 *)
+  r0s_next = r0s_k + 1 /\                    (* R0 increases exactly by 1 *)
+  r1s_next <= r1s_k + 1.                     (* R1 increases at most by 1 *)
 Proof.
 intros n k Hvalid Hk.
 destruct (build_k_steps_structure n k Hvalid Hk)

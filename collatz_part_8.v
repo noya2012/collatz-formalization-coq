@@ -1,7 +1,7 @@
 Load "collatz_part_7.v".
 
 
-(* R1R0模式下的有效输入与奇偶性 *)
+(* Valid input and parity in R1R0 pattern *)
 Lemma R1R0_two_steps_reduce : forall d n,
   d >= 1 -> n >= 0 ->
   let m := valid_R1R0_entry_number d n in
@@ -42,7 +42,7 @@ repeat rewrite Nat.add_0_r.
 lia.
 Qed.
 
-(* 序列值尾部连接计算引理 结合R1R0_two_steps_reduce推导R1R0_pattern_closure*)
+(* Lemma for sequence end value connection calculation - combined with R1R0_two_steps_reduce to derive R1R0_pattern_closure *)
 Lemma sequence_end_two_steps : forall n,
   valid_input n ->
   is_odd n ->
@@ -74,7 +74,7 @@ rewrite H_expr_eq.
 reflexivity.
 Qed.
 
- (* R1R0模式封闭 *)
+ (* R1R0 pattern closure *)
 Lemma R1R0_pattern_closure : forall d n,
   d >= 1 -> n >= 0 ->
   let m := valid_R1R0_entry_number d n in

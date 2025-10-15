@@ -1,50 +1,47 @@
 Require Import Nat.
 Require Import List.
 Import ListNotations.
-Require Import Lia.     (* 引入lia策略，这是更新的线性整数算术求解器 *)
+Require Import Lia.   
 Require Import PeanoNat.
 Require Import Ring.
-Require Import Arith.   (* 引入算术运算 *)
+Require Import Arith.  
 Require Import ArithRing.
 Require Import Coq.Classes.RelationClasses.
 Require Import Coq.Arith.Div2.
 Load "log2_p.v".
 
-(* noya2012@126.com 306000250@qq.com  zeng  *)
-(* 定义考拉兹操作   文档使用coq ide8.9 版本*)
+
+(* Define Collatz operations   Documentation uses Coq 8.10.2 version *)
 Inductive CollatzOp : Type :=
   | R0 : CollatzOp
   | R1 : CollatzOp.
 
-(* 定义合法输入的性质 *)
+(* Define the property of valid input *)
 Definition valid_input (n: nat) := n >= 1.
 
-(* 辅助定义：将bool转换为Prop *)
+(* Helper definition: convert bool to Prop *)
 Definition is_even (n: nat) := Nat.even n = true.
 Definition is_odd (n: nat) := Nat.even n = false.
 
-(* 定义单步考拉兹操作 *)
+(* Define single-step Collatz operation *)
 Definition collatz_step (n : nat) : nat :=
   if Nat.even n then n / 2
   else 3 * n + 1.
 
-(* 入口函数定义 *)
+(* Entry function definition *)
 Definition valid_R0R1_entry_number (d n: nat) : nat :=
   (2 * (2^d) * n) + (2^d - 2).
 
-(* 定义入口函数 *)
+(* Define entry function *)
 Definition valid_R0R0_entry_number (d n: nat) : nat :=
   n * (2^d).
 
-(* R1R0 入口函数定义 *)
+(* R1R0 entry function definition *)
 Definition valid_R1R0_entry_number (d n: nat) : nat :=
   (2 * (2^d) * n) + (2^d - 1).
 
 
-
-
-
-(* 定义计数函数 *)
+(* Define counting function *)
 Fixpoint count_R0 (ops: list CollatzOp) : nat :=
 match ops with
 | [] => 0
@@ -52,7 +49,7 @@ match ops with
 | R1 :: rest => count_R0 rest
 end.
 
-(* r1计数函数 *)
+(* R1 counting function *)
 Fixpoint count_R1 (ops: list CollatzOp) : nat :=
 match ops with
 | [] => 0
@@ -61,8 +58,7 @@ match ops with
 end.
 
 
-
-(* 定义序列中R0和R1的计数函数 *)
+(* Define counting function for R0 and R1 in sequence *)
 Fixpoint count_operations (ops: list CollatzOp) : (nat * nat) :=
   match ops with
   | nil => (0, 0)
@@ -75,46 +71,44 @@ Fixpoint count_operations (ops: list CollatzOp) : (nat * nat) :=
   end.
 
 
-
-
-(* 定义有效操作 *)
+(* Define valid operation *)
 Definition valid_operation (n: nat) (op: CollatzOp) : Prop :=
   match op with
   | R0 => is_even n
   | R1 => is_odd n
   end.
 
-(* 定义序列中第k个值 *)
+(* Define the k-th value in sequence *)
 Fixpoint nth_sequence_value (n: nat) (k: nat) : nat :=
   match k with
   | 0 => n
   | S k' => collatz_step (nth_sequence_value n k')
   end.
 
-(* 定义序列的最终值 *)
+(* Define the final value of sequence *)
 Definition sequence_end (n: nat) (ops: list CollatzOp) : nat :=
   nth_sequence_value n (length ops).
   
-(* 定义序列的有效性：序列中的每个操作都是合法的 *)
+(* Define sequence validity: each operation in the sequence is legal *)
 Definition valid_sequence (ops: list CollatzOp) (n: nat) : Prop :=
   forall i, i < length ops ->
     valid_operation (nth_sequence_value n i) (nth i ops R0).
 
 
-(* R0模式的重复构造函数 - 可以处理单个R0和连续R0 *)
+(* R0 pattern repetition constructor - can handle single R0 and consecutive R0 *)
 Fixpoint repeat_R0 (d: nat) : list CollatzOp :=
   match d with
   | 0 => []
   | S d' => R0 :: repeat_R0 d'
   end.
-(*    该函数构造一个操作列表，包含D个连续的R1R0操作对 *)
+(*    This function constructs an operation list containing D consecutive R1R0 operation pairs *)
 Fixpoint repeat_R1R0 (d: nat) : list CollatzOp :=
   match d with
   | 0 => []
   | S d' => R1 :: R0 :: repeat_R1R0 d'
   end.
   
-(* 连续R0模式计数函数 *)
+(* Consecutive R0 pattern counting function *)
 Fixpoint count_consecutive_R0 (ops: list CollatzOp) : nat :=
   match ops with
   | [] => 0
@@ -122,7 +116,7 @@ Fixpoint count_consecutive_R0 (ops: list CollatzOp) : nat :=
   | _ => 0
   end.
 
-(* 连续R1R0模式的计数 *)
+(* Consecutive R1R0 pattern counting *)
 Fixpoint count_consecutive_R1R0 (ops: list CollatzOp) : nat :=
   match ops with
   | [] => 0
@@ -131,7 +125,7 @@ Fixpoint count_consecutive_R1R0 (ops: list CollatzOp) : nat :=
   | _ :: rest => count_consecutive_R1R0 rest
   end.
   
-(* 主定理结构*)
+(* Main theorem structure *)
 Fixpoint build_k_steps (n: nat) (k: nat) : list CollatzOp :=
   match k with
   | 0 => []
@@ -139,7 +133,7 @@ Fixpoint build_k_steps (n: nat) (k: nat) : list CollatzOp :=
     let prev_ops := build_k_steps n k' in
     let curr_n := sequence_end n prev_ops in
     if Nat.even curr_n
-    then prev_ops ++ [R0]          (* 偶数：添加R0 *)
-    else prev_ops ++ [R1; R0]      (* 奇数：添加R1R0 *)
+    then prev_ops ++ [R0]          (* Even: add R0 *)
+    else prev_ops ++ [R1; R0]      (* Odd: add R1R0 *)
   end.
   

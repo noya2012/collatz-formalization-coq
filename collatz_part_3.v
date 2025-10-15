@@ -1,6 +1,6 @@
 Load "collatz_part_2.v".
 
-(* R0R1入口数可表示为2的倍数 *)
+(* R0R1 entry number can be expressed as a multiple of 2 *)
 Theorem valid_R0R1_entry_number_produces_d_R0R1 : forall d n,
   d >= 1 ->
   n >= 1 ->
@@ -23,7 +23,7 @@ rewrite H2.
 nia.
 Qed.
 
-(* R0R1入口数大于等于1 *)
+(* R0R1 entry number is greater than or equal to 1 *)
 Theorem valid_R0R1_entry_number_induction : forall d n,
   d >= 1 ->
   n >= 1 ->
@@ -46,7 +46,7 @@ rewrite H4.
 nia.
 Qed.
 
-(* R1R0入口数大于等于1 *)
+(* R1R0 entry number is greater than or equal to 1 *)
 Theorem valid_R1R0_entry_number_induction : forall d n,
   d >= 1 ->
   n >= 1 ->
@@ -69,7 +69,7 @@ rewrite H4.
 nia.
 Qed.
 
-(* R1R0入口数可表示为2k+1 *)
+(* R1R0 entry number can be expressed as 2k+1 *)
 Theorem valid_R1R0_entry_number_produces_d_R1R0 : forall d n,
   d >= 1 ->
   n >= 1 ->
@@ -97,7 +97,7 @@ Qed.
 
 
 
-(* R0R0入口数大于等于1 *)
+(* R0R0 entry number is greater than or equal to 1 *)
 Theorem valid_R0R0_entry_induction : forall d n,
   d >= 1 ->
   n >= 1 ->
@@ -111,7 +111,7 @@ assert (H2: n * 2^d >= 1 * 2^d).
 lia.
 Qed.
 
-(* R0R0入口数可表示为2^d的倍数 *)
+(* R0R0 entry number can be expressed as a multiple of 2^d *)
 Theorem valid_R0R0_entry_number_produces_d_R0 : forall d n,
   d >= 1 ->
   n >= 1 ->
@@ -124,7 +124,7 @@ rewrite Nat.mul_comm.
 reflexivity.
 Qed.
 
-(* R1R0入口数的基本性质：大于等于1且为奇数 *)
+(* Basic properties of R1R0 entry number: >=1 and odd *)
 Lemma valid_R1R0_entry_number_properties : forall d n,
   d >= 1 -> n >= 0 ->
   let m := valid_R1R0_entry_number d n in
@@ -158,7 +158,7 @@ simpl.
 reflexivity.
 Qed.
 
-(* R0R0入口数的基本性质：大于等于2且为偶数 *)
+(* Basic properties of R0R0 entry number: >=2 and even *)
 Lemma valid_R0R0_entry_number_properties : forall d n,
   d >= 1 -> n >= 1 ->
   let m := valid_R0R0_entry_number d n in
@@ -185,7 +185,7 @@ rewrite Nat.even_mul.
 simpl. reflexivity.
 Qed.
 
-(* 任意大于1的奇数都可唯一表示为R1R0入口数 *)
+(* Any odd number greater than 1 can be uniquely expressed as an R1R0 entry number *)
 Lemma odd_eq_R1R0_entry_number :
   forall m, m >= 1 -> is_odd m ->
     exists d n, d >= 1 /\ n >= 0 /\
@@ -228,7 +228,7 @@ exact Hd.
 lia.
 Qed.
 
-(* 任意大于1的偶数都可唯一表示为R0R0入口数 *)
+(* Any even number greater than 1 can be uniquely expressed as an R0R0 entry number *)
 Lemma even_eq_R0R0_entry_number :
   forall m, m >= 1 -> is_even m ->
     exists d n, d >= 1 /\ n >= 1 /\
@@ -259,7 +259,7 @@ rewrite Hk.
 ring.
 Qed.
 
-(* 任意偶数的多种R0R0表示方式 *)
+(* Multiple R0R0 representation ways for any even number *)
 Lemma even_multiple_R0R0_representations :
   forall m, m >= 1 -> is_even m ->
     forall d, d >= 1 ->
@@ -293,7 +293,7 @@ split.
 exact Hn.
 Qed.
 
-(* 正整数的完全分类：奇数为R1R0入口，偶数为R0R0入口 *)
+(* Complete classification of positive integers: odd numbers as R1R0 entries, even numbers as R0R0 entries *)
 Theorem complete_number_classification :
   forall m, m >= 1 ->
     (is_odd m /\ exists d n, d >= 1 /\ n >= 0 /\ m = valid_R1R0_entry_number d n) \/
@@ -329,13 +329,13 @@ exact Heven_bool.
 apply odd_eq_R1R0_entry_number; auto.
 Qed.
 
-(* 幂展开：3^(S k) = 3 * 3^k *)
+(* Power expansion: 3^(S k) = 3 * 3^k *)
 Lemma pow3_expand : forall k, 3 ^ S k = 3 * 3 ^ k.
 Proof.
   intros k. simpl. ring.
 Qed.
 
-(* 3^k为奇数的存在性表达 *)
+(* Existence expression for 3^k being odd *)
 Lemma pow3_is_odd : forall k, exists y, 3 ^ k = 2 * y + 1.
 Proof.
   induction k as [| k IH].
@@ -347,7 +347,7 @@ Proof.
     rewrite Hy. simpl. ring.
 Qed.
 
-(* 3^k-1为偶数的存在性表达 *)
+(* Existence expression for 3^k-1 being even *)
 Lemma pow3_minus1_even : forall k, exists y, 3 ^ k - 1 = 2 * y.
 Proof.
   intro k.
@@ -355,7 +355,7 @@ Proof.
   exists y. rewrite Hy. simpl. lia.
 Qed.
 
-(* 2*y除以2等于y *)
+(* 2*y divided by 2 equals y *)
 Lemma twice_div : forall y, (2 * y) / 2 = y.
 Proof.
   intros y.
@@ -369,26 +369,26 @@ Proof.
   induction k; simpl; lia.
 Qed.
 
-(* 简单的 3^D 正性引理（Nat.pow 的标准递归定义 *)
+(* Simple positivity lemma for 3^D (standard recursive definition of Nat.pow) *)
 Lemma pow3_pos : forall D, 0 < 3 ^ D.
 Proof.
 induction D; simpl; lia.
 Qed.
 
-(* 严格减法正性引理 *)
+(* Strict subtraction positivity lemma *)
 Lemma sub_pos_strict : forall a b, a < b -> 0 < b - a.
 Proof.
 intros a b H; lia.
 Qed.
 
-(* 自然数乘法正性引理：两个正数相乘仍为正数 *)
+(* Natural number multiplication positivity lemma: product of two positive numbers is positive *)
 Lemma mul_pos_pos_nat : forall a b, 0 < a -> 0 < b -> 0 < a * b.
 Proof.
 intros a b Ha Hb.
 destruct a; [lia|]. simpl. lia.
 Qed.
 
-(* 将任意大于等于2的自然数分解为 2^d * q, 且 q 为奇数。 *)
+(* Decompose any natural number >=2 into 2^d * q, where q is odd. *)
 Lemma nat_decompose_pow2_odd : forall m,
   m >= 2 -> exists d q, m = 2^d * q /\ is_odd q.
 Proof.

@@ -1,7 +1,7 @@
 Load "collatz_part_10.v".
 
 
-(* 模式完备性定理 *)
+(* Pattern Completeness Theorem *)
 Theorem build_k_steps_pattern_completeness : forall m,
 	m >= 1 ->
 	(exists d n, d >= 1 /\ n >= 0 /\ m = valid_R1R0_entry_number d n /\
@@ -19,7 +19,7 @@ Proof.
 		apply build_k_steps_on_valid_R0R0; assumption.
 Qed.
 
-(* R1R0序列终值精确闭式 *)
+(* R1R0 Sequence Final Value Exact Closed Form *)
 Lemma repeat_R1R0_output_closed_form : forall D n,
 	D >= 1 -> n >= 0 ->
 	sequence_end (valid_R1R0_entry_number D n) (repeat_R1R0 D)
@@ -34,7 +34,7 @@ Proof.
 Qed.
 
 
-(* 3^D减1的倍数性质 *)
+(* Multiple Property of 3^D minus 1 *)
 Lemma pow3_minus1_twice_half : forall D,
 	2 * ((3^D - 1) / 2) = 3^D - 1.
 Proof.
@@ -47,7 +47,7 @@ Proof.
 	lia.
 Qed.
 
-(* R1R0终值闭式推论 *)
+(* Corollary of R1R0 Final Value Closed Form *)
 Corollary repeat_R1R0_output_closed_form_no_div : forall D n,
   D >= 1 -> n >= 0 ->
   sequence_end (valid_R1R0_entry_number D n) (repeat_R1R0 D) = 2 * 3^D * n + (3^D - 1).
@@ -61,7 +61,7 @@ Qed.
 
 
 
-(* R1R0终值上界 *)
+(* R1R0 Final Value Upper Bound *)
 Lemma repeat_R1R0_output_upper_bound : forall D n,
 	D >= 1 -> n >= 0 ->
 	sequence_end (valid_R1R0_entry_number D n) (repeat_R1R0 D) <= 3^D * (2 * n + 1).
@@ -72,7 +72,7 @@ Proof.
 	lia.
 Qed.
 
-(* R1R0终值线性下界：>= 2 * 3^D * n *)
+(* R1R0 Final Value Linear Lower Bound: >= 2 * 3^D * n *)
 Lemma repeat_R1R0_output_lower_bound_linear : forall D n,
 	D >= 1 -> n >= 0 ->
 	2 * 3^D * n <= sequence_end (valid_R1R0_entry_number D n) (repeat_R1R0 D).
@@ -82,7 +82,7 @@ Proof.
 	lia.
 Qed.
 
-(* R1R0终值常数下界：>= 3^D - 1 *)
+(* R1R0 Final Value Constant Lower Bound: >= 3^D - 1 *)
 Lemma repeat_R1R0_output_lower_bound_const : forall D n,
 	D >= 1 -> n >= 0 ->
 	3^D - 1 <= sequence_end (valid_R1R0_entry_number D n) (repeat_R1R0 D).
@@ -92,7 +92,7 @@ Proof.
 	lia.
 Qed.
 
-(* R1R0组合上下界汇总：  max(2*3^D*n, 3^D - 1) <= output <= 3^D*(2n+1) *)
+(* R1R0 Combined Bounds Summary: max(2*3^D*n, 3^D - 1) <= output <= 3^D*(2n+1) *)
 Theorem R1R0_bounds_summary : forall D n,
 	D >= 1 -> n >= 0 ->
 	let out := sequence_end (valid_R1R0_entry_number D n) (repeat_R1R0 D) in

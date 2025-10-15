@@ -1,6 +1,6 @@
 Load "collatz_part_12.v".
 
-(* 若 n >= 1，则 2^n 为偶数 *)
+(* If n >= 1, then 2^n is even *)
 Lemma power_2_even_property : forall n : nat, n >= 1 -> Nat.even (2^n) = true.
 Proof.
 intros n Hn.
@@ -14,7 +14,7 @@ rewrite Bool.orb_true_r.
 reflexivity.
 Qed.
 
-(* 若 d1 ≤ d2，则可消去左侧 2^d1，得 o1 = 2^(d2-d1) * o2 *)
+(* If d1 ≤ d2, then cancel left 2^d1 to get o1 = 2^(d2-d1) * o2 *)
 Lemma pow_cancel_lower : forall d1 d2 o1 o2,
   d1 <= d2 ->
   2 ^ d1 * o1 = 2 ^ d2 * o2 ->
@@ -28,7 +28,7 @@ apply Nat.mul_cancel_l in Heq; [| apply (Nat.pow_nonzero 2 d1); discriminate].
 assumption.
 Qed.
 
-(* 若 d1 ≤ d2 且 o1,o2 为奇数，则 2^d1*o1 = 2^d2*o2 导出 d1=d2 且 o1=o2 *)
+(* If d1 ≤ d2 and o1,o2 are odd, then 2^d1*o1 = 2^d2*o2 implies d1=d2 and o1=o2 *)
 Lemma pow2_times_odd_unique_le : forall d1 d2 o1 o2,
   d1 <= d2 -> d1 >= 1 -> d2 >= 1 ->
   Nat.even o1 = false -> Nat.even o2 = false ->
@@ -54,7 +54,7 @@ simpl in Ho1.
 discriminate Ho1.
 Qed.
 
-(* 2^d * 奇数 的分解唯一（不要求 d1,d2 的顺序） *)
+(* Unique decomposition of 2^d * odd number (order of d1,d2 not required) *)
 Lemma pow2_times_odd_unique : forall d1 d2 o1 o2,
   d1 >= 1 -> d2 >= 1 ->
   Nat.even o1 = false -> Nat.even o2 = false ->
@@ -69,7 +69,7 @@ destruct (pow2_times_odd_unique_le d2 d1 o2 o1 Hge Hd2 Hd1 Ho2 Ho1 (eq_sym Heq))
 subst; split; auto.
 Qed.
 
-(* valid_R1R0_entry_number d n 加一后可表示为 2^d*(2*n+1) *)
+(* valid_R1R0_entry_number d n plus 1 can be expressed as 2^d*(2*n+1) *)
 Lemma valid_R1R0_entry_number_plus1 :
   forall d n, valid_R1R0_entry_number d n + 1 = 2 ^ d * (2 * n + 1).
 Proof.
@@ -84,7 +84,7 @@ rewrite Nat.mul_add_distr_l.
 lia.
 Qed.
 
-(*  R1R0唯一性分解 *)
+(* R1R0 Uniqueness Decomposition *)
 Lemma R1R0_decomposition_unique : forall m d1 d2 n1 n2,
   is_odd m ->
   d1 >= 1 -> d2 >= 1 -> n1 >= 0 -> n2 >= 0 ->
@@ -107,7 +107,7 @@ simpl in Ho.
 lia.
 Qed.
 
-  (* R0R0唯一性分解 *)
+  (* R0R0 Uniqueness Decomposition *)
   Lemma R0R0_decomposition_unique :
     forall m d1 d2 n1 n2,
       m = valid_R0R0_entry_number d1 n1 ->

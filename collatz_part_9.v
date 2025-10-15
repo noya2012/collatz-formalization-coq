@@ -1,7 +1,6 @@
 Load "collatz_part_8.v".
 
-(* D = 1 时：在对应 entry 上 
-repeat_R1R0 生成 [R1; R0]，且连续 R1R0 数为 1 *)
+(* When D = 1: On the corresponding entry, repeat_R1R0 generates [R1; R0], and the consecutive R1R0 count is 1 *)
 Lemma valid_R1R0_d1_produces_R1R0 : forall n,
   n >= 0 ->
   let m := valid_R1R0_entry_number 1 n in
@@ -27,7 +26,7 @@ lia.
 - simpl. reflexivity.
 Qed.
 
-(* repeat_R1R0 的长度恰为 2 * d *)
+(* The length of repeat_R1R0 is exactly 2 * d *)
 Lemma repeat_R1R0_length : forall d,
   length (repeat_R1R0 d) = 2 * d.
 Proof.
@@ -36,7 +35,7 @@ induction d as [|d' IH].
 - simpl. rewrite IH. lia.
 Qed.
 
-(* repeat_R1R0 中连续的 R1R0 模式个数等于 d *)
+(* The number of consecutive R1R0 patterns in repeat_R1R0 equals d *)
 Lemma repeat_R1R0_count : forall d,
   count_consecutive_R1R0 (repeat_R1R0 d) = d.
 Proof.
@@ -45,8 +44,8 @@ induction d as [|d' IH].
 - simpl. rewrite IH. reflexivity.
 Qed.
 
-(* 对任意 D >= 1：m = valid_R1R0_entry_number D n 时，
-repeat_R1R0 D 在 m 上有效且包含 D 个连续 R1R0 *)
+(* For any D >= 1: when m = valid_R1R0_entry_number D n,
+repeat_R1R0 D is valid on m and contains D consecutive R1R0 patterns *)
 
 Lemma valid_R1R0_produces_R1R0_general : forall D n,
   D >= 1 ->
@@ -85,7 +84,7 @@ simpl in Hi. lia.
 * simpl. rewrite repeat_R1R0_count. unfold Dfull. reflexivity.
 Qed.
 
-(* 如果 m = valid_R1R0_entry_number d n，则 repeat_R1R0 d 在 m 上有效且计数为 d *)
+(* If m = valid_R1R0_entry_number d n, then repeat_R1R0 d is valid on m and the count is d *)
 Lemma R1R0_entry_number_produces_repeat : forall d n,
   d >= 1 -> n >= 0 ->
   let m := valid_R1R0_entry_number d n in
@@ -95,7 +94,7 @@ intros d n Hd Hn m. unfold m. apply valid_R1R0_produces_R1R0_general; assumption
 Qed.
 
 
-(* 特例 d = 0：valid_R1R0_entry_number 0 n = 2 * n *)
+(* Special case d = 0: valid_R1R0_entry_number 0 n = 2 * n *)
 Lemma valid_R1R0_entry_number_d0 : forall n,
   valid_R1R0_entry_number 0 n = 2 * n.
 Proof.
@@ -105,8 +104,8 @@ cbn [Nat.pow Nat.mul Nat.add Nat.sub].
 lia.
 Qed.
 
-(* 对于 D >= 1：repeat_R1R0 D 在对应 entry 上的终值为偶数（存在 k 使其等于 2*k）
-要达到pow2 这意味着 3^D * n + (3^D - 1)/2 = n₂ * 2^D₂ 卡塔兰定理*)
+(* For D >= 1: The final value after applying repeat_R1R0 D on the corresponding entry is even (exists k such that it equals 2*k)
+To reach a power of 2, this means 3^D * n + (3^D - 1)/2 = n₂ * 2^D₂, Catalan theorem *)
 Lemma repeat_R1R0_output_even : forall D n,
   D >= 1 -> n >= 0 ->
   let m := valid_R1R0_entry_number D n in
@@ -138,7 +137,7 @@ Qed.
 
 (* ============================================================= *)
 
-(* Catalan 定理应用：3^a - 2^b = 1 只有解 (a,b) = (2,3)
+(* Catalan theorem application: 3^a - 2^b = 1 only has solution (a,b) = (2,3)
 Theorem repeat_R1R0_power_of_2_classification : forall D n,
   D >= 1 -> n >= 0 ->
   let m := valid_R1R0_entry_number D n in
@@ -147,13 +146,13 @@ Theorem repeat_R1R0_power_of_2_classification : forall D n,
   match D with
   | 1 => exists k, 3 * n + 1 = 2^k
   | 2 => exists k, 9 * n + 4 = 2^k
-  | _ => (* 由 Catalan 定理严格限制的复杂条件 *)
+  | _ => (* Complex conditions strictly limited by Catalan theorem *)
          exists k, 3^D * n + (3^D - 1)/2 = 2^k /\
          catalan_constraint D k
   end.*)
 
   
-(* R1R0算术恒等式：递推入口参数的等式 *)
+(* R1R0 arithmetic identity: recursive entry parameter equation *)
 Lemma arithmetic_identity_for_R1R0 : forall k n,
   k >= 0 -> n >= 0 ->
   3^(S k) * n + (3^(S k) - 1) / 2 =
@@ -172,7 +171,7 @@ reflexivity.
 rewrite A. ring.
 Qed.
 
-(* R1R0模式下，repeat_R1R0前缀作用下的终值表达 *)
+(* In R1R0 mode, expression of final value under repeat_R1R0 prefix application *)
 Lemma sequence_end_valid_R1R0_prefix : forall D n k,
   D >= 1 -> n >= 0 ->
   k <= D ->
@@ -220,7 +219,7 @@ symmetry.
 apply arithmetic_identity_for_R1R0; lia.
 Qed.
 
-(* R1R0模式闭包的算术恒等式 *)
+(* R1R0 pattern closure arithmetic identity *)
 Lemma R1R0_closure_arithmetic_identity : forall k n,
   k >= 1 -> n >= 1 ->
   3 * (3^k * n + (3^k - 1) / 2) + 1 = 3^(S k) * n + (3^(S k) - 1) / 2.
@@ -240,7 +239,7 @@ rewrite H_calc; apply twice_div. }
 rewrite H_rhs. ring.
 Qed.
 
-(* R1R0入口数总是奇数 *)
+(* R1R0 entry numbers are always odd *)
 Lemma valid_R1R0_entry_number_odd : forall d n,
   d >= 1 -> n >= 0 ->
   Nat.even (valid_R1R0_entry_number d n) = false.
@@ -250,7 +249,7 @@ destruct (valid_R1R0_entry_number_properties d n Hd Hn) as [_ Hodd].
 exact Hodd.
 Qed.
 
-(* repeat_R1R0末尾追加一对等于S次repeat *)
+(* Appending a pair to the end of repeat_R1R0 equals S times repeat *)
 Lemma repeat_R1R0_snoc : forall k,
   repeat_R1R0 k ++ [R1; R0] = repeat_R1R0 (S k).
 Proof.
@@ -258,7 +257,7 @@ induction k; simpl; auto.
 rewrite IHk. reflexivity.
 Qed.
 
-(* R1R0入口数，build_k_steps生成k对R1R0操作 *)
+(* For R1R0 entry numbers, build_k_steps generates k pairs of R1R0 operations *)
 Lemma build_k_steps_on_valid_R1R0_prefix_simple : forall D n k,
   D >= 1 -> n >= 0 ->
   k <= D ->
@@ -291,7 +290,7 @@ induction k as [|k' IHK]; intros D n HD Hn Hk.
    reflexivity.
 Qed.
 
-(* R1R0入口数，build_k_steps生成D对R1R0操作（完全展开） *)
+(* For R1R0 entry numbers, build_k_steps generates D pairs of R1R0 operations (fully expanded) *)
 Lemma build_k_steps_on_valid_R1R0 : forall D n,
   D >= 1 -> n >= 0 ->
   build_k_steps (valid_R1R0_entry_number D n) D = repeat_R1R0 D.

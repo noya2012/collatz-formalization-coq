@@ -1,7 +1,7 @@
 Load "collatz_part_1.v". 
 
 
-(* 辅助引理：当 Nat.even n = false 时，n 是奇数 *)
+(* Helper lemma: when Nat.even n = false, n is odd *)
 Lemma even_false_implies_odd : forall n,
   Nat.even n = false -> is_odd n.
 Proof.
@@ -10,7 +10,7 @@ unfold is_odd.
 exact Heven.
 Qed.
 
-(* 辅助引理：当 Nat.even n = true 时，n 是偶数 *)
+(* Helper lemma: when Nat.even n = true, n is even *)
 Lemma even_true_implies_even : forall n,
   Nat.even n = true -> is_even n.
 Proof.
@@ -20,7 +20,7 @@ exact Heven.
 Qed.
 
 
-(*任何大于等于1的数要么是奇数要么是偶数 *)
+(* Any number greater than or equal to 1 is either odd or even *)
 Lemma even_or_odd : forall n,
   n >= 1 -> is_even n \/ is_odd n.
 Proof.
@@ -31,13 +31,13 @@ destruct (Nat.even n) eqn:E.
 - right. reflexivity.
 Qed.
 
-(* 即时引理：2*x 总是偶数 *)
+(* Immediate lemma: 2*x is always even *)
 Lemma even_2x : forall x, Nat.even (2 * x) = true.
 Proof.
   intros x. apply Nat.even_spec. exists x. reflexivity.
 Qed.
 
-(* 2的幂大于0的引理 *)
+(* Lemma: power of 2 is greater than 0 *)
 Lemma gt_0_2_pow : forall n, 2^n > 0.
 Proof.
 induction n.
@@ -45,7 +45,7 @@ induction n.
 - simpl. lia.
 Qed.
 
-(* 2的幂大于等于2的引理 *)
+(* Lemma: power of 2 is greater than or equal to 2 *)
 Lemma pow2_ge_2 : forall n,
   n >= 1 -> 2^n >= 2.
 Proof.
@@ -57,7 +57,7 @@ assert (H1: 2^n > 0) by apply gt_0_2_pow.
 lia.
 Qed.
 
-(* 辅助引理：2的幂与乘法的关系 *)
+(* Helper lemma: relationship between power of 2 and multiplication *)
 Lemma pow2_mul_bound : forall d n,
   n >= 1 ->
   2 * (2^d) * n + 2^d <= 2^(d+2) * n.
@@ -70,7 +70,7 @@ nia.
 Qed.
 
 
-(* pow2_monotone引理 *)
+(* pow2_monotone lemma *)
 Lemma pow2_monotone : forall a b,
   a <= b -> 2^a <= 2^b.
 Proof.
@@ -91,7 +91,7 @@ assert (H2: 2^b > 0) by (apply gt_0_2_pow).
 lia.
 Qed.
 
-(*pow2_gt_0*)
+(* pow2_gt_0 *)
 Lemma pow2_gt_0 : forall n,
   2^n > 0.
 Proof.
@@ -118,7 +118,7 @@ assert (H: 2^m > 0) by apply pow2_gt_0.
 lia.
 Qed.
 
-(*关于偶数除以2的性质 *)
+(* Properties of even numbers divided by 2 *)
 Lemma even_div2_mul2 : forall k,
   k >= 1 ->
   (2 * k) / 2 = k.
@@ -132,7 +132,7 @@ Qed.
 
 
 
-(* 首先证明divmod和除法的关系 *)
+(* First prove the relationship between divmod and division *)
 Lemma div2_divmod_eq : forall n,
   n / 2 = fst (divmod n 1 0 1).
 Proof.
@@ -143,7 +143,7 @@ Qed.
 
 
 
-(* 偶数且大于等于1必然大于等于2 *)
+(* Even number greater than or equal to 1 must be greater than or equal to 2 *)
 Lemma even_ge_1_implies_ge_2 : forall n,
   n >= 1 ->
   is_even n ->
@@ -164,7 +164,7 @@ lia.
 Qed.
 
 
-(* 如果n是偶数，那么n可以表示为2的倍数形式 *)
+(* If n is even, then n can be expressed as a multiple of 2 *)
 Lemma even_div_2 : forall n,
   valid_input n -> is_even n ->
   exists k, n = 2 * k.
@@ -177,10 +177,10 @@ exists k.
 exact Hk.
 Qed.
 
-(* 如果n是偶数且能被2^d整除，那么n可以表示为2^d的倍数形式 *)
+(* If n is even and divisible by 2^d, then n can be expressed as a multiple of 2^d *)
 Lemma even_div_pow2 : forall n d,
   valid_input n -> d >= 1 -> is_even n ->
-  (exists m, n = m * (2^d)) ->  (* 新增条件：n能被2^d整除 *)
+  (exists m, n = m * (2^d)) ->  (* New condition: n is divisible by 2^d *)
   exists k, n = k * (2^d).
 Proof.
 intros n d Hvalid Hd Heven Hdiv.
@@ -189,7 +189,7 @@ exists m.
 exact Hm.
 Qed.
 
-(* 除以2保持valid_input *)
+(* Division by 2 preserves valid_input *)
 Lemma div2_valid : forall n,
   valid_input n ->
   is_even n ->
@@ -207,8 +207,7 @@ Qed.
 
 
 
-
-(* 2的幂次减1是奇数 定理 *)
+(* Theorem: 2^d - 1 is odd *)
 Lemma pow2_minus_1_odd : forall d,
   d >= 1 -> is_odd (2^d - 1).
 Proof.
@@ -244,7 +243,7 @@ rewrite H_even.
 reflexivity.
 Qed.
 
-(* 存在一个d使得2的幂次减1小于等于n 定理 *)
+(* Theorem: There exists a d such that 2^d - 1 <= n *)
 Lemma pow2_exists_le : forall n,
   valid_input n -> is_odd n ->
   exists d, d >= 1 /\ 2^d - 1 <= n.
@@ -270,13 +269,13 @@ Qed.
 
 
 
-(* 1. 4的基本性质 *)
+(* 1. Basic property of 4 *)
 Lemma four_eq_pow2_2 : 4 = 2^2.
 Proof.
 reflexivity.
 Qed.
 
-(* 2. 幂的乘法性质  *)
+(* 2. Multiplication property of powers *)
 Lemma pow_mul_r : forall a b c,
   (a^b)^c = a^(b*c).
 Proof.
@@ -291,7 +290,7 @@ f_equal.
 lia.
 Qed.
 
-(* 3. 幂的分配律 *)
+(* 3. Distributive property of powers *)
 Lemma pow_distrib : forall a b c,
   a^(b + c) = a^b * a^c.
 Proof.
@@ -299,7 +298,7 @@ intros.
 apply Nat.pow_add_r.
 Qed.
 
-(* 4. 4的幂展开引理 *)
+(* 4. Power expansion lemma for 4 *)
 Lemma pow4_expand : forall k,
   4^k = 2^(2*k).
 Proof.
@@ -310,7 +309,7 @@ reflexivity.
 Qed.
 
 
-(* 辅助引理：当d>=2时，2^d是偶数 *)
+(* Helper lemma: when d>=2, 2^d is even *)
 Lemma pow2_even_when_ge_2 : forall d,
   d >= 2 -> is_even (2^d).
 Proof.
@@ -330,7 +329,7 @@ simpl. reflexivity.
 Qed.
 
 
-  (* 偶数的分解引理 *)
+  (* Even number decomposition lemma *)
 Lemma even_decomposition : forall n,
   is_even n -> exists k, n = 2 * k.
 Proof.
@@ -342,7 +341,7 @@ exists k.
 exact Hk.
 Qed.
 
-  (*奇数的分解引理 *)
+  (* Odd number decomposition lemma *)
 Lemma odd_decomposition : forall n,
   is_odd n -> exists k, n = 2 * k + 1.
 Proof.
@@ -359,7 +358,7 @@ apply Nat.odd_spec in H_odd.
 exact H_odd.
 Qed.
 
-(* %2奇数分解引理 *)
+(* Power of 2 odd decomposition lemma *)
 Lemma power2_odd_decomposition : forall N,
   N >= 2 -> is_even N ->
   exists d q, d >= 1 /\ q >= 1 /\ N = 2^d * q /\ is_odd q.
@@ -432,7 +431,7 @@ ring.
 apply H_aux; auto.
 Qed.
 
-(* 3n+1输出偶数 *)
+(* 3n+1 outputs even number *)
 Lemma even_3n_plus_1 : forall n,
   is_odd n ->
   is_even (3 * n + 1).
@@ -446,7 +445,7 @@ simpl.
 reflexivity.
 Qed.
 
-(* 3n_plus_1 合法完整 *)
+(* 3n+1 preserves valid_input *)
 Lemma valid_input_3n_plus_1 : forall n,
   valid_input n ->
   is_odd n ->

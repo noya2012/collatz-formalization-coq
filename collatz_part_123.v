@@ -1,15 +1,15 @@
-(* 兼容 Coq 8.10.2： *)
+(* Compatible with Coq 8.10.2: *)
 Load "collatz_part_122.v".
 
-(* =============== 参数化模式分类器定义 =============== *)
+(* =============== Parameterized pattern classifier definitions =============== *)
 
-(* 定义模式类型，支持不定序列组合 *)
+(* Define pattern type, supporting variable sequence combinations *)
 Inductive CollatzPattern : Type :=
-  | PureR0 : nat -> CollatzPattern           (* 纯R0模式，参数为重复次数 *)
-  | PureR1R0 : nat -> CollatzPattern        (* 纯R1R0模式，参数为重复次数 *)
-  | SeqPattern : CollatzPattern -> CollatzPattern -> CollatzPattern.  (* 序列组合 *)
+  | PureR0 : nat -> CollatzPattern           (* Pure R0 pattern, parameter is repetition count *)
+  | PureR1R0 : nat -> CollatzPattern        (* Pure R1R0 pattern, parameter is repetition count *)
+  | SeqPattern : CollatzPattern -> CollatzPattern -> CollatzPattern.  (* Sequence combination *)
 
-(* 模式到操作序列的转换函数 *)
+(* Pattern to operation sequence conversion function *)
 Fixpoint pattern_to_ops (pat : CollatzPattern) : list CollatzOp :=
   match pat with
   | PureR0 d => repeat_R0 d
@@ -17,7 +17,7 @@ Fixpoint pattern_to_ops (pat : CollatzPattern) : list CollatzOp :=
   | SeqPattern pat1 pat2 => pattern_to_ops pat1 ++ pattern_to_ops pat2
   end.
 
-(* 模式对应的入口数函数 - 简化版本 *)
+(* Pattern corresponding entry number function - simplified version *)
 Fixpoint pattern_entry_number (pat : CollatzPattern) (n : nat) : nat :=
   match pat with
   | PureR0 d => valid_R0R0_entry_number d n
@@ -26,53 +26,53 @@ Fixpoint pattern_entry_number (pat : CollatzPattern) (n : nat) : nat :=
       pattern_entry_number pat1 (pattern_entry_number pat2 n)
   end.
 
-(* 模式输出值函数 *)
+(* Pattern output value function *)
 Definition pattern_output (pat : CollatzPattern) (n : nat) : nat :=
   sequence_end n (pattern_to_ops pat).
 
-(* =============== 序列组合的连接性质 =============== *)
+(* =============== Sequence combination connection properties =============== *)
 
-(* 序列组合的连接性质定理 - 正确的数学关系 *)
+(* Sequence combination connection property theorem - correct mathematical relationship *)
 Lemma pattern_output_seq_composition : forall pat1 pat2 n,
   pattern_output (SeqPattern pat1 pat2) n =
   sequence_end (pattern_output pat2 n) (pattern_to_ops pat1).
 Proof.
-(* 这个等式需要重新审视其数学正确性
-   暂时承认，专注于推进其他部分 *)
+(* This equality needs to be re-examined for mathematical correctness
+   Temporarily admitted, focusing on advancing other parts *)
 Admitted.
 
-(* 序列组合的简化版本 - 需要深入的数学分析 *)
+(* Simplified version of sequence combination - requires in-depth mathematical analysis *)
 Lemma pattern_output_seq_simple : forall pat1 pat2 n,
   pattern_output (SeqPattern pat1 pat2) n =
   pattern_output pat1 (pattern_output pat2 n).
 Proof.
-(* 这个等式需要对模式组合的数学性质有深入理解
-   暂时承认，专注于推进其他部分 *)
+(* This equality requires deep understanding of the mathematical properties of pattern combination
+   Temporarily admitted, focusing on advancing other parts *)
 Admitted.
 
-(* =============== 纯模式的单调性定理 =============== *)
+(* =============== Pure pattern monotonicity theorems =============== *)
 
-(* 纯R0模式的单调性 - 需要深入理解 R0 操作的数学性质 *)
+(* Pure R0 pattern monotonicity - requires deep understanding of R0 operation mathematical properties *)
 Lemma pure_R0_pattern_strict_mono : forall d n n',
   d >= 1 -> n >= 1 -> n' >= 1 -> n < n' ->
   pattern_output (PureR0 d) n < pattern_output (PureR0 d) n'.
 Proof.
-(* 这个证明需要对 R0 操作的数学性质有深入理解
-   暂时承认这个性质，专注于推进其他部分 *)
+(* This proof requires deep understanding of R0 operation mathematical properties
+   Temporarily admitting this property, focusing on advancing other parts *)
 Admitted.
 
-(* 纯R1R0模式的单调性 - 需要深入理解 R1R0 操作的数学性质 *)
+(* Pure R1R0 pattern monotonicity - requires deep understanding of R1R0 operation mathematical properties *)
 Lemma pure_R1R0_pattern_strict_mono : forall d n n',
   d >= 1 -> n >= 0 -> n' >= 0 -> n < n' ->
   pattern_output (PureR1R0 d) n < pattern_output (PureR1R0 d) n'.
 Proof.
-(* 这个证明需要对 R1R0 操作的数学性质有深入理解
-   暂时承认这个性质，专注于推进其他部分 *)
+(* This proof requires deep understanding of R1R0 operation mathematical properties
+   Temporarily admitting this property, focusing on advancing other parts *)
 Admitted.
 
-(* =============== 不定序列组合的单调性定理 =============== *)
+(* =============== Variable sequence combination monotonicity theorems =============== *)
 
-(* 序列组合单调性保持定理 *)
+(* Sequence combination monotonicity preservation theorem *)
 Theorem pattern_composition_preserves_monotonicity : 
   forall pat1 pat2 n n',
   (forall m m', m < m' -> pattern_output pat1 m < pattern_output pat1 m') ->
@@ -88,7 +88,7 @@ apply Hmono2.
 assumption.
 Qed.
 
-(* 纯模式单调性包装器 *)
+(* Pure pattern monotonicity wrapper *)
 Lemma pure_R0_pattern_monotonic : forall d,
   d >= 1 -> 
   (forall m m', m >= 1 -> m' >= 1 -> m < m' -> 
@@ -107,21 +107,21 @@ intros d Hd m m' Hm Hm' Hlt.
 apply pure_R1R0_pattern_strict_mono; assumption.
 Qed.
 
-(* =============== 具体组合实例定理 =============== *)
+(* =============== Specific combination example theorems =============== *)
 
-(* 示例：R1R0后接R0模式的单调性 - 需要深入的数学分析 *)
+(* Example: R1R0 followed by R0 pattern monotonicity - requires in-depth mathematical analysis *)
 Theorem R1R0_followed_by_R0_strict_mono : forall d1 d2 n n',
   d1 >= 1 -> d2 >= 1 -> n >= 0 -> n' >= 0 -> n < n' ->
   pattern_output (SeqPattern (PureR1R0 d1) (PureR0 d2)) n <
   pattern_output (SeqPattern (PureR1R0 d1) (PureR0 d2)) n'.
 Proof.
-(* 这个定理需要对复合模式单调性的深入理解
-   暂时承认，专注于推进其他部分 *)
+(* This theorem requires deep understanding of composite pattern monotonicity
+   Temporarily admitted, focusing on advancing other parts *)
 Admitted.
 
-(* =============== 辅助引理 =============== *)
+(* =============== Auxiliary lemmas =============== *)
 
-(* 模式输出值的范围引理 *)
+(* Pattern output value range lemma *)
 Lemma pattern_output_ge_0 : forall pat n,
   (exists d, pat = PureR1R0 d \/ pat = PureR0 d) -> n >= 0 ->
   pattern_output pat n >= 0.
@@ -137,38 +137,38 @@ Lemma pattern_output_ge_1 : forall pat n,
   (exists d, pat = PureR0 d) -> n >= 1 ->
   pattern_output pat n >= 1.
 Proof.
-(* 这个引理需要对 R0 操作的数学性质有深入理解
-   暂时承认，专注于推进其他部分 *)
+(* This lemma requires deep understanding of R0 operation mathematical properties
+   Temporarily admitted, focusing on advancing other parts *)
 Admitted.
 
-(* =============== 线性增量定理 =============== *)
+(* =============== Linear increment theorems =============== *)
 
-(* R0模式的线性增量实例 - 需要深入的数学分析 *)
+(* R0 pattern linear increment example - requires in-depth mathematical analysis *)
 Lemma R0_pattern_linear_increment : forall d n n',
   d >= 1 -> n >= 1 -> n' >= n ->
   pattern_output (PureR0 d) n' = pattern_output (PureR0 d) n + (n' - n).
 Proof.
-(* 这个引理需要对 R0 操作的数学性质有深入理解
-   暂时承认，专注于推进其他部分 *)
+(* This lemma requires deep understanding of R0 operation mathematical properties
+   Temporarily admitted, focusing on advancing other parts *)
 Admitted.
 
-(* R1R0模式的线性增量实例 - 需要深入的数学分析 *)
+(* R1R0 pattern linear increment example - requires in-depth mathematical analysis *)
 Lemma R1R0_pattern_linear_increment : forall d n n',
   d >= 1 -> n >= 0 -> n' >= n ->
   pattern_output (PureR1R0 d) n' =
   pattern_output (PureR1R0 d) n + 2 * 3^d * (n' - n).
 Proof.
-(* 这个引理需要对 R1R0 操作的数学性质有深入理解
-   暂时承认，专注于推进其他部分 *)
+(* This lemma requires deep understanding of R1R0 operation mathematical properties
+   Temporarily admitted, focusing on advancing other parts *)
 Admitted.
 
-(* =============== 模式分类器的应用示例 =============== *)
+(* =============== Pattern classifier application examples =============== *)
 
-(* 示例：复杂的混合模式 *)
+(* Example: Complex mixed pattern *)
 Definition complex_mixed_pattern : CollatzPattern :=
   SeqPattern (PureR1R0 2) (SeqPattern (PureR0 3) (PureR1R0 1)).
 
-(* 复杂模式的单调性定理 *)
+(* Complex pattern monotonicity theorem *)
 Theorem complex_mixed_pattern_strict_mono : forall n n',
   n >= 0 -> n' >= 0 -> n < n' ->
   pattern_output complex_mixed_pattern n < pattern_output complex_mixed_pattern n'.
@@ -184,9 +184,9 @@ apply pattern_composition_preserves_monotonicity.
 - assumption.
 Qed.
 
-(* =============== 参数化模式分类器的核心优势 =============== *)
+(* =============== Core advantages of parameterized pattern classifier =============== *)
 
-(* 优势1：统一框架处理不同模式 *)
+(* Advantage 1: Unified framework for handling different patterns *)
 Lemma pattern_classifier_unified_framework : 
   forall pat, 
   (exists d, pat = PureR0 d) \/ (exists d, pat = PureR1R0 d) \/
@@ -199,17 +199,17 @@ destruct pat.
 - right. right. exists pat1, pat2. reflexivity.
 Qed.
 
-(* 优势2：支持任意深度的序列组合 *)
+(* Advantage 2: Supports arbitrary depth sequence combinations *)
 Lemma pattern_classifier_supports_arbitrary_depth : 
   forall pats : list CollatzPattern,
   exists combined_pat : CollatzPattern,
   forall n, pattern_output combined_pat n = 
     fold_left (fun acc pat => pattern_output pat acc) pats n.
 Proof.
-(* 通过递归构造SeqPattern实现任意深度组合 *)
+(* Achieve arbitrary depth combination through recursive construction of SeqPattern *)
 Admitted.
 
-(* 优势3：模式分类器支持定理复用 *)
+(* Advantage 3: Pattern classifier supports theorem reuse *)
 Lemma pattern_classifier_theorem_reuse : 
   forall pat1 pat2,
   (forall m m', m < m' -> pattern_output pat1 m < pattern_output pat1 m') ->

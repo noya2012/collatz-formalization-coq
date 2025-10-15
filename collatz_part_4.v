@@ -1,9 +1,7 @@
 
 Load "collatz_part_3.v".
 
-
-
-(* 2. 单步操作的有效性 *)
+(* 2. Validity of single-step operation *)
 Lemma single_step_valid : forall n op,
   valid_input n ->
   valid_operation n op ->
@@ -31,9 +29,7 @@ rewrite Hop.
 lia.
 Qed.
 
-
-
-(* 序列有效性的归纳性质 *)
+(* Inductive property of sequence validity *)
 Lemma valid_sequence_inductive : forall n ops,
   valid_input n ->
   (forall i, i < length ops -> valid_operation (nth_sequence_value n i) (nth i ops R0)) ->
@@ -53,9 +49,7 @@ apply IHk. lia.
 apply Hseq. lia.
 Qed.
 
-
-
-(* 序列值的基本性质 *)
+(* Basic property of sequence values *)
 Lemma nth_sequence_value_0 : forall n,
   nth_sequence_value n 0 = n.
 Proof.
@@ -63,7 +57,7 @@ intros n.
 reflexivity.
 Qed.
 
-(* 序列值的递归性质 *)
+(* Recursive property of sequence values *)
 Lemma nth_sequence_value_succ : forall n i,
   nth_sequence_value n (S i) = collatz_step (nth_sequence_value n i).
 Proof.
@@ -71,11 +65,7 @@ intros n i.
 reflexivity.
 Qed.
 
-
-
-
-
- (* 序列有效性保持定理 *)
+(* Sequence validity preservation theorem *)
 Theorem sequence_validity_preservation : forall n ops,
   valid_input n ->
   valid_sequence ops n ->
@@ -94,9 +84,7 @@ exact Hi.
 lia.
 Qed.
 
-
-
-(* 辅助引理：关于nth和firstn的关系 *)
+(* Helper lemma: relationship between nth and firstn *)
 Lemma nth_firstn_helper : forall {A: Type} (l: list A) (i n: nat) (default: A),
   i < n -> n <= length l ->
   nth i (firstn n l) default = nth i l default.
@@ -125,7 +113,7 @@ apply Nat.succ_lt_mono in Hi. exact Hi.
 simpl in Hn. apply le_S_n. exact Hn.
 Qed.
 
-(* 序列前缀有效性引理 *)
+(* Sequence prefix validity lemma *)
 Lemma sequence_prefix_validity : forall n ops i,
   valid_sequence ops n ->
   i <= length ops ->

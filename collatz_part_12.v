@@ -1,7 +1,7 @@
 Load "collatz_part_11.v".
 
 
-(* R0R0入口数下界 *)
+(* R0R0 Input Lower Bound *)
 Lemma R0R0_input_ge_n : forall D n,
   D >= 1 -> n >= 1 ->
   let m := valid_R0R0_entry_number D n in n <= m.
@@ -14,7 +14,7 @@ Proof.
   apply Nat.mul_le_mono_pos_l; lia.
 Qed.
 
-(* R0R0终值精确性 *)
+(* R0R0 Final Value Exactness *)
 Lemma R0R0_output_exact_n : forall D n,
   D >= 1 -> n >= 1 ->
   let m := valid_R0R0_entry_number D n in
@@ -24,7 +24,7 @@ Proof.
   apply repeat_R0_output_reaches_one; lia.
 Qed.
 
-(* R0R0输出值界限 *)
+(* R0R0 Output Value Bounds *)
 Lemma R0R0_output_bounds : forall D n,
   D >= 1 -> n >= 1 ->
   let m := valid_R0R0_entry_number D n in
@@ -36,7 +36,7 @@ Proof.
   - unfold m. rewrite (R0R0_output_exact_n D n HD Hn). apply R0R0_input_ge_n; lia.
 Qed.
 
-(* R0R0输出最小值 *)
+(* R0R0 Output Minimum Value *)
 Lemma R0R0_output_minimal_when_one : forall D,
   D >= 1 ->
   let m := valid_R0R0_entry_number D 1 in
@@ -47,7 +47,7 @@ Qed.
 
 
 
-(* R0R0组合上下界汇总定理 *)
+(* R0R0 Combined Bounds Summary Theorem *)
 Theorem R0R0_bounds_summary : forall D n,
   D >= 1 -> n >= 1 ->
   let m := valid_R0R0_entry_number D n in
@@ -60,7 +60,7 @@ Proof.
 Qed.
 
 
-(*组合上下界总定理  *)
+(* Combined Bounds General Theorem *)
 Theorem build_k_steps_numeric_bounds_exists : forall m,
   m >= 1 ->
   (exists d n, d >= 1 /\ n >= 0 /\
@@ -96,22 +96,22 @@ Proof.
 Qed.
 
 
-(*  综合边界主定理*)
+(* Comprehensive Bounds Main Theorem *)
 Theorem build_k_steps_full_bounds : forall n k,
   valid_input n ->
   k >= 2 ->
   exists ops r0s r1s,
     build_k_steps n k = ops /\
     count_operations ops = (r0s, r1s) /\
-    (* 精确R0 数 *)
+    (* Exact R0 count *)
     r0s = k /\
-    (* R1 精确表达与上下界 *)
+    (* R1 exact expression and bounds *)
     r1s = length ops - k /\
     r1s <= k /\
     r1s <= r0s /\
-    (* 总长度双侧界 *)
+    (* Total length bilateral bounds *)
     k <= length ops /\ length ops <= 2 * k /\
-    (* 计数之和=长度 *)
+    (* Sum of counts equals length *)
     r0s + r1s = length ops.
 Proof.
   intros n k Hvalid Hk.

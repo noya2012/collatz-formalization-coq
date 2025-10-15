@@ -1,6 +1,6 @@
 Load "collatz_part_13.v".
 
-(* 奇数分支的存在性引理 *)
+(* Odd Branch Existence Lemma *)
 Lemma odd_branch_existence : forall n', n' >= 0 -> Nat.even (S n') = false ->
   exists t odd, odd >= 1 /\ is_odd odd /\ S n' = odd * 2^t.
 Proof.
@@ -12,7 +12,7 @@ split.
 - simpl; lia.
 Qed.
 
-(* 将 R0R0 入口 (d,n) 规范化为 n' 奇（吸收 n 中的 2 因子），保持数值不变 *)
+(* Normalize R0R0 entry (d,n) to n' odd (absorbing 2 factors from n), preserving value *)
 Lemma R0R0_canonical_factorization :
   forall d n, d >= 1 -> n >= 1 ->
     exists d' n', d' >= 1 /\ n' >= 1 /\ is_odd n' /\
@@ -46,13 +46,13 @@ split; [unfold is_odd; exact Heven|].
 reflexivity.
 Qed.
 
-(* 完全数规范分类：每个正整数唯一属于R1R0或R0R0分支 *)
+(* Complete Number Canonical Classification: Every positive integer uniquely belongs to R1R0 or R0R0 branch *)
 Theorem complete_number_canonical_classification :
   forall m, m >= 1 ->
     (exists d n,
         d >= 1 /\ n >= 0 /\
         m = valid_R1R0_entry_number d n /\
-        (* 唯一性：任何其他 R1R0 表示都与 (d,n) 相同 *)
+        (* Uniqueness: Any other R1R0 representation is identical to (d,n) *)
         (forall d' n', d' >= 1 -> n' >= 0 ->
            m = valid_R1R0_entry_number d' n' -> d' = d /\ n' = n)) \/
     (exists d n,
@@ -96,7 +96,7 @@ Qed.
 
 
 
-(* R1R0严格上界：证明S严格小于2*3^d*(n+1) *)
+(* R1R0 Strict Upper Bound: Prove S is strictly less than 2*3^d*(n+1) *)
 Lemma tighten_R1R0_strict_upper : forall d n S,
   d >= 1 ->
   2 * 3 ^ d * n <= S ->
@@ -118,7 +118,7 @@ apply Nat.le_lt_trans with (2 * 3 ^ d * n + 3 ^ d).
 -
 lia.
 Qed.
-(* R1R0 入口数自身为奇（d>=1 情况） *)
+(* R1R0 entry number itself is odd (d>=1 case) *)
 Lemma valid_R1R0_entry_number_is_odd : forall d n,
   d >= 1 -> n >= 0 -> is_odd (valid_R1R0_entry_number d n).
 Proof.
@@ -138,7 +138,7 @@ Qed.
 
 
 
-(* 中间引理：简化分支逻辑的核心辅助引理 *)
+(* Intermediate Lemma: Core auxiliary lemma for simplifying branch logic *)
 Lemma R0R0_branch_simplification : forall d n dc nc,
   d >= 1 -> n >= 1 -> dc >= 1 -> nc >= 1 -> is_odd nc ->
   valid_R0R0_entry_number d n = valid_R0R0_entry_number dc nc ->
@@ -180,7 +180,7 @@ as [Hddc Hnnc].
 split; [symmetry; exact Hddc | exact Hnnc].
 Qed.
 
-(* R0R0 唯一性辅助：通过规范化分解，任意入口都唯一归于奇参数 *)
+(* R0R0 Uniqueness Helper: Through canonical decomposition, any entry uniquely corresponds to odd parameters *)
 Lemma R0R0_unique_via_canonical :
   forall m d n d' n',
     d >= 1 -> n >= 1 -> is_odd n' ->
@@ -213,7 +213,7 @@ exists 0; split.
 + rewrite Hnc_eq; simpl; lia.
 Qed.
 
-(* 每个正整数m唯一对应R1R0或R0R0分支的规范表示且上下界确定 *)
+(* Every positive integer m uniquely corresponds to canonical representation of R1R0 or R0R0 branch with determined bounds *)
 Theorem build_k_steps_numeric_canonical :
   forall m, m >= 1 ->
    (exists d n,
@@ -280,4 +280,3 @@ intros d' n' Hd' Hn' Hodd' Hrepr'.
 destruct (@R0R0_decomposition_unique m dc d' nc n' Hmcanon Hrepr' Hoddnc Hodd') as [HdEq HnEq].
 split; [ symmetry; exact HdEq | symmetry; exact HnEq ].
 Qed.
-

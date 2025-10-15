@@ -29,8 +29,7 @@ Qed.
 
 
 
-
-(* 偶数除以2后仍然有效 *)
+(* Even number divided by 2 remains valid *)
 Lemma valid_input_div2 : forall n,
   valid_input n ->
   is_even n ->
@@ -64,7 +63,7 @@ Qed.
 
 
 
-(* 子序列有效性引理 *)
+(* Subsequence validity lemma *)
 Lemma subsequence_valid : forall n op ops,
   valid_sequence (op :: ops) n ->
   valid_sequence ops (collatz_step n).
@@ -91,7 +90,7 @@ simpl in Hvalid.
 apply Hvalid.
 simpl. lia.
 Qed.
-(* 序列末尾值的有效性 *)
+(* Validity of sequence end value *)
 Lemma sequence_end_valid : forall n ops,
   valid_input n ->
   valid_sequence ops n ->
@@ -105,7 +104,7 @@ apply valid_sequence_inductive with (ops := ops).
 - reflexivity.
 Qed.
 
-(* 添加第几个末尾值 *)
+(* Add the last element at position *)
 Lemma nth_append_last : forall (l : list CollatzOp) (x : CollatzOp),
   nth (length l) (l ++ [x]) R0 = x.
 Proof.
@@ -114,7 +113,7 @@ induction l; simpl.
 - apply IHl.
 Qed.
 
-(* 性质：添加R0后，R0计数增加1，R1计数不变 *)
+(* Property: After adding R0, R0 count increases by 1, R1 count remains unchanged *)
 Lemma count_operations_app_R0 : forall ops,
   let (r0s, r1s) := count_operations ops in
   let (new_r0s, new_r1s) := count_operations (ops ++ [R0]) in
@@ -149,7 +148,7 @@ rewrite IH1. reflexivity.
 rewrite IH2. reflexivity.
 Qed.
 
-(* 性质：添加R1R0后，R0计数增加1，R1计数增加1 *)
+(* Property: After adding R1R0, R0 count increases by 1, R1 count increases by 1 *)
 Lemma nth_append_two : forall (l : list CollatzOp) (x y : CollatzOp),
   nth (length l) (l ++ [x; y]) R0 = x /\
   nth (S (length l)) (l ++ [x; y]) R0 = y.
@@ -163,7 +162,7 @@ split.
 + exact H2.
 Qed.
 
-(* 性质：添加R1R0后，R0计数增加1，R1计数增加1 *)
+(* Property: After adding R1R0, R0 count increases by 1, R1 count increases by 1 *)
 Lemma count_operations_app_R1R0 : forall ops,
   let (r0s, r1s) := count_operations ops in
   let (r0s_new, r1s_new) := count_operations (ops ++ [R1; R0]) in
@@ -194,7 +193,7 @@ simpl. rewrite IH1. reflexivity.
 simpl. rewrite IH2. reflexivity.
 Qed.
 
-(* R0和R1计数之和等于总长度的引理 *)
+(* Lemma: Sum of R0 and R1 counts equals total length *)
 Lemma count_sum_c2 : forall ops,
   let (r0s, r1s) := count_operations ops in
   r0s + r1s = length ops.

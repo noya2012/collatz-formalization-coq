@@ -1,7 +1,7 @@
-(* 兼容 Coq 8.10.2： *)
+(* Compatible with Coq 8.10.2: *)
 Load "collatz_part_121.v".
 
-(* 严格单调性定理：repeat_R0输出关于n严格递增 *)
+(* Strict monotonicity theorem: repeat_R0 output is strictly increasing with respect to n *)
 Theorem repeat_R0_output_strict_mono : forall D n n',
   D >= 1 -> n >= 1 -> n' >= 1 -> n < n' ->
   sequence_end (valid_R0R0_entry_number D n) (repeat_R0 D) <
@@ -13,7 +13,7 @@ rewrite (repeat_R0_output_reaches_one D n' HD Hn').
 exact Hlt.
 Qed.
 
-(* 单射性：对于固定 D，输出相等推出 n 相等 *)
+(* Injectivity: for fixed D, equal outputs imply equal n *)
 Corollary repeat_R0_output_injective_in_n : forall D n n',
   D >= 1 -> n >= 1 -> n' >= 1 ->
   sequence_end (valid_R0R0_entry_number D n) (repeat_R0 D) =
@@ -26,8 +26,8 @@ rewrite (repeat_R0_output_reaches_one D n' HD Hn') in Heq.
 exact Heq.
 Qed.
 
-(* =============== 增量（差分）形式辅助定理 =============== *)
-(* 单步差分：由于 R0R0 模式的终值就是 n 本身，单步差分直接等于 n 的差值 *)
+(* =============== Incremental (difference) form auxiliary theorems =============== *)
+(* Single-step difference: since the final value of R0R0 pattern is n itself, single-step difference equals the difference in n *)
 Lemma repeat_R0_output_step_delta : forall D n,
   D >= 1 -> n >= 1 ->
   sequence_end (valid_R0R0_entry_number D (S n)) (repeat_R0 D)
@@ -41,7 +41,7 @@ simpl.
 lia.
 Qed.
 
-(* 广义差分：对所有 n <= n', 输出差值 = n' - n *)
+(* Generalized difference: for all n <= n', output difference = n' - n *)
 Lemma repeat_R0_output_linear_increment : forall D n n',
   D >= 1 -> n >= 1 -> n' >= n ->
   sequence_end (valid_R0R0_entry_number D n') (repeat_R0 D)
@@ -56,7 +56,7 @@ replace n' with (n + (n' - n)) at 1 by lia.
 lia.
 Qed.
 
-(* 单步严格递增作为差分推论 *)
+(* Single-step strict increase as a corollary of difference *)
 Corollary repeat_R0_output_step_strict_increase : forall D n,
   D >= 1 -> n >= 1 ->
   sequence_end (valid_R0R0_entry_number D n) (repeat_R0 D) <
@@ -68,7 +68,7 @@ assert (1 > 0) by lia.
 lia.
 Qed.
 
-(* 从差分形式快速得到严格单调——与已证明的 strict_mono 等价 *)
+(* Fast strict monotonicity from difference form - equivalent to the proven strict_mono *)
 Corollary repeat_R0_output_strict_mono_alt : forall D n n',
   D >= 1 -> n >= 1 -> n' >= 1 -> n < n' ->
   sequence_end (valid_R0R0_entry_number D n) (repeat_R0 D) <
@@ -82,7 +82,7 @@ assert ((n' - n) > 0).
 lia.
 Qed.
 
-(* Injectivity 也可由差分形式直接给出（替代前面证明） *)
+(* Injectivity can also be given directly from difference form (alternative to previous proof) *)
 Corollary repeat_R0_output_injective_in_n_alt : forall D n n',
   D >= 1 -> n >= 1 -> n' >= 1 ->
   sequence_end (valid_R0R0_entry_number D n) (repeat_R0 D) =
@@ -98,4 +98,3 @@ rewrite Heq in HltOut; lia.
 pose proof (repeat_R0_output_strict_mono_alt D n' n HD Hn' Hn Hgt) as HltOut.
 rewrite <- Heq in HltOut; lia.
 Qed.
-

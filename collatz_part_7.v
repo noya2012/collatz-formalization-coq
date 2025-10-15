@@ -1,7 +1,7 @@
 Load "collatz_part_6.v".
 
 
-(*关于单步R1R0操作的引理 *)
+(* Lemma about single-step R1R0 operation *)
 Lemma R1R0_single_step : forall n i,
   valid_input n ->
   is_odd (nth_sequence_value n i) ->
@@ -54,7 +54,7 @@ Qed.
 
 
 
-(* 当序列以R0开头时，连续R1R0计数和R1计数保持不变 *)
+(* When the sequence starts with R0, consecutive R1R0 count and R1 count remain unchanged *)
 Lemma congruent_R0_prefix: forall t2,
   count_consecutive_R1R0 (R0 :: t2) = count_consecutive_R1R0 t2 /\
   count_R1 (R0 :: t2) = count_R1 t2.
@@ -73,7 +73,7 @@ Qed.
 
 
 
-(* nth_sequence_value的连接性质 *)
+(* Connection property of nth_sequence_value *)
 Lemma nth_sequence_value_app : forall n k1 k2,
   nth_sequence_value n (k1 + k2) = nth_sequence_value (nth_sequence_value n k1) k2.
 Proof.
@@ -85,7 +85,7 @@ simpl. rewrite Nat.add_0_r. reflexivity.
 rewrite Nat.add_succ_r. simpl. rewrite IH. reflexivity.
 Qed.
 
-(* 序列结束值的连接性质  *)
+(* Connection property of sequence end value *)
 Lemma sequence_end_app : forall n ops1 ops2,
   sequence_end n (ops1 ++ ops2) = sequence_end (sequence_end n ops1) ops2.
 Proof.
