@@ -1,5 +1,5 @@
 (* Compatible with Coq 8.10.2: *)
-Load "collatz_part_11.v".
+Load "collatz_part_12.v".
 
 (* Strict monotonicity theorem: repeat_R1R0 output is strictly increasing with respect to n *)
 Theorem repeat_R1R0_output_strict_mono : forall D n n',

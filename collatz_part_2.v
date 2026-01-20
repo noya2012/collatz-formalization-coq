@@ -20,16 +20,7 @@ exact Heven.
 Qed.
 
 
-(* Any number greater than or equal to 1 is either odd or even *)
-Lemma even_or_odd : forall n,
-  n >= 1 -> is_even n \/ is_odd n.
-Proof.
-intros n H.
-unfold is_even, is_odd.
-destruct (Nat.even n) eqn:E.
-- left. reflexivity.
-- right. reflexivity.
-Qed.
+
 
 (* Immediate lemma: 2*x is always even *)
 Lemma even_2x : forall x, Nat.even (2 * x) = true.
@@ -57,39 +48,25 @@ assert (H1: 2^n > 0) by apply gt_0_2_pow.
 lia.
 Qed.
 
-(* Helper lemma: relationship between power of 2 and multiplication *)
-Lemma pow2_mul_bound : forall d n,
-  n >= 1 ->
-  2 * (2^d) * n + 2^d <= 2^(d+2) * n.
+(* n mod 2 = 1 implies n is odd *)
+Lemma mod2_eq1_implies_is_odd : forall n,
+  n mod 2 = 1 -> is_odd n.
 Proof.
-intros d n Hn.
-replace (d+2) with (S (S d)) by lia.
-simpl.
-assert (H: 2^d > 0) by (apply gt_0_2_pow).
-nia.
+  intros n Hmod.
+  unfold is_odd.
+  destruct (Nat.even n) eqn:Heven; [|reflexivity].
+  apply Nat.even_spec in Heven.
+  destruct Heven as [k Hk].
+  rewrite Hk in Hmod.
+  rewrite Nat.mul_comm in Hmod.
+  rewrite Nat.mod_mul in Hmod by lia.
+  discriminate.
 Qed.
 
 
-(* pow2_monotone lemma *)
-Lemma pow2_monotone : forall a b,
-  a <= b -> 2^a <= 2^b.
-Proof.
-intros a b Hab.
-induction b.
--
-assert (a = 0) by lia.
-subst. lia.
--
-destruct (Nat.eq_dec a (S b)).
-+
-subst. lia.
-+
-assert (H: a <= b) by lia.
-simpl.
-assert (H1: 2^a <= 2^b) by (apply IHb; exact H).
-assert (H2: 2^b > 0) by (apply gt_0_2_pow).
-lia.
-Qed.
+
+
+
 
 (* pow2_gt_0 *)
 Lemma pow2_gt_0 : forall n,
@@ -103,20 +80,7 @@ assert (H2: 2^n > 0) by assumption.
 lia.
 Qed.
 
-Lemma pow2_strict_mono : forall a b,
-  a < b -> 2^a < 2^b.
-Proof.
-intros a b Hlt.
-induction Hlt.
--
-simpl.
-assert (H: 2^a > 0) by apply pow2_gt_0.
-lia.
--
-simpl.
-assert (H: 2^m > 0) by apply pow2_gt_0.
-lia.
-Qed.
+
 
 (* Properties of even numbers divided by 2 *)
 Lemma even_div2_mul2 : forall k,
@@ -164,45 +128,11 @@ lia.
 Qed.
 
 
-(* If n is even, then n can be expressed as a multiple of 2 *)
-Lemma even_div_2 : forall n,
-  valid_input n -> is_even n ->
-  exists k, n = 2 * k.
-Proof.
-intros n Hvalid Heven.
-unfold is_even in Heven.
-apply Nat.even_spec in Heven.
-destruct Heven as [k Hk].
-exists k.
-exact Hk.
-Qed.
 
-(* If n is even and divisible by 2^d, then n can be expressed as a multiple of 2^d *)
-Lemma even_div_pow2 : forall n d,
-  valid_input n -> d >= 1 -> is_even n ->
-  (exists m, n = m * (2^d)) ->  (* New condition: n is divisible by 2^d *)
-  exists k, n = k * (2^d).
-Proof.
-intros n d Hvalid Hd Heven Hdiv.
-destruct Hdiv as [m Hm].
-exists m.
-exact Hm.
-Qed.
 
-(* Division by 2 preserves valid_input *)
-Lemma div2_valid : forall n,
-  valid_input n ->
-  is_even n ->
-  valid_input (n/2).
-Proof.
-intros n Hvalid Heven.
-unfold valid_input in *.
-assert (H: n >= 2).
-{ apply even_ge_1_implies_ge_2; auto. }
-apply Nat.div_le_lower_bound.
-- lia.
-- lia.
-Qed.
+
+
+
 
 
 
@@ -243,70 +173,10 @@ rewrite H_even.
 reflexivity.
 Qed.
 
-(* Theorem: There exists a d such that 2^d - 1 <= n *)
-Lemma pow2_exists_le : forall n,
-  valid_input n -> is_odd n ->
-  exists d, d >= 1 /\ 2^d - 1 <= n.
-Proof.
-intros n Hvalid Hodd.
-exists 1.
-split.
-- lia.
--
-simpl.
-assert (H_odd_ge_1: forall m, is_odd m -> m >= 1).
-{
-intros m Hm.
-unfold is_odd in Hm.
-destruct m.
-- discriminate Hm.
-- lia.
-}
-assert (H_n_ge_1: n >= 1).
-{ apply H_odd_ge_1; auto. }
-lia.
-Qed.
 
 
 
-(* 1. Basic property of 4 *)
-Lemma four_eq_pow2_2 : 4 = 2^2.
-Proof.
-reflexivity.
-Qed.
 
-(* 2. Multiplication property of powers *)
-Lemma pow_mul_r : forall a b c,
-  (a^b)^c = a^(b*c).
-Proof.
-intros a b c.
-induction c.
-- simpl. rewrite Nat.mul_0_r. reflexivity.
-- simpl.
-rewrite IHc.
-rewrite Nat.mul_succ_r.
-rewrite <- Nat.pow_add_r.
-f_equal.
-lia.
-Qed.
-
-(* 3. Distributive property of powers *)
-Lemma pow_distrib : forall a b c,
-  a^(b + c) = a^b * a^c.
-Proof.
-intros.
-apply Nat.pow_add_r.
-Qed.
-
-(* 4. Power expansion lemma for 4 *)
-Lemma pow4_expand : forall k,
-  4^k = 2^(2*k).
-Proof.
-intro k.
-rewrite four_eq_pow2_2.
-rewrite pow_mul_r.
-reflexivity.
-Qed.
 
 
 (* Helper lemma: when d>=2, 2^d is even *)
@@ -445,13 +315,3 @@ simpl.
 reflexivity.
 Qed.
 
-(* 3n+1 preserves valid_input *)
-Lemma valid_input_3n_plus_1 : forall n,
-  valid_input n ->
-  is_odd n ->
-  valid_input (3 * n + 1).
-Proof.
-intros n Hn Hodd.
-unfold valid_input in *.
-lia.
-Qed.

@@ -1,16 +1,6 @@
 Load "collatz_part_13.v".
 
 (* Odd Branch Existence Lemma *)
-Lemma odd_branch_existence : forall n', n' >= 0 -> Nat.even (S n') = false ->
-  exists t odd, odd >= 1 /\ is_odd odd /\ S n' = odd * 2^t.
-Proof.
-intros n' Hn' Hev.
-exists 0, (S n').
-split; [lia|].
-split.
-- unfold is_odd; exact Hev.
-- simpl; lia.
-Qed.
 
 (* Normalize R0R0 entry (d,n) to n' odd (absorbing 2 factors from n), preserving value *)
 Lemma R0R0_canonical_factorization :
@@ -47,52 +37,6 @@ reflexivity.
 Qed.
 
 (* Complete Number Canonical Classification: Every positive integer uniquely belongs to R1R0 or R0R0 branch *)
-Theorem complete_number_canonical_classification :
-  forall m, m >= 1 ->
-    (exists d n,
-        d >= 1 /\ n >= 0 /\
-        m = valid_R1R0_entry_number d n /\
-        (* Uniqueness: Any other R1R0 representation is identical to (d,n) *)
-        (forall d' n', d' >= 1 -> n' >= 0 ->
-           m = valid_R1R0_entry_number d' n' -> d' = d /\ n' = n)) \/
-    (exists d n,
-        d >= 1 /\ n >= 1 /\ is_odd n /\
-        m = valid_R0R0_entry_number d n /\
-        (forall d' n', d' >= 1 -> n' >= 1 -> is_odd n' ->
-           m = valid_R0R0_entry_number d' n' -> d' = d /\ n' = n)).
-Proof.
-intros m Hm.
-destruct (complete_number_classification m Hm)
-as [ [Hodd [d [n [Hd [Hn Hrepr]]]]] |
-[Heven [d [n [Hd [Hn Hrepr]]]]] ].
--
-left.
-exists d, n.
-split; [exact Hd|].
-split; [exact Hn|].
-split; [exact Hrepr|].
-intros d2 n2 Hd2 Hn2 Hrepr'.
-pose proof Hrepr as H1.
-assert (is_odd m) as Hoddm by assumption.
-destruct (R1R0_decomposition_unique m d d2 n n2
-Hoddm Hd Hd2 Hn Hn2 Hrepr Hrepr') as [Hd_eq Hn_eq].
-split; [symmetry; exact Hd_eq| symmetry; exact Hn_eq].
--
-right.
-destruct (R0R0_canonical_factorization d n Hd Hn)
-as [d' [n' [Hd' [Hn' [Hodd' Heq]]]]].
-assert (Hm' : m = valid_R0R0_entry_number d' n').
-{ rewrite Hrepr. exact Heq. }
-exists d', n'.
-split; [exact Hd'|].
-split; [exact Hn'|].
-split; [exact Hodd'|].
-split; [exact Hm'|].
-intros d1 n1 Hd1 Hn1 Hodd1 Hrepr1.
-destruct (R0R0_decomposition_unique m d' d1 n' n1 Hm' Hrepr1 Hodd' Hodd1)
-as [Hd_eq Hn_eq].
-split; [symmetry; exact Hd_eq| symmetry; exact Hn_eq].
-Qed.
 
 
 
@@ -181,37 +125,6 @@ split; [symmetry; exact Hddc | exact Hnnc].
 Qed.
 
 (* R0R0 Uniqueness Helper: Through canonical decomposition, any entry uniquely corresponds to odd parameters *)
-Lemma R0R0_unique_via_canonical :
-  forall m d n d' n',
-    d >= 1 -> n >= 1 -> is_odd n' ->
-    m = valid_R0R0_entry_number d n ->
-    m = valid_R0R0_entry_number d' n' ->
-    exists d1 n1,
-      d1 >= 1 /\ n1 >= 1 /\ is_odd n1 /\
-      m = valid_R0R0_entry_number d1 n1 /\
-      d' = d1 /\ n' = n1 /\
-      (exists d0, d1 = d + d0 /\ n = n1 * 2 ^ d0).
-Proof.
-intros m d n d' n' Hd Hn Hodd' Hmdef Hmdef'.
-destruct (R0R0_canonical_factorization d n Hd Hn)
-as [dc [nc [Hdc [Hnc [Hoddnc Heqcanon]]]]].
-assert (Hmcanon : m = valid_R0R0_entry_number dc nc) by (rewrite Hmdef; exact Heqcanon).
-destruct (R0R0_decomposition_unique m dc d' nc n' Hmcanon Hmdef' Hoddnc Hodd')
-as [Hd_eq Hn_eq].
-exists dc, nc.
-repeat split; try assumption; try (symmetry; assumption).
-unfold valid_R0R0_entry_number in Heqcanon.
-destruct (R0R0_branch_simplification d n dc nc Hd Hn Hdc Hnc Hoddnc Heqcanon)
-as [[d0 [Hd0_eq Hn_rel]] | [Hdc_eq Hnc_eq]].
--
-exists d0; split.
-+ exact Hd0_eq.
-+ exact Hn_rel.
--
-exists 0; split.
-+ rewrite Hdc_eq; lia.
-+ rewrite Hnc_eq; simpl; lia.
-Qed.
 
 (* Every positive integer m uniquely corresponds to canonical representation of R1R0 or R0R0 branch with determined bounds *)
 Theorem build_k_steps_numeric_canonical :

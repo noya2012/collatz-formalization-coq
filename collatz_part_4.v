@@ -49,13 +49,6 @@ apply IHk. lia.
 apply Hseq. lia.
 Qed.
 
-(* Basic property of sequence values *)
-Lemma nth_sequence_value_0 : forall n,
-  nth_sequence_value n 0 = n.
-Proof.
-intros n.
-reflexivity.
-Qed.
 
 (* Recursive property of sequence values *)
 Lemma nth_sequence_value_succ : forall n i,
@@ -64,71 +57,4 @@ Proof.
 intros n i.
 reflexivity.
 Qed.
-
-(* Sequence validity preservation theorem *)
-Theorem sequence_validity_preservation : forall n ops,
-  valid_input n ->
-  valid_sequence ops n ->
-  valid_input (sequence_end n ops).
-Proof.
-intros n ops Hvalid Hseq.
-unfold sequence_end.
-apply valid_sequence_inductive with (ops := ops).
--
-exact Hvalid.
--
-intros i Hi.
-apply Hseq.
-exact Hi.
--
-lia.
-Qed.
-
-(* Helper lemma: relationship between nth and firstn *)
-Lemma nth_firstn_helper : forall {A: Type} (l: list A) (i n: nat) (default: A),
-  i < n -> n <= length l ->
-  nth i (firstn n l) default = nth i l default.
-Proof.
-intros A l i n default Hi Hn.
-revert l i Hi Hn.
-induction n as [|n' IHn'].
-+
-intros l i Hi Hn.
-inversion Hi.
-+
-intros l i Hi Hn.
-destruct l as [|x l'].
--
-simpl in Hn. inversion Hn.
--
-destruct i as [|i'].
-*
-simpl. reflexivity.
-*
-simpl.
-apply IHn' with (l := l').
---
-apply Nat.succ_lt_mono in Hi. exact Hi.
---
-simpl in Hn. apply le_S_n. exact Hn.
-Qed.
-
-(* Sequence prefix validity lemma *)
-Lemma sequence_prefix_validity : forall n ops i,
-  valid_sequence ops n ->
-  i <= length ops ->
-  valid_sequence (firstn i ops) n.
-Proof.
-intros n ops i Hseq Hi j Hj.
-rewrite firstn_length in Hj.
-apply Nat.min_glb_lt_iff in Hj.
-destruct Hj as [Hj_i Hj_len].
-assert (Heq: nth j (firstn i ops) R0 = nth j ops R0).
-{ apply nth_firstn_helper; auto. }
-rewrite Heq.
-apply Hseq.
-apply Nat.lt_le_trans with i; auto.
-Qed.
-
-
 

@@ -7,18 +7,29 @@ codetools/
 .roo/
 .trae/
 .vscode/
-
+.codebuddy/
+__pycache__/
 # 忽略辅助文件
 *.aux
 *.glob
 *.cache
 
 # 忽略Python和JavaScript文件（只保留Coq文件）
-*.py
 *.js
 
 # 忽略其他非Coq文件
-collatzlite.txt
 trick.txt
 *.json
 _CoqProject
+
+# 忽略本地工具和中文文档
+vsco.py
+README_CN.md
+
+# 忽略中文文档文件
+docs/主要方法论创新点.md
+docs/模6=2轨道上的优势线性增长定理.md
+
+# 忽略未完成的Coq证明文件
+collatz_part_19_0.v
+collatz_part_19_1.v

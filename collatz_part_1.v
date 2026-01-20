@@ -41,7 +41,7 @@ Definition valid_R1R0_entry_number (d n: nat) : nat :=
   (2 * (2^d) * n) + (2^d - 1).
 
 
-(* Define counting function *)
+(* Define counting R0 function *)
 Fixpoint count_R0 (ops: list CollatzOp) : nat :=
 match ops with
 | [] => 0
@@ -49,13 +49,15 @@ match ops with
 | R1 :: rest => count_R0 rest
 end.
 
-(* R1 counting function *)
+(* Define counting R1 function *)
 Fixpoint count_R1 (ops: list CollatzOp) : nat :=
 match ops with
 | [] => 0
 | R0 :: rest => count_R1 rest
 | R1 :: rest => S (count_R1 rest)
 end.
+
+
 
 
 (* Define counting function for R0 and R1 in sequence *)
@@ -101,6 +103,7 @@ Fixpoint repeat_R0 (d: nat) : list CollatzOp :=
   | 0 => []
   | S d' => R0 :: repeat_R0 d'
   end.
+  
 (*    This function constructs an operation list containing D consecutive R1R0 operation pairs *)
 Fixpoint repeat_R1R0 (d: nat) : list CollatzOp :=
   match d with

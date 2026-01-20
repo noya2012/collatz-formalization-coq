@@ -105,3 +105,132 @@ Proof.
 		+ apply repeat_R1R0_output_lower_bound_const; assumption.
 		+ apply repeat_R1R0_output_upper_bound; assumption.
 Qed.
+
+
+(* Necessary and sufficient condition for R1R0 sequence output to be a power of 2 *)
+Theorem R1R0_power_iff :
+  forall d n k,
+    d >= 1 -> n >= 0 ->
+    (sequence_end (valid_R1R0_entry_number d n) (repeat_R1R0 d) = 2 ^ k) <->
+    (2 ^ k + 1 = 3 ^ d * (2 * n + 1)).
+Proof.
+  intros d n k Hd Hn.
+  assert (Hpow_ge1 : 1 <= 3 ^ d) by apply pow3_ge1.
+  assert (Hsub_add : (3 ^ d - 1) + 1 = 3 ^ d) by lia.
+  split; intro H.
+  - (* -> direction *)
+    pose proof (repeat_R1R0_output_closed_form_no_div d n Hd Hn) as Hclosed.
+    rewrite Hclosed in H.
+    symmetry in H.
+    rewrite H.
+    rewrite <- Nat.add_assoc.
+    rewrite Hsub_add.
+    rewrite Nat.mul_add_distr_l.
+    rewrite Nat.mul_1_r.
+    replace (3 ^ d * (2 * n)) with (2 * 3 ^ d * n) by
+      (rewrite Nat.mul_assoc;
+       rewrite (Nat.mul_comm (3 ^ d) 2);
+       rewrite <- Nat.mul_assoc;
+       reflexivity).
+    reflexivity.
+  - (* <- direction *)
+    pose proof (repeat_R1R0_output_closed_form_no_div d n Hd Hn) as Hclosed.
+    rewrite Nat.mul_add_distr_l in H.
+    rewrite Nat.mul_1_r in H.
+    replace (3 ^ d * (2 * n)) with (2 * 3 ^ d * n) in H by
+      (rewrite Nat.mul_assoc;
+       rewrite (Nat.mul_comm (3 ^ d) 2);
+       rewrite <- Nat.mul_assoc;
+       reflexivity).
+    replace (2 * 3 ^ d * n + 3 ^ d) with (2 * 3 ^ d * n + ((3 ^ d - 1) + 1)) in H by
+      (rewrite Hsub_add; reflexivity).
+    rewrite Nat.add_assoc in H.
+    rewrite Nat.add_1_r in H.
+    rewrite Nat.add_1_r in H.
+    apply Nat.succ_inj in H.
+    rewrite Hclosed.
+    symmetry.
+    exact H.
+Qed.
+
+
+(* R1R0 sequence output modulo 6 equals 2 *)
+Lemma R1R0_output_mod6 : forall d n, d >= 1 -> n >= 0 -> 
+  sequence_end (valid_R1R0_entry_number d n) (repeat_R1R0 d) mod 6 = 2.
+Proof.
+  intros d n Hd Hn.
+  rewrite repeat_R1R0_output_closed_form_no_div by lia.
+  (* Prove that 3^d ≡ 3 mod 6 *)
+  assert (H3d_mod: 3^d mod 6 = 3).
+  { 
+    destruct d as [|d].
+    - lia.  (* The case d=0 is excluded by the precondition d>=1 *)
+    - induction d as [|d IH].
+      + simpl. lia.  (* The case d=1 *)
+      + rewrite Nat.pow_succ_r by lia.
+        rewrite Nat.mul_mod by lia.
+        rewrite IH by lia.
+        simpl. lia.
+  }
+  assert (H3d_minus1_mod : (3^d - 1) mod 6 = 2).
+  {
+    pose proof (Nat.div_mod (3 ^ d) 6) as Hdiv.
+    specialize (Hdiv ltac:(lia)).
+    rewrite H3d_mod in Hdiv.
+    assert (Hdecomp : 3 ^ d - 1 = 6 * (3 ^ d / 6) + 2) by lia.
+    rewrite Hdecomp.
+    rewrite Nat.add_mod by lia.
+    rewrite Nat.mul_comm.
+    rewrite Nat.mod_mul by lia.
+    simpl.
+    reflexivity.
+  }
+  assert (Hmul_zero : 2 * 3 ^ d * n mod 6 = 0).
+  {
+    destruct d as [|d'].
+    - lia.
+    - rewrite Nat.pow_succ_r by lia.
+      rewrite <- Nat.mul_assoc.
+      rewrite <- Nat.mul_assoc with (n := 3) (m := 3 ^ d') (p := n).
+      rewrite Nat.mul_assoc.
+      replace (2 * 3) with 6 by lia.
+      rewrite Nat.mul_comm with (n := 6) (m := 3 ^ d' * n).
+      rewrite Nat.mod_mul by lia.
+      reflexivity.
+  }
+  (* Direct modulo calculation: using basic arithmetic *)
+  rewrite Nat.add_mod by lia.
+  rewrite Hmul_zero.
+  rewrite H3d_minus1_mod.
+  simpl.
+  reflexivity.
+Qed.
+
+
+(* R1R0 sequence output set is equivalent to numbers congruent to 2 mod 6 *)
+Lemma R1R0_output_set_iff : forall m,
+  (exists d n, d >= 1 /\ n >= 0 /\ m = sequence_end (valid_R1R0_entry_number d n) (repeat_R1R0 d)) <-> m mod 6 = 2.
+Proof.
+  split.
+  - intros [d [n [Hd [Hn ->]]]]. apply R1R0_output_mod6; auto.
+  - intros Hmod. exists 1, ((m-2)/6). split; [lia|split;[lia|]].
+    rewrite repeat_R1R0_output_closed_form_no_div; try lia.
+    replace (3^1) with 3 by auto.
+    replace (2 * 3) with 6 by lia.
+    replace (3 - 1) with 2 by lia.
+    assert (Hdecomp : m = (m / 6) * 6 + 2).
+    { pose proof (Nat.div_mod m 6) as Hdiv.
+      specialize (Hdiv ltac:(lia)).
+      rewrite Hmod in Hdiv.
+      rewrite (Nat.mul_comm 6 (m / 6)) in Hdiv.
+      exact Hdiv. }
+    assert (Hminus : m - 2 = (m / 6) * 6) by lia.
+    assert (Hdiv_eq : (m - 2) / 6 = m / 6).
+    { rewrite Hminus.
+      rewrite Nat.div_mul by lia.
+      reflexivity. }
+    rewrite Hdiv_eq.
+    rewrite (Nat.mul_comm 6 (m / 6)).
+    exact Hdecomp.
+Qed.
+

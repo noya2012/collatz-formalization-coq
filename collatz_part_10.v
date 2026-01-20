@@ -9,14 +9,7 @@ induction d as [|d' IH].
 - simpl. rewrite IH. reflexivity.
 Qed.
 
-(* The number of R0 operations in repeat_R0 equals d *)
-Lemma repeat_R0_count_R0 : forall d,
-  count_R0 (repeat_R0 d) = d.
-Proof.
-induction d as [|d' IH].
-- simpl. reflexivity.
-- simpl. rewrite IH. reflexivity.
-Qed.
+
 
 (* The number of consecutive R0 patterns in repeat_R0 (when d>=1) equals d *)
 Lemma repeat_R0_consecutive_count : forall d,

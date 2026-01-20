@@ -135,24 +135,8 @@ apply IH with (n := 3 * n + 1); try lia.
 Qed.
 
 
-(* ============================================================= *)
 
-(* Catalan theorem application: 3^a - 2^b = 1 only has solution (a,b) = (2,3)
-Theorem repeat_R1R0_power_of_2_classification : forall D n,
-  D >= 1 -> n >= 0 ->
-  let m := valid_R1R0_entry_number D n in
-  let output := sequence_end m (repeat_R1R0 D) in
-  (exists k, output = 2^k) <->
-  match D with
-  | 1 => exists k, 3 * n + 1 = 2^k
-  | 2 => exists k, 9 * n + 4 = 2^k
-  | _ => (* Complex conditions strictly limited by Catalan theorem *)
-         exists k, 3^D * n + (3^D - 1)/2 = 2^k /\
-         catalan_constraint D k
-  end.*)
-
-  
-(* R1R0 arithmetic identity: recursive entry parameter equation *)
+(* Catalan theorem application: 3^a - 2^b = 1 only has solution (a,b) = (2,3)*)
 Lemma arithmetic_identity_for_R1R0 : forall k n,
   k >= 0 -> n >= 0 ->
   3^(S k) * n + (3^(S k) - 1) / 2 =
@@ -219,25 +203,7 @@ symmetry.
 apply arithmetic_identity_for_R1R0; lia.
 Qed.
 
-(* R1R0 pattern closure arithmetic identity *)
-Lemma R1R0_closure_arithmetic_identity : forall k n,
-  k >= 1 -> n >= 1 ->
-  3 * (3^k * n + (3^k - 1) / 2) + 1 = 3^(S k) * n + (3^(S k) - 1) / 2.
-Proof.
-intros k n Hk Hn.
-destruct (pow3_minus1_even k) as [y Hy].
-assert (Hdiv: (3^k - 1) / 2 = y).
-{ rewrite Hy. apply twice_div. }
-assert (H3k: 3^k = 2*y + 1).
-{ assert (H_ge1: 3^k >= 1) by apply pow3_ge1; lia. }
-rewrite Hdiv, H3k.
-rewrite pow3_expand.
-rewrite H3k.
-assert (H_rhs: (3 * (2*y + 1) - 1) / 2 = 3*y + 1).
-{ assert (H_calc: 3 * (2*y + 1) - 1 = 2 * (3*y + 1)) by lia.
-rewrite H_calc; apply twice_div. }
-rewrite H_rhs. ring.
-Qed.
+
 
 (* R1R0 entry numbers are always odd *)
 Lemma valid_R1R0_entry_number_odd : forall d n,

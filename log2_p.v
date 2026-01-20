@@ -34,7 +34,7 @@ Lemma log2_upper_bound : forall n,
 Proof.
   intros n Hn.
   assert (H: 0 < n).
-  { (* 证明 0 < n *)
+  { (* Proof that 0 < n *)
     apply lt_le_trans with 1.
     - apply lt_0_1.
     - exact Hn.
@@ -48,7 +48,9 @@ End LogarithmDefs.
 
 
 
-(* log2的基本性质 *)
+
+
+(* Basic properties of log2 *)
 Lemma log2_spec_high : forall n,
   n >= 1 ->
   n < 2^(S (log2 n)).
@@ -58,13 +60,13 @@ Proof.
   assumption.
 Qed.
 
-(* log2的基本性质 *)
+(* Basic properties of log2 *)
 Lemma log2_lower_bound : forall n,
   n >= 1 ->
   2^(log2 n) > n/2.
 Proof.
   intros n Hn.
-  (* 使用log2的定义性质 *)
+  (* Using definition property of log2 *)
   assert (H1: n < 2^(S (log2 n))).
   {
     apply log2_spec_high.
@@ -72,7 +74,7 @@ Proof.
   }
   (* 2^(S n) = 2 * 2^n *)
   replace (2^(S (log2 n))) with (2 * 2^(log2 n)) in H1.
-  - (* n < 2 * 2^(log2 n) 意味着 n/2 < 2^(log2 n) *)
+  - (* n < 2 * 2^(log2 n) implies n/2 < 2^(log2 n) *)
     apply Nat.div_lt_upper_bound in H1.
     + assumption.
     + lia.
@@ -81,8 +83,10 @@ Proof.
 Qed.
 
 
-(* 为连续D叠加R1R0有界算术性质准备的log2相关定理 *)
-(* 对数的基本性质 *)
+
+
+(* Log2 related theorems prepared for bounded arithmetic properties of consecutive D stacked R1R0 *)
+(* Basic properties of logarithm *)
 Lemma log2_monotone : forall x y, x <= y -> log2 x <= log2 y.
 Proof.
 intros x y H_le.
@@ -126,5 +130,29 @@ rewrite log2_mult_power2.
 apply Nat.neq_0_lt_0.
 apply Nat.pow_nonzero.
 lia.
+Qed.
+
+
+
+(* Linear approximation property of logarithm (weaker form, used for subsequent estimation) *)
+Lemma log2_approx_linear : forall x y,
+  x >= 1 -> y >= 1 ->
+  log2(x) - log2(y) <= log2(x) + 1.
+Proof.
+intros x y Hx Hy.
+assert (Hnonneg : log2 y >= 0).
+{ apply Nat.log2_nonneg. }
+lia.
+Qed.
+
+
+
+(* Lower bound estimation of logarithm *)
+Lemma log2_lower_bound_strong : forall x,
+  x >= 1 ->
+  log2(x) >= 0.
+Proof.
+intros x Hx.
+apply Nat.log2_nonneg.
 Qed.
 
