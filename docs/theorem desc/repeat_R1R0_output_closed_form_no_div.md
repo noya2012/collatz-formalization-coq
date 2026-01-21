@@ -28,7 +28,7 @@ This corollary provides a clean, division-free closed-form expression for the ou
 ### Mathematical Properties
 
 1. **Exact Formula**: Provides an exact arithmetic expression, not just bounds
-2. **Integer-Valued**: The expression 2*3^D*n + (3^D-1) always yields an integer for natural D,n
+2. **Integer-Valued**: The expression 2 * 3^D * n + (3^D - 1) always yields an integer for natural D,n
 3. **Monotonicity**: The output is monotonic in both D and n parameters
 4. **Growth Rate**: Shows exponential growth in D (factor of 3^D) and linear growth in n
 

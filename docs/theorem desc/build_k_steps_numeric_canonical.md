@@ -41,7 +41,7 @@ Key innovation: Adds **uniqueness quantification** to the existence theorem.
 ### Mathematical Properties
 - **Uniqueness**: For each m, there is exactly one representation in each branch
 - **Canonical Forms**: Both branches provide canonical forms
-- **R1R0 Strictness**: Introduces strict upper bound S < 2*3^d*(n+1)
+- **R1R0 Strictness**: Introduces strict upper bound S < 2 * 3^d * (n + 1)
 - **R0R0 Odd Factorization**: Requires n to be odd (canonical factor)
 
 ### Key Differences from Previous Theorems
@@ -95,8 +95,8 @@ Key innovation: Adds **uniqueness quantification** to the existence theorem.
 ### Key Innovations
 
 1. **Strict Upper Bound** (R1R0):
-   - Previous: S ≤ 3^d*(2n+1)
-   - Now: S < 2*3^d*(n+1)
+   - Previous: S ≤ 3^d * (2n + 1)
+   - Now: S < 2 * 3^d * (n + 1)
    - Both bounds hold and are tighter
 
 2. **Canonical Odd Factorization** (R0R0):

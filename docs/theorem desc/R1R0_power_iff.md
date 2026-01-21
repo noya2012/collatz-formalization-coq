@@ -32,7 +32,7 @@ This theorem provides a bidirectional (iff) characterization of when the output 
 1. **Biconditional**: The theorem is an equivalence (iff), not just an implication
 2. **Exact Condition**: Provides a precise algebraic equation, not just bounds or inequalities
 3. **Integer Solutions**: Characterizes integer solutions (d,n,k) to the Diophantine equation
-4. **Non-Trivial Cases**: The equation 2^k + 1 = 3^d * (2n+1) is a special Diophantine equation
+4. **Non-Trivial Cases**: The equation 2^k + 1 = 3^d * (2 * n + 1) is a special Diophantine equation
 
 ### Structural Properties
 
@@ -43,7 +43,7 @@ This theorem provides a bidirectional (iff) characterization of when the output 
 
 ### Number Theory Significance
 
-The equation 2^k + 1 = 3^d * (2n+1) is a variant of the classic exponential Diophantine equation. This connects to:
+The equation 2^k + 1 = 3^d * (2 * n + 1) is a variant of the classic exponential Diophantine equation. This connects to:
 - Catalan's conjecture (Mihăilescu's theorem)
 - Perfect powers in arithmetic sequences
 - The distribution of powers of 2 and 3
@@ -92,13 +92,13 @@ The theorem is bidirectional (iff), providing both:
 ```
 Manipulating this equation yields:
 ```
-2^k + 1 = 3^d * (2n + 1)
+2^k + 1 = 3^d * (2 * n + 1)
 ```
 
 **Necessity**: This algebraic condition is necessary for the output to be a power of 2
 
 #### Direction 2: Algebraic Condition ⇒ Output is Power of 2
-**Sufficient Condition**: If 2^k + 1 = 3^d * (2n + 1) holds, then:
+**Sufficient Condition**: If 2^k + 1 = 3^d * (2 * n + 1) holds, then:
 ```
 2 * 3^d * n + 3^d = 2^k + 1
 2 * 3^d * n + (3^d - 1) + 1 = 2^k + 1
@@ -109,10 +109,10 @@ output + 1 = 2^k + 1
 
 ### Equation Analysis
 
-The Diophantine equation 2^k + 1 = 3^d * (2n+1) has interesting properties:
+The Diophantine equation 2^k + 1 = 3^d * (2 * n + 1) has interesting properties:
 
 1. **Parity**: Left side is odd (2^k is even, +1 makes it odd)
-2. **Right Side Factorization**: 3^d * (2n+1) where (2n+1) is odd, so right side is odd ✓
+2. **Right Side Factorization**: 3^d * (2 * n + 1) where (2 * n + 1) is odd, so right side is odd ✓
 3. **Modulo Analysis**: 
    - Mod 3: 2^k + 1 ≡ 0 (mod 3) → 2^k ≡ 2 (mod 3) → k must be odd
    - This implies k = 2t+1 for some t
@@ -257,7 +257,7 @@ Check if there exists k such that 2^k + 1 = 3^3 * (2*2 + 1) = 27 * 5 = 135
 
 ### Observations
 
-1. **Rare Solutions**: Integer solutions to 2^k + 1 = 3^d * (2n+1) are rare
+1. **Rare Solutions**: Integer solutions to 2^k + 1 = 3^d * (2 * n + 1) are rare
 2. **Small Parameters**: Solutions seem to occur mainly for small values of d
 3. **Pattern**: When n=0 and d=1, we always get a solution (2^1 + 1 = 3)
 4. **Modulo Constraint**: k must be odd (from 2^k ≡ 2 (mod 3))
@@ -273,7 +273,7 @@ Check if there exists k such that 2^k + 1 = 3^3 * (2*2 + 1) = 27 * 5 = 135
 This theorem addresses a special but interesting question in Collatz sequence analysis: when do R1R0 patterns produce powers of 2?
 
 Historical significance:
-1. **Classic Number Theory**: The equation 2^k + 1 = 3^d * (2n+1) is related to the problem of when a power of 2 plus 1 is divisible by a power of 3
+1. **Classic Number Theory**: The equation 2^k + 1 = 3^d * (2 * n + 1) is related to the problem of when a power of 2 plus 1 is divisible by a power of 3
 2. **Fermat Numbers**: 2^k + 1 (when k is a power of 2) are Fermat numbers, known for their number theory properties
 3. **Rare Cases**: The rarity of solutions explains why powers of 2 are relatively uncommon in Collatz sequences
 
@@ -281,7 +281,7 @@ Historical significance:
 
 ### Diophantine Analysis
 
-The equation 2^k + 1 = 3^d * (2n+1) is a variant of the generalized Catalan equation. Special cases include:
+The equation 2^k + 1 = 3^d * (2 * n + 1) is a variant of the generalized Catalan equation. Special cases include:
 
 1. **When n=0**: 2^k + 1 = 3^d, asking when a power of 3 is one more than a power of 2
    - Known small solutions: (k,d) = (1,1), (3,2), etc.
