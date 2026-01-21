@@ -1,0 +1,854 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Collatz Sequence - Real Values and Theoretical Partition Visualization</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+            background: white;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            padding: 20px;
+        }
+        
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 20px;
+            border-bottom: 3px solid #3b82f6;
+            padding-bottom: 10px;
+        }
+        
+        .input-section {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        
+        .input-group {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        
+        label {
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        
+        input, button {
+            padding: 8px 12px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        
+        input:focus {
+            outline: none;
+            border-color: #3b82f6;
+        }
+        
+        button {
+            background: #3b82f6;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        
+        button:hover {
+            background: #2563eb;
+        }
+        
+        .canvas-scroll-container {
+            width: 100%;
+            overflow-x: auto;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            background: #f8f9fa;
+        }
+        
+        .canvas-wrapper {
+            position: relative;
+            min-width: 3000px;
+            height: 700px;
+        }
+        
+        #mainCanvas {
+            display: block;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+        
+        #overlayCanvas {
+            display: block;
+            position: absolute;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+        }
+        
+        .legend {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+            padding: 10px;
+            background: #f0f9ff;
+            border-radius: 8px;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 13px;
+        }
+        
+        .legend-color {
+            width: 24px;
+            height: 4px;
+            border-radius: 2px;
+        }
+        
+        .legend-box {
+            width: 20px;
+            height: 20px;
+            border-radius: 3px;
+            border-width: 2px;
+            border-style: solid;
+        }
+        
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .stat-item {
+            background: white;
+            padding: 12px;
+            border-radius: 8px;
+            border-left: 4px solid #3b82f6;
+        }
+        
+        .stat-value {
+            font-size: 22px;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        
+        .stat-label {
+            color: #7f8c8d;
+            font-size: 12px;
+        }
+        
+        .info-panel {
+            background: #f0f9ff;
+            padding: 15px;
+            border-radius: 10px;
+        }
+        
+        .info-section {
+            margin-bottom: 15px;
+        }
+        
+        .info-section h3 {
+            color: #2c3e50;
+            border-bottom: 2px solid #3b82f6;
+            padding-bottom: 5px;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+        
+        .chain-summary {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .chain-group {
+            background: white;
+            padding: 12px;
+            border-radius: 8px;
+        }
+        
+        .chain-group h4 {
+            margin: 0 0 10px 0;
+            font-size: 14px;
+        }
+        
+        .chain-item {
+            padding: 4px 8px;
+            margin: 3px 0;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 12px;
+        }
+        
+        .tooltip {
+            position: fixed;
+            background: rgba(0,0,0,0.85);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 5px;
+            font-size: 12px;
+            pointer-events: none;
+            z-index: 1000;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Collatz Sequence - Real Values and Theoretical Partition Visualization</h1>
+        
+        <div class="input-section">
+            <div class="input-group">
+                <label for="startNumber">Start Number:</label>
+                <input type="number" id="startNumber" value="27" min="1" max="100000">
+                <button onclick="generateAndVisualize()">Generate and Visualize</button>
+            </div>
+            
+            <div class="input-group">
+                <label for="nodeSpacing">Node Spacing:</label>
+                <input type="range" id="nodeSpacing" min="40" max="120" value="60" onchange="updateVisualization()">
+                <span id="spacingValue">60px</span>
+            </div>
+            
+            <div class="input-group">
+                <label for="logBase">Log Base:</label>
+                <input type="range" id="logBase" min="2" max="10" value="2" step="0.5" onchange="updateVisualization()">
+                <span id="logBaseValue">2</span>
+            </div>
+        </div>
+        
+        <div class="legend">
+            <div class="legend-item">
+                <div class="legend-color" style="background: #3b82f6;"></div>
+                <span>Sequence Connection (Real Values)</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background: #10b981;"></div>
+                <span>R0 Operation (n/2)</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background: #ef4444;"></div>
+                <span>R1 Operation (3n+1)</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-box" style="border-color: #f59e0b; background: rgba(245, 158, 11, 0.1);"></div>
+                <span>Macrostep Boundary (mod6=2)</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-box" style="border-color: #8b5cf6; background: rgba(139, 92, 246, 0.1);"></div>
+                <span>Canonical Chain Boundary</span>
+            </div>
+        </div>
+        
+        <div class="canvas-scroll-container">
+            <div class="canvas-wrapper">
+                <canvas id="mainCanvas" width="3000" height="700"></canvas>
+                <canvas id="overlayCanvas" width="3000" height="700"></canvas>
+            </div>
+        </div>
+        
+        <div class="stats">
+            <div class="stat-item">
+                <div class="stat-value" id="sequenceLength">0</div>
+                <div class="stat-label">Sequence Length</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value" id="r0Count">0</div>
+                <div class="stat-label">R0 Operations</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value" id="r1Count">0</div>
+                <div class="stat-label">R1 Operations</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value" id="advantage">0</div>
+                <div class="stat-label">R0 Net Advantage</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value" id="macrostepCount">0</div>
+                <div class="stat-label">Macrosteps</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value" id="canonicalCount">0</div>
+                <div class="stat-label">Canonical Chains</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value" id="peakValue">0</div>
+                <div class="stat-label">Peak Value</div>
+            </div>
+        </div>
+        
+        <div class="info-panel">
+            <div class="info-section">
+                <h3>Macrostep Analysis (mod6=2 Orbit)</h3>
+                <div class="chain-summary" id="macrostepSummary"></div>
+            </div>
+            
+            <div class="info-section">
+                <h3>Canonical Chain Analysis</h3>
+                <div class="chain-summary" id="canonicalSummary"></div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="tooltip" id="tooltip"></div>
+
+    <script>
+        // Global variables
+        let collatzSequence = [];
+        let operations = [];
+        let macrostepChains = [];
+        let canonicalChains = [];
+        
+        const OperationType = {
+            R0: 'R0',
+            R1: 'R1'
+        };
+        
+        // Generate Collatz sequence
+        function generateAndVisualize() {
+            const startNumber = parseInt(document.getElementById('startNumber').value);
+            
+            if (startNumber < 1) {
+                alert('Please enter an integer greater than 0');
+                return;
+            }
+            
+            collatzSequence = [];
+            operations = [];
+            
+            let current = startNumber;
+            collatzSequence.push(current);
+            
+            const maxSteps = 10000;
+            let steps = 0;
+            
+            while (current !== 1 && steps < maxSteps) {
+                if (current % 2 === 0) {
+                    operations.push(OperationType.R0);
+                    current = current / 2;
+                } else {
+                    operations.push(OperationType.R1);
+                    current = 3 * current + 1;
+                }
+                collatzSequence.push(current);
+                steps++;
+            }
+            
+            if (steps >= maxSteps) {
+                console.warn('Maximum step limit reached');
+            }
+            
+            analyzeMacrostepChains();
+            analyzeCanonicalChains();
+            updateStatistics();
+            updateVisualization();
+        }
+        
+        // Analyze macrostep chains
+        function analyzeMacrostepChains() {
+            macrostepChains = [];
+            let currentIndex = 0;
+            
+            while (currentIndex < collatzSequence.length - 1) {
+                const currentValue = collatzSequence[currentIndex];
+                
+                if (currentValue % 6 === 2 && currentValue % 2 === 0) {
+                    const macrostep = findMacrostep(currentIndex);
+                    if (macrostep) {
+                        macrostepChains.push(macrostep);
+                        currentIndex = macrostep.endIndex;
+                        continue;
+                    }
+                }
+                
+                currentIndex++;
+            }
+        }
+        
+        // Find macrostep structure
+        function findMacrostep(startIndex) {
+            let index = startIndex;
+            let d0 = 0;
+            
+            while (index < operations.length && operations[index] === OperationType.R0) {
+                d0++;
+                index++;
+            }
+            
+            if (d0 === 0) return null;
+            
+            let r1r0Count = 0;
+            while (index + 1 < operations.length) {
+                if (operations[index] === OperationType.R1 && operations[index + 1] === OperationType.R0) {
+                    r1r0Count++;
+                    index += 2;
+                } else {
+                    break;
+                }
+            }
+            
+            const d1 = r1r0Count;
+            
+            if (d1 === 0) return null;
+            
+            const endValue = collatzSequence[index];
+            if (endValue % 6 !== 2) return null;
+            
+            return {
+                startIndex: startIndex,
+                endIndex: index,
+                d0: d0,
+                d1: d1,
+                startValue: collatzSequence[startIndex],
+                endValue: endValue,
+                contribution: d0 + 1
+            };
+        }
+        
+        // Analyze canonical chains
+        function analyzeCanonicalChains() {
+            canonicalChains = [];
+            let currentIndex = 0;
+            
+            while (currentIndex < operations.length) {
+                const r0r0Chain = findR0R0Chain(currentIndex);
+                if (r0r0Chain) {
+                    canonicalChains.push(r0r0Chain);
+                    currentIndex = r0r0Chain.endIndex + 1;
+                    continue;
+                }
+                
+                const r1r0Chain = findR1R0Chain(currentIndex);
+                if (r1r0Chain) {
+                    canonicalChains.push(r1r0Chain);
+                    currentIndex = r1r0Chain.endIndex + 1;
+                    continue;
+                }
+                
+                currentIndex++;
+            }
+        }
+        
+        // Find R0R0 entry canonical chain
+        function findR0R0Chain(startIndex) {
+            if (startIndex >= operations.length - 2) return null;
+            
+            let d = 0;
+            let index = startIndex;
+            
+            while (index < operations.length && operations[index] === OperationType.R0) {
+                d++;
+                index++;
+            }
+            
+            if (d >= 1 && index + 1 < operations.length && 
+                operations[index] === OperationType.R1 && 
+                operations[index + 1] === OperationType.R0) {
+                
+                return {
+                    type: 'R0R0',
+                    startIndex: startIndex,
+                    endIndex: index + 1,
+                    d: d,
+                    contribution: d,
+                    operationCount: d + 2
+                };
+            }
+            
+            return null;
+        }
+        
+        // Find R1R0 entry canonical chain
+        function findR1R0Chain(startIndex) {
+            if (startIndex >= operations.length - 1) return null;
+            
+            let d = 0;
+            let index = startIndex;
+            
+            while (index + 1 < operations.length && 
+                   operations[index] === OperationType.R1 && 
+                   operations[index + 1] === OperationType.R0) {
+                d++;
+                index += 2;
+            }
+            
+            if (d >= 1 && index < operations.length && 
+                operations[index] === OperationType.R0) {
+                
+                return {
+                    type: 'R1R0',
+                    startIndex: startIndex,
+                    endIndex: index,
+                    d: d,
+                    contribution: 1,
+                    operationCount: 2 * d + 1
+                };
+            }
+            
+            return null;
+        }
+        
+        // Update statistics
+        function updateStatistics() {
+            const r0Count = operations.filter(op => op === OperationType.R0).length;
+            const r1Count = operations.filter(op => op === OperationType.R1).length;
+            const peakValue = Math.max(...collatzSequence);
+            
+            document.getElementById('sequenceLength').textContent = collatzSequence.length;
+            document.getElementById('r0Count').textContent = r0Count;
+            document.getElementById('r1Count').textContent = r1Count;
+            document.getElementById('advantage').textContent = r0Count - r1Count;
+            document.getElementById('macrostepCount').textContent = macrostepChains.length;
+            document.getElementById('canonicalCount').textContent = canonicalChains.length;
+            document.getElementById('peakValue').textContent = peakValue.toLocaleString();
+            
+            document.getElementById('spacingValue').textContent = 
+                document.getElementById('nodeSpacing').value + 'px';
+            document.getElementById('logBaseValue').textContent = 
+                document.getElementById('logBase').value;
+            
+            // Update macrostep summary
+            const macrostepSummary = document.getElementById('macrostepSummary');
+            if (macrostepChains.length > 0) {
+                macrostepSummary.innerHTML = macrostepChains.map((m, i) => 
+                    `<div class="chain-group" style="border-left: 4px solid #f59e0b;">
+                        <h4 style="color: #f59e0b;">Macrostep ${i + 1}</h4>
+                        <div class="chain-item" style="background: #fef3c7; color: #92400e;">
+                            Start: ${m.startValue} (idx=${m.startIndex})
+                        </div>
+                        <div class="chain-item" style="background: #fef3c7; color: #92400e;">
+                            End: ${m.endValue} (idx=${m.endIndex})
+                        </div>
+                        <div class="chain-item" style="background: #fef3c7; color: #92400e;">
+                            d0=${m.d0}, d1=${m.d1}, Contribution=${m.contribution}
+                        </div>
+                    </div>`
+                ).join('');
+            } else {
+                macrostepSummary.innerHTML = '<p>No macrostep structures found</p>';
+            }
+            
+            // Update canonical chain summary
+            const canonicalSummary = document.getElementById('canonicalSummary');
+            if (canonicalChains.length > 0) {
+                canonicalSummary.innerHTML = canonicalChains.map((c, i) => {
+                    const color = c.type === 'R0R0' ? '#8b5cf6' : '#ec4899';
+                    const pattern = c.type === 'R0R0' ? 
+                        `R0^${c.d} → [R1,R0]` : `R1R0^${c.d} → [R0]`;
+                    return `<div class="chain-group" style="border-left: 4px solid ${color};">
+                        <h4 style="color: ${color};">Canonical Chain ${i + 1} (${c.type} Entry)</h4>
+                        <div class="chain-item" style="background: #f3e8ff; color: ${color};">
+                            Range: idx ${c.startIndex} → ${c.endIndex}
+                        </div>
+                        <div class="chain-item" style="background: #f3e8ff; color: ${color};">
+                            Pattern: ${pattern}, d=${c.d}
+                        </div>
+                    </div>`;
+                }).join('');
+            } else {
+                canonicalSummary.innerHTML = '<p>No canonical chain structures found</p>';
+            }
+        }
+        
+        // Update visualization
+        function updateVisualization() {
+            if (collatzSequence.length === 0) return;
+            
+            const mainCanvas = document.getElementById('mainCanvas');
+            const overlayCanvas = document.getElementById('overlayCanvas');
+            const mainCtx = mainCanvas.getContext('2d');
+            const overlayCtx = overlayCanvas.getContext('2d');
+            const spacing = parseInt(document.getElementById('nodeSpacing').value);
+            const logBase = parseFloat(document.getElementById('logBase').value);
+            
+            const requiredWidth = Math.max(3000, collatzSequence.length * spacing + 100);
+            mainCanvas.width = requiredWidth;
+            mainCanvas.style.width = requiredWidth + 'px';
+            overlayCanvas.width = requiredWidth;
+            overlayCanvas.style.width = requiredWidth + 'px';
+            
+            mainCtx.clearRect(0, 0, mainCanvas.width, mainCanvas.height);
+            overlayCtx.clearRect(0, 0, overlayCanvas.width, overlayCanvas.height);
+            
+            // Calculate Y coordinates (logarithmic scale)
+            const maxValue = Math.max(...collatzSequence);
+            const minValue = 1;
+            const canvasHeight = mainCanvas.height - 80;
+            const padding = 50;
+            
+            function getY(value) {
+                const logMax = Math.log(maxValue) / Math.log(logBase);
+                const logVal = Math.log(value) / Math.log(logBase);
+                return padding + (logMax - logVal) / logMax * canvasHeight;
+            }
+            
+            // Draw sequence connection lines
+            drawSequenceLines(mainCtx, spacing, getY);
+            
+            // Draw nodes
+            drawNodes(mainCtx, overlayCtx, spacing, getY);
+            
+            // Draw macrostep key nodes (start and end highlighted)
+            drawMacrostepKeyNodes(mainCtx, overlayCtx, spacing, getY);
+            
+            // Draw macrostep boundary boxes
+            drawMacrostepBoxes(overlayCtx, spacing, getY);
+            
+            // Draw canonical chain boundary boxes
+            drawCanonicalBoxes(overlayCtx, spacing, getY);
+            
+            // Draw axes
+            drawAxes(mainCtx, getY, maxValue, logBase);
+        }
+        
+        // Draw sequence connection lines
+        function drawSequenceLines(ctx, spacing, getY) {
+            ctx.strokeStyle = '#3b82f6';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            
+            for (let i = 0; i < collatzSequence.length; i++) {
+                const x = 50 + i * spacing;
+                const y = getY(collatzSequence[i]);
+                
+                if (i === 0) {
+                    ctx.moveTo(x, y);
+                } else {
+                    ctx.lineTo(x, y);
+                }
+            }
+            
+            ctx.stroke();
+        }
+        
+        // Draw nodes
+        function drawNodes(mainCtx, overlayCtx, spacing, getY) {
+            for (let i = 0; i < collatzSequence.length; i++) {
+                const x = 50 + i * spacing;
+                const y = getY(collatzSequence[i]);
+                const value = collatzSequence[i];
+                const isR0 = i < operations.length && operations[i] === OperationType.R0;
+                
+                // Node circle
+                overlayCtx.fillStyle = isR0 ? '#10b981' : '#ef4444';
+                overlayCtx.beginPath();
+                overlayCtx.arc(x, y, 4, 0, Math.PI * 2);
+                overlayCtx.fill();
+                
+                // Display value for each node
+                mainCtx.fillStyle = '#374151';
+                mainCtx.font = '10px sans-serif';
+                mainCtx.textAlign = 'center';
+                mainCtx.fillText(value.toString(), x, y - 8);
+                
+                // Index label (small text)
+                mainCtx.fillStyle = '#9ca3af';
+                mainCtx.font = '8px sans-serif';
+                mainCtx.fillText(i.toString(), x, y + 14);
+            }
+        }
+        
+        // Draw macrostep key nodes (start and end)
+        function drawMacrostepKeyNodes(mainCtx, overlayCtx, spacing, getY) {
+            macrostepChains.forEach(macrostep => {
+                // Start node
+                const startX = 50 + macrostep.startIndex * spacing;
+                const startY = getY(macrostep.startValue);
+                
+                // Highlight start: orange circle
+                overlayCtx.strokeStyle = '#f59e0b';
+                overlayCtx.lineWidth = 3;
+                overlayCtx.beginPath();
+                overlayCtx.arc(startX, startY, 10, 0, Math.PI * 2);
+                overlayCtx.stroke();
+                
+                // Start label: value + mod 6=2
+                mainCtx.fillStyle = '#f59e0b';
+                mainCtx.font = 'bold 11px sans-serif';
+                mainCtx.textAlign = 'center';
+                mainCtx.fillText(`(${macrostep.startValue}) mod 6=2`, startX, startY + 24);
+                
+                // End node
+                const endX = 50 + macrostep.endIndex * spacing;
+                const endY = getY(macrostep.endValue);
+                
+                // Highlight end: orange circle
+                overlayCtx.strokeStyle = '#f59e0b';
+                overlayCtx.lineWidth = 3;
+                overlayCtx.beginPath();
+                overlayCtx.arc(endX, endY, 10, 0, Math.PI * 2);
+                overlayCtx.stroke();
+                
+                // End label: value + mod 6=2
+                mainCtx.fillStyle = '#f59e0b';
+                mainCtx.font = 'bold 11px sans-serif';
+                mainCtx.textAlign = 'center';
+                mainCtx.fillText(`(${macrostep.endValue}) mod 6=2`, endX, endY + 24);
+            });
+        }
+        
+        // Draw macrostep boundary boxes
+        function drawMacrostepBoxes(ctx, spacing, getY) {
+            ctx.strokeStyle = '#f59e0b';
+            ctx.lineWidth = 3;
+            ctx.setLineDash([]);
+            
+            macrostepChains.forEach(macrostep => {
+                const startX = 50 + macrostep.startIndex * spacing;
+                const endX = 50 + macrostep.endIndex * spacing;
+                const startY = getY(macrostep.startValue);
+                const endY = getY(macrostep.endValue);
+                
+                // Calculate bounding box
+                const minIdx = macrostep.startIndex;
+                const maxIdx = macrostep.endIndex;
+                let minVal = macrostep.startValue;
+                let maxVal = macrostep.startValue;
+                
+                for (let i = minIdx + 1; i <= maxIdx; i++) {
+                    minVal = Math.min(minVal, collatzSequence[i]);
+                    maxVal = Math.max(maxVal, collatzSequence[i]);
+                }
+                
+                const boxX = 50 + minIdx * spacing - 10;
+                const boxEndX = 50 + maxIdx * spacing + 10;
+                const boxY = getY(maxVal) - 15;
+                const boxHeight = getY(minVal) - getY(maxVal) + 30;
+                
+                // Fill semi-transparent background
+                ctx.fillStyle = 'rgba(245, 158, 11, 0.1)';
+                ctx.fillRect(boxX, boxY, boxEndX - boxX, boxHeight);
+                
+                // Draw border
+                ctx.strokeRect(boxX, boxY, boxEndX - boxX, boxHeight);
+                
+                // Add macrostep label
+                ctx.fillStyle = '#f59e0b';
+                ctx.font = 'bold 12px sans-serif';
+                ctx.textAlign = 'left';
+                ctx.fillText(`M(${macrostep.d0},${macrostep.d1})`, boxX, boxY - 5);
+            });
+        }
+        
+        // Draw canonical chain boundary boxes
+        function drawCanonicalBoxes(ctx, spacing, getY) {
+            canonicalChains.forEach((chain, idx) => {
+                const color = chain.type === 'R0R0' ? '#8b5cf6' : '#ec4899';
+                const minIdx = chain.startIndex;
+                const maxIdx = chain.endIndex;
+                
+                let minVal = collatzSequence[minIdx];
+                let maxVal = collatzSequence[minIdx];
+                
+                for (let i = minIdx + 1; i <= maxIdx; i++) {
+                    minVal = Math.min(minVal, collatzSequence[i]);
+                    maxVal = Math.max(maxVal, collatzSequence[i]);
+                }
+                
+                const boxX = 50 + minIdx * spacing - 8;
+                const boxEndX = 50 + maxIdx * spacing + 8;
+                const boxY = getY(maxVal) - 12;
+                const boxHeight = getY(minVal) - getY(maxVal) + 24;
+                
+                // Fill semi-transparent background
+                ctx.fillStyle = color + '15';
+                ctx.fillRect(boxX, boxY, boxEndX - boxX, boxHeight);
+                
+                // Draw thin border
+                ctx.strokeStyle = color;
+                ctx.lineWidth = 2;
+                ctx.strokeRect(boxX, boxY, boxEndX - boxX, boxHeight);
+                
+                // Add canonical chain label (only show partial to avoid overlap)
+                if (idx < 15) {
+                    ctx.fillStyle = color;
+                    ctx.font = 'bold 10px sans-serif';
+                    ctx.textAlign = 'left';
+                    const label = chain.type === 'R0R0' ? `C${idx + 1}(d=${chain.d})` : `D${idx + 1}(d=${chain.d})`;
+                    ctx.fillText(label, boxX, boxY - 3);
+                }
+            });
+        }
+        
+        // Draw axes
+        function drawAxes(ctx, getY, maxValue, logBase) {
+            ctx.strokeStyle = '#9ca3af';
+            ctx.lineWidth = 1;
+            
+            // Y-axis
+            ctx.beginPath();
+            ctx.moveTo(40, 30);
+            ctx.lineTo(40, ctx.canvas.height - 30);
+            ctx.stroke();
+            
+            // X-axis
+            ctx.beginPath();
+            ctx.moveTo(40, ctx.canvas.height - 30);
+            ctx.lineTo(ctx.canvas.width - 20, ctx.canvas.height - 30);
+            ctx.stroke();
+            
+            // Y-axis label
+            ctx.fillStyle = '#374151';
+            ctx.font = '12px sans-serif';
+            ctx.textAlign = 'right';
+            ctx.fillText('Value', 35, 25);
+            
+            // X-axis label
+            ctx.textAlign = 'center';
+            ctx.fillText('Steps', ctx.canvas.width / 2, ctx.canvas.height - 10);
+            
+            // Logarithmic scale reference lines
+            ctx.strokeStyle = '#e5e7eb';
+            ctx.setLineDash([2, 4]);
+            
+            const logMax = Math.log(maxValue) / Math.log(logBase);
+            for (let i = 0; i <= logMax; i++) {
+                const refValue = Math.pow(logBase, i);
+                if (refValue <= maxValue) {
+                    const y = getY(refValue);
+                    ctx.beginPath();
+                    ctx.moveTo(40, y);
+                    ctx.lineTo(ctx.canvas.width - 20, y);
+                    ctx.stroke();
+                    
+                    ctx.fillStyle = '#9ca3af';
+                    ctx.font = '10px sans-serif';
+                    ctx.textAlign = 'right';
+                    ctx.fillText(refValue.toString(), 38, y + 4);
+                }
+            }
+            
+            ctx.setLineDash([]);
+        }
+        
+        // Initialize on page load
+        window.onload = generateAndVisualize;
+    </script>
+</body>
+</html>
