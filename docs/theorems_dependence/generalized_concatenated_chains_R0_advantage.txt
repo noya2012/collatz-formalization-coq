@@ -1,0 +1,65 @@
+================================================================================
+Major Theorem Dependency Report
+================================================================================
+Target theorem: generalized_concatenated_chains_R0_advantage
+Type: Theorem
+Description: Generalized theorem: R0 advantage of concatenated canonical chains
+File: collatz_part_17.v
+Lines: 257-346
+Dependency file position: line 156
+
+Statistics:
+  - Total dependent theorems: 17
+  - Maximum dependency depth: 6
+
+Dependency levels:
+Level 0 (1 theorems):
+  - generalized_concatenated_chains_R0_advantage
+
+Level 1 (2 theorems):
+  - count_operations_canonical_chain
+  - count_operations_chains_sequence
+
+Level 2 (8 theorems):
+  - chains_to_sequence
+  - count_R0_repeat_R0_plus_R1R0
+  - count_R0_repeat_R1R0_plus_R0
+  - count_R1_repeat_R0_plus_R1R0
+  - count_R1_repeat_R1R0_plus_R0
+  - count_operations_app
+  - count_repeat_R0
+  - count_repeat_R1R0
+
+Level 3 (2 theorems):
+  - canonical_chain
+  - count_operations
+
+Level 4 (2 theorems):
+  - repeat_R0
+  - sum_contributions
+
+Level 5 (2 theorems):
+  - length_repeat_R1R0
+  - repeat_R1R0
+
+Level 6 (1 theorems):
+  - CollatzOp
+
+Dependency tree:
+├── chains_to_sequence
+│   ├── CollatzOp
+│   └── canonical_chain
+│   │   ├── repeat_R1R0
+│   │   ├── repeat_R0
+│   │   └── sum_contributions
+│   │       └── length_repeat_R1R0
+├── count_operations_chains_sequence
+│   ├── count_operations_app
+│   │   └── count_operations
+│   ├── count_repeat_R1R0
+│   └── count_repeat_R0
+└── count_operations_canonical_chain
+    ├── count_R0_repeat_R1R0_plus_R0
+    ├── count_R1_repeat_R1R0_plus_R0
+    ├── count_R0_repeat_R0_plus_R1R0
+    └── count_R1_repeat_R0_plus_R1R0

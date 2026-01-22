@@ -1,0 +1,51 @@
+================================================================================
+Major Theorem Dependency Report
+================================================================================
+Target theorem: complete_number_classification
+Type: Theorem
+Description: Complete classification of positive integers: odd numbers as R1R0 entries， even numbers as R0R0 entries
+File: collatz_part_3.v
+Lines: 142-175
+Dependency file position: line 53
+
+Statistics:
+  - Total dependent theorems: 12
+  - Maximum dependency depth: 4
+
+Dependency levels:
+Level 0 (1 theorems):
+  - complete_number_classification
+
+Level 1 (2 theorems):
+  - even_eq_R0R0_entry_number
+  - odd_eq_R1R0_entry_number
+
+Level 2 (5 theorems):
+  - odd_decomposition
+  - pow2_ge_2
+  - power2_odd_decomposition
+  - valid_R0R0_entry_number
+  - valid_R1R0_entry_number
+
+Level 3 (4 theorems):
+  - even_decomposition
+  - even_ge_1_implies_ge_2
+  - gt_0_2_pow
+  - is_odd
+
+Level 4 (1 theorems):
+  - is_even
+
+Dependency tree:
+├── even_eq_R0R0_entry_number
+│   ├── is_even
+│   ├── valid_R0R0_entry_number
+│   └── even_decomposition
+└── odd_eq_R1R0_entry_number
+    ├── is_odd
+    ├── valid_R1R0_entry_number
+    ├── power2_odd_decomposition
+    │   └── even_ge_1_implies_ge_2
+    ├── odd_decomposition
+    └── pow2_ge_2
+        └── gt_0_2_pow

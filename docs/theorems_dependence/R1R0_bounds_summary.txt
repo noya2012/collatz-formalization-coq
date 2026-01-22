@@ -1,0 +1,95 @@
+================================================================================
+Major Theorem Dependency Report
+================================================================================
+Target theorem: R1R0_bounds_summary
+Type: Theorem
+Description: R1R0 Combined Bounds Summary: max(2*3^D*n， 3^D - 1) <= output <= 3^D*(2n+1)
+File: collatz_part_11.v
+Lines: 96-107
+Dependency file position: line 111
+
+Statistics:
+  - Total dependent theorems: 29
+  - Maximum dependency depth: 9
+
+Dependency levels:
+Level 0 (1 theorems):
+  - R1R0_bounds_summary
+
+Level 1 (3 theorems):
+  - repeat_R1R0_output_lower_bound_const
+  - repeat_R1R0_output_lower_bound_linear
+  - repeat_R1R0_output_upper_bound
+
+Level 2 (1 theorems):
+  - repeat_R1R0_output_closed_form_no_div
+
+Level 3 (2 theorems):
+  - pow3_minus1_twice_half
+  - repeat_R1R0_output_closed_form
+
+Level 4 (3 theorems):
+  - pow3_is_odd
+  - sequence_end_valid_R1R0_prefix
+  - valid_R1R0_entry_number_d0
+
+Level 5 (3 theorems):
+  - R1R0_pattern_closure
+  - arithmetic_identity_for_R1R0
+  - sequence_end_app
+
+Level 6 (5 theorems):
+  - R1R0_two_steps_reduce
+  - nth_sequence_value_app
+  - pow3_expand
+  - sequence_end_two_steps
+  - valid_R1R0_entry_number_properties
+
+Level 7 (6 theorems):
+  - even_3n_plus_1
+  - pow2_ge_2
+  - pow2_minus_1_odd
+  - sequence_end
+  - valid_R1R0_entry_number
+  - valid_input
+
+Level 8 (5 theorems):
+  - gt_0_2_pow
+  - is_even
+  - is_odd
+  - nth_sequence_value
+  - pow2_gt_0
+
+Level 9 (1 theorems):
+  - collatz_step
+
+Dependency tree:
+├── sequence_end
+│   └── nth_sequence_value
+│   │   └── collatz_step
+├── repeat_R1R0_output_lower_bound_linear
+│   └── repeat_R1R0_output_closed_form_no_div
+│   │   ├── repeat_R1R0_output_closed_form
+│   │   │   ├── sequence_end_valid_R1R0_prefix
+│   │   │   │   ├── sequence_end_app
+│   │   │   │   │   └── nth_sequence_value_app
+│   │   │   │   ├── R1R0_pattern_closure
+│   │   │   │   │   ├── valid_R1R0_entry_number
+│   │   │   │   │   ├── valid_input
+│   │   │   │   │   ├── is_odd
+│   │   │   │   │   ├── valid_R1R0_entry_number_properties
+│   │   │   │   │   │   ├── pow2_ge_2
+│   │   │   │   │   │   │   └── gt_0_2_pow
+│   │   │   │   │   │   └── pow2_minus_1_odd
+│   │   │   │   │   │   │   └── pow2_gt_0
+│   │   │   │   │   ├── sequence_end_two_steps
+│   │   │   │   │   │   └── even_3n_plus_1
+│   │   │   │   │   │   │   └── is_even
+│   │   │   │   │   └── R1R0_two_steps_reduce
+│   │   │   │   └── arithmetic_identity_for_R1R0
+│   │   │   │   │   └── pow3_expand
+│   │   │   └── valid_R1R0_entry_number_d0
+│   │   └── pow3_minus1_twice_half
+│   │       └── pow3_is_odd
+├── repeat_R1R0_output_lower_bound_const
+└── repeat_R1R0_output_upper_bound

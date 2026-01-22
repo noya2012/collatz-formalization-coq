@@ -1,0 +1,99 @@
+================================================================================
+Major Theorem Dependency Report
+================================================================================
+Target theorem: valid_chains_sequence_R0_advantage_corollary
+Type: Corollary
+Description: Corollary: R0 advantage for valid chain sequences using condition definition
+File: collatz_part_17.v
+Lines: 467-508
+Dependency file position: line 163
+
+Statistics:
+  - Total dependent theorems: 31
+  - Maximum dependency depth: 9
+
+Dependency levels:
+Level 0 (1 theorems):
+  - valid_chains_sequence_R0_advantage_corollary
+
+Level 1 (1 theorems):
+  - valid_chain_sequence_condition
+
+Level 2 (5 theorems):
+  - extract_simple_chains
+  - generalized_valid_chains_sequence_R0_advantage
+  - is_odd
+  - valid_R0R0_entry_number
+  - valid_R1R0_entry_number
+
+Level 3 (6 theorems):
+  - canonical_chains_to_sequence
+  - extract_simple_chains_nonempty
+  - extract_simple_chains_valid
+  - generalized_concatenated_chains_R0_advantage
+  - is_even
+  - sequence_end
+
+Level 4 (3 theorems):
+  - count_operations_canonical_chain
+  - count_operations_chains_sequence
+  - nth_sequence_value
+
+Level 5 (9 theorems):
+  - collatz_step
+  - count_R0_repeat_R0_plus_R1R0
+  - count_R0_repeat_R1R0_plus_R0
+  - count_R1_repeat_R0_plus_R1R0
+  - count_R1_repeat_R1R0_plus_R0
+  - count_operations_app
+  - count_repeat_R0
+  - count_repeat_R1R0
+  - sum_contributions
+
+Level 6 (2 theorems):
+  - chains_to_sequence
+  - count_operations
+
+Level 7 (1 theorems):
+  - canonical_chain
+
+Level 8 (3 theorems):
+  - length_repeat_R1R0
+  - repeat_R0
+  - repeat_R1R0
+
+Level 9 (1 theorems):
+  - CollatzOp
+
+Dependency tree:
+└── valid_chain_sequence_condition
+    ├── valid_R1R0_entry_number
+    ├── sequence_end
+    │   └── nth_sequence_value
+    │   │   └── collatz_step
+    ├── is_even
+    ├── is_odd
+    ├── valid_R0R0_entry_number
+    ├── canonical_chain
+    │   ├── CollatzOp
+    │   ├── repeat_R1R0
+    │   ├── repeat_R0
+    │   └── sum_contributions
+    │   │   └── chains_to_sequence
+    │   │       └── length_repeat_R1R0
+    ├── extract_simple_chains
+    │   └── extract_simple_chains_nonempty
+    ├── count_operations
+    └── generalized_valid_chains_sequence_R0_advantage
+        ├── extract_simple_chains_valid
+        ├── generalized_concatenated_chains_R0_advantage
+        │   ├── count_operations_chains_sequence
+        │   │   ├── count_operations_app
+        │   │   ├── count_repeat_R1R0
+        │   │   └── count_repeat_R0
+        │   └── count_operations_canonical_chain
+        │   │   ├── count_R0_repeat_R1R0_plus_R0
+        │   │   ├── count_R1_repeat_R1R0_plus_R0
+        │   │   ├── count_R0_repeat_R0_plus_R1R0
+        │   │   └── count_R1_repeat_R0_plus_R1R0
+        └── canonical_chains_to_sequence

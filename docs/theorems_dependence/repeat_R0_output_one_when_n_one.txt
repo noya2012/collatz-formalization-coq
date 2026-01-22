@@ -1,0 +1,55 @@
+================================================================================
+Major Theorem Dependency Report
+================================================================================
+Target theorem: repeat_R0_output_one_when_n_one
+Type: Corollary
+Description: Corollary: When n=1， the output after D consecutive R0 operations is 1
+File: collatz_part_10.v
+Lines: 208-215
+Dependency file position: line 98
+
+Statistics:
+  - Total dependent theorems: 13
+  - Maximum dependency depth: 5
+
+Dependency levels:
+Level 0 (1 theorems):
+  - repeat_R0_output_one_when_n_one
+
+Level 1 (1 theorems):
+  - repeat_R0_output_reaches_one
+
+Level 2 (3 theorems):
+  - R0_pattern_closure
+  - nth_sequence_value_app
+  - repeat_R0_length
+
+Level 3 (6 theorems):
+  - div2_divmod_eq
+  - even_div2_mul2
+  - gt_0_2_pow
+  - pow2_even_when_ge_2
+  - sequence_end
+  - valid_R0R0_entry_number
+
+Level 4 (2 theorems):
+  - is_even
+  - nth_sequence_value
+
+Level 5 (1 theorems):
+  - collatz_step
+
+Dependency tree:
+├── valid_R0R0_entry_number
+├── sequence_end
+│   └── nth_sequence_value
+│   │   └── collatz_step
+└── repeat_R0_output_reaches_one
+    ├── is_even
+    ├── div2_divmod_eq
+    ├── repeat_R0_length
+    ├── nth_sequence_value_app
+    └── R0_pattern_closure
+        ├── pow2_even_when_ge_2
+        ├── even_div2_mul2
+        └── gt_0_2_pow

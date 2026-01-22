@@ -1,0 +1,159 @@
+================================================================================
+Major Theorem Dependency Report
+================================================================================
+Target theorem: build_k_steps_numeric_bounds_exists
+Type: Theorem
+Description: Combined Bounds General Theorem
+File: collatz_part_12.v
+Lines: 64-96
+Dependency file position: line 120
+
+Statistics:
+  - Total dependent theorems: 61
+  - Maximum dependency depth: 9
+
+Dependency levels:
+Level 0 (1 theorems):
+  - build_k_steps_numeric_bounds_exists
+
+Level 1 (5 theorems):
+  - R0R0_bounds_summary
+  - build_k_steps_pattern_completeness
+  - repeat_R1R0_output_lower_bound_const
+  - repeat_R1R0_output_lower_bound_linear
+  - repeat_R1R0_output_upper_bound
+
+Level 2 (6 theorems):
+  - R0R0_input_ge_n
+  - R0R0_output_exact_n
+  - build_k_steps_on_valid_R0R0
+  - build_k_steps_on_valid_R1R0
+  - complete_number_classification
+  - repeat_R1R0_output_closed_form_no_div
+
+Level 3 (6 theorems):
+  - build_k_steps_on_valid_R0R0_prefix
+  - build_k_steps_on_valid_R1R0_prefix_simple
+  - even_eq_R0R0_entry_number
+  - odd_eq_R1R0_entry_number
+  - pow3_minus1_twice_half
+  - repeat_R1R0_output_closed_form
+
+Level 4 (11 theorems):
+  - build_k_steps_Sn
+  - odd_decomposition
+  - pow3_is_odd
+  - power2_odd_decomposition
+  - repeat_R0_append_single
+  - repeat_R1R0_snoc
+  - sequence_end_valid_R0_prefix
+  - sequence_end_valid_R1R0_prefix
+  - valid_R0R0_entry_number_properties
+  - valid_R1R0_entry_number_d0
+  - valid_R1R0_entry_number_odd
+
+Level 5 (9 theorems):
+  - R1R0_pattern_closure
+  - arithmetic_identity_for_R1R0
+  - build_k_steps
+  - even_decomposition
+  - even_ge_1_implies_ge_2
+  - repeat_R0
+  - repeat_R0_output_reaches_one
+  - repeat_R1R0
+  - sequence_end_app
+
+Level 6 (8 theorems):
+  - CollatzOp
+  - R0_pattern_closure
+  - R1R0_two_steps_reduce
+  - nth_sequence_value_app
+  - pow3_expand
+  - repeat_R0_length
+  - sequence_end_two_steps
+  - valid_R1R0_entry_number_properties
+
+Level 7 (10 theorems):
+  - div2_divmod_eq
+  - even_3n_plus_1
+  - even_div2_mul2
+  - pow2_even_when_ge_2
+  - pow2_ge_2
+  - pow2_minus_1_odd
+  - sequence_end
+  - valid_R0R0_entry_number
+  - valid_R1R0_entry_number
+  - valid_input
+
+Level 8 (5 theorems):
+  - gt_0_2_pow
+  - is_even
+  - is_odd
+  - nth_sequence_value
+  - pow2_gt_0
+
+Level 9 (1 theorems):
+  - collatz_step
+
+Dependency tree:
+├── build_k_steps
+│   ├── CollatzOp
+│   └── sequence_end
+│   │   └── nth_sequence_value
+│   │       └── collatz_step
+├── build_k_steps_pattern_completeness
+│   ├── valid_R1R0_entry_number
+│   ├── repeat_R1R0
+│   ├── valid_R0R0_entry_number
+│   ├── repeat_R0
+│   ├── complete_number_classification
+│   │   ├── even_eq_R0R0_entry_number
+│   │   │   ├── is_even
+│   │   │   └── even_decomposition
+│   │   └── odd_eq_R1R0_entry_number
+│   │   │   ├── is_odd
+│   │   │   ├── power2_odd_decomposition
+│   │   │   │   └── even_ge_1_implies_ge_2
+│   │   │   ├── odd_decomposition
+│   │   │   └── pow2_ge_2
+│   │   │       └── gt_0_2_pow
+│   ├── build_k_steps_on_valid_R1R0
+│   │   └── build_k_steps_on_valid_R1R0_prefix_simple
+│   │   │   ├── valid_input
+│   │   │   ├── valid_R1R0_entry_number_properties
+│   │   │   │   └── pow2_minus_1_odd
+│   │   │   │   │   └── pow2_gt_0
+│   │   │   ├── build_k_steps_Sn
+│   │   │   ├── sequence_end_valid_R1R0_prefix
+│   │   │   │   ├── sequence_end_app
+│   │   │   │   │   └── nth_sequence_value_app
+│   │   │   │   ├── R1R0_pattern_closure
+│   │   │   │   │   ├── sequence_end_two_steps
+│   │   │   │   │   │   └── even_3n_plus_1
+│   │   │   │   │   └── R1R0_two_steps_reduce
+│   │   │   │   └── arithmetic_identity_for_R1R0
+│   │   │   │   │   └── pow3_expand
+│   │   │   ├── valid_R1R0_entry_number_odd
+│   │   │   └── repeat_R1R0_snoc
+│   └── build_k_steps_on_valid_R0R0
+│   │   └── build_k_steps_on_valid_R0R0_prefix
+│   │       ├── sequence_end_valid_R0_prefix
+│   │       │   └── repeat_R0_output_reaches_one
+│   │       │   │   ├── div2_divmod_eq
+│   │       │   │   ├── repeat_R0_length
+│   │       │   │   └── R0_pattern_closure
+│   │       │   │       ├── pow2_even_when_ge_2
+│   │       │   │       └── even_div2_mul2
+│   │       ├── valid_R0R0_entry_number_properties
+│   │       └── repeat_R0_append_single
+├── repeat_R1R0_output_lower_bound_linear
+│   └── repeat_R1R0_output_closed_form_no_div
+│   │   ├── repeat_R1R0_output_closed_form
+│   │   │   └── valid_R1R0_entry_number_d0
+│   │   └── pow3_minus1_twice_half
+│   │       └── pow3_is_odd
+├── repeat_R1R0_output_lower_bound_const
+├── repeat_R1R0_output_upper_bound
+└── R0R0_bounds_summary
+    ├── R0R0_input_ge_n
+    └── R0R0_output_exact_n

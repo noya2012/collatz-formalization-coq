@@ -30,6 +30,9 @@ README_CN.md
 docs/主要方法论创新点.md
 docs/模6=2轨道上的优势线性增长定理.md
 
+# 忽略依赖分析文件夹
+full_dependency_analysis/
+
 # 忽略未完成的Coq证明文件
 collatz_part_19_0.v
 collatz_part_19_1.v

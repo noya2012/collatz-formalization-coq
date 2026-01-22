@@ -1,0 +1,63 @@
+================================================================================
+Major Theorem Dependency Report
+================================================================================
+Target theorem: R0R0_bounds_summary
+Type: Theorem
+Description: R0R0 Combined Bounds Summary Theorem
+File: collatz_part_12.v
+Lines: 51-60
+Dependency file position: line 119
+
+Statistics:
+  - Total dependent theorems: 16
+  - Maximum dependency depth: 6
+
+Dependency levels:
+Level 0 (1 theorems):
+  - R0R0_bounds_summary
+
+Level 1 (2 theorems):
+  - R0R0_input_ge_n
+  - R0R0_output_exact_n
+
+Level 2 (2 theorems):
+  - pow2_ge_2
+  - repeat_R0_output_reaches_one
+
+Level 3 (3 theorems):
+  - R0_pattern_closure
+  - nth_sequence_value_app
+  - repeat_R0_length
+
+Level 4 (6 theorems):
+  - div2_divmod_eq
+  - even_div2_mul2
+  - gt_0_2_pow
+  - pow2_even_when_ge_2
+  - sequence_end
+  - valid_R0R0_entry_number
+
+Level 5 (2 theorems):
+  - is_even
+  - nth_sequence_value
+
+Level 6 (1 theorems):
+  - collatz_step
+
+Dependency tree:
+├── valid_R0R0_entry_number
+├── sequence_end
+│   └── nth_sequence_value
+│   │   └── collatz_step
+├── R0R0_input_ge_n
+│   └── pow2_ge_2
+│   │   └── gt_0_2_pow
+└── R0R0_output_exact_n
+    └── repeat_R0_output_reaches_one
+        ├── is_even
+        ├── div2_divmod_eq
+        ├── repeat_R0_length
+        ├── nth_sequence_value_app
+        └── R0_pattern_closure
+            ├── pow2_even_when_ge_2
+            └── even_div2_mul2

@@ -1,0 +1,45 @@
+================================================================================
+Major Theorem Dependency Report
+================================================================================
+Target theorem: universal_R0_advantage_bounds
+Type: Corollary
+Description: Universal R0 advantage bounds precise counts for canonical chains
+File: collatz_part_18.v
+Lines: 21-35
+Dependency file position: line 166
+
+Statistics:
+  - Total dependent theorems: 9
+  - Maximum dependency depth: 4
+
+Dependency levels:
+Level 0 (1 theorems):
+  - universal_R0_advantage_bounds
+
+Level 1 (1 theorems):
+  - count_operations_canonical_chain
+
+Level 2 (5 theorems):
+  - count_R0_repeat_R0_plus_R1R0
+  - count_R0_repeat_R1R0_plus_R0
+  - count_R1_repeat_R0_plus_R1R0
+  - count_R1_repeat_R1R0_plus_R0
+  - count_operations
+
+Level 3 (2 theorems):
+  - repeat_R0
+  - repeat_R1R0
+
+Level 4 (1 theorems):
+  - CollatzOp
+
+Dependency tree:
+├── count_operations
+└── count_operations_canonical_chain
+    ├── repeat_R1R0
+    │   └── CollatzOp
+    ├── count_R0_repeat_R1R0_plus_R0
+    ├── count_R1_repeat_R1R0_plus_R0
+    ├── repeat_R0
+    ├── count_R0_repeat_R0_plus_R1R0
+    └── count_R1_repeat_R0_plus_R1R0
