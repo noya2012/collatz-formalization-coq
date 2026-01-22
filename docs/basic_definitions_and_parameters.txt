@@ -1,0 +1,480 @@
+Basic Definitions and Parameters
+==================================================
+
+Overview of basic elements:
+  01. [Parameter] log2 (log2_p.v:15-19)
+  02. [Axiom] log2_spec (log2_p.v:20-20)
+  03. [Axiom] log2_nonpos (log2_p.v:21-30)
+  04. [Inductive Type] CollatzOp (collatz_part_1.v:15-19)
+  05. [Definition] valid_input (collatz_part_1.v:20-22)
+  06. [Definition] is_even (collatz_part_1.v:23-23)
+  07. [Definition] is_odd (collatz_part_1.v:24-26)
+  08. [Definition] collatz_step (collatz_part_1.v:27-31)
+  09. [Definition] valid_R0R1_entry_number (collatz_part_1.v:32-35)
+  10. [Definition] valid_R0R0_entry_number (collatz_part_1.v:36-39)
+  11. [Definition] valid_R1R0_entry_number (collatz_part_1.v:40-44)
+  12. [Recursive Function] count_R0 (collatz_part_1.v:45-52)
+  13. [Recursive Function] count_R1 (collatz_part_1.v:53-63)
+  14. [Recursive Function] count_operations (collatz_part_1.v:64-76)
+  15. [Definition] valid_operation (collatz_part_1.v:77-83)
+  16. [Recursive Function] nth_sequence_value (collatz_part_1.v:84-90)
+  17. [Definition] sequence_end (collatz_part_1.v:91-94)
+  18. [Definition] valid_sequence (collatz_part_1.v:95-100)
+  19. [Recursive Function] repeat_R0 (collatz_part_1.v:101-107)
+  20. [Recursive Function] repeat_R1R0 (collatz_part_1.v:108-114)
+  21. [Recursive Function] count_consecutive_R0 (collatz_part_1.v:115-122)
+  22. [Recursive Function] count_consecutive_R1R0 (collatz_part_1.v:123-131)
+  23. [Recursive Function] build_k_steps (collatz_part_1.v:132-142)
+  24. [Definition] R1R0_entry (collatz_part_16.v:130-132)
+  25. [Definition] R0R0_entry (collatz_part_16.v:133-135)
+  26. [Definition] canonical_chain (collatz_part_17.v:6-9)
+  27. [Recursive Function] sum_contributions (collatz_part_17.v:10-18)
+  28. [Recursive Function] chains_to_sequence (collatz_part_17.v:19-26)
+  29. [Definition] extract_simple_chains (collatz_part_17.v:350-353)
+  30. [Definition] valid_chain_sequence_condition (collatz_part_17.v:459-466)
+  31. [Definition] valid_chains_condition (collatz_part_18.v:4-11)
+  32. [Definition] chains_R0_advantage (collatz_part_18.v:12-20)
+  33. [Recursive Function] factor2_bounded (collatz_part_19.v:334-344)
+  34. [Definition] factor2 (collatz_part_19.v:345-346)
+  35. [Definition] factor2_exp (collatz_part_19.v:347-348)
+  36. [Definition] factor2_odd (collatz_part_19.v:349-354)
+  37. [Definition] canonical_mod62_macrostep_chains (collatz_part_19.v:462-471)
+  38. [Definition] canonical_mod62_macrostep_end (collatz_part_19.v:472-478)
+  39. [Recursive Function] canonical_mod62_iterated_chains (collatz_part_19.v:479-489)
+  40. [Recursive Function] canonical_mod62_iterated_end (collatz_part_19.v:490-496)
+
+============================== Definition ==============================
+
+[Definition 01] (collatz_part_1.v:20-22)
+Comment: (* Define the property of valid input *)
+Declaration:
+Definition valid_input (n: nat) := n >= 1.
+
+.
+
+[Definition 02] (collatz_part_1.v:23-23)
+Comment: (* Helper definition: convert bool to Prop *)
+Declaration:
+Definition is_even (n: nat) := Nat.even n = true.
+
+.
+
+[Definition 03] (collatz_part_1.v:24-26)
+Comment: (* No comment *)
+Declaration:
+Definition is_odd (n: nat) := Nat.even n = false.
+
+.
+
+[Definition 04] (collatz_part_1.v:27-31)
+Comment: (* Define single-step Collatz operation *)
+Declaration:
+Definition collatz_step (n : nat) : nat :=
+  if Nat.even n then n / 2
+  else 3 * n + 1.
+
+.
+
+[Definition 05] (collatz_part_1.v:32-35)
+Comment: (* Entry function definition *)
+Declaration:
+Definition valid_R0R1_entry_number (d n: nat) : nat :=
+  (2 * (2^d) * n) + (2^d - 2).
+
+.
+
+[Definition 06] (collatz_part_1.v:36-39)
+Comment: (* Define entry function *)
+Declaration:
+Definition valid_R0R0_entry_number (d n: nat) : nat :=
+  n * (2^d).
+
+.
+
+[Definition 07] (collatz_part_1.v:40-44)
+Comment: (* R1R0 entry function definition *)
+Declaration:
+Definition valid_R1R0_entry_number (d n: nat) : nat :=
+  (2 * (2^d) * n) + (2^d - 1).
+
+.
+
+[Definition 08] (collatz_part_1.v:77-83)
+Comment: (* Define valid operation *)
+Declaration:
+Definition valid_operation (n: nat) (op: CollatzOp) : Prop :=
+  match op with
+  | R0 => is_even n
+  | R1 => is_odd n
+  end.
+
+.
+
+[Definition 09] (collatz_part_1.v:91-94)
+Comment: (* Define the final value of sequence *)
+Declaration:
+Definition sequence_end (n: nat) (ops: list CollatzOp) : nat :=
+  nth_sequence_value n (length ops).
+
+.
+
+[Definition 10] (collatz_part_1.v:95-100)
+Comment: (* Define sequence validity: each operation in the sequence is legal *)
+Declaration:
+Definition valid_sequence (ops: list CollatzOp) (n: nat) : Prop :=
+  forall i, i < length ops ->
+    valid_operation (nth_sequence_value n i) (nth i ops R0).
+
+.
+
+[Definition 11] (collatz_part_16.v:130-132)
+Comment: (* Simplified entry predicates that directly include m >= 1 to avoid redundant derivation in subsequent proofs R1R0 *)
+Declaration:
+Definition R1R0_entry (m d n : nat) : Prop := m >= 1 /\ d >= 1 /\ n >= 0 /\ m = valid_R1R0_entry_number d n.
+
+.
+
+[Definition 12] (collatz_part_16.v:133-135)
+Comment: (* Simplified entry predicates that directly include m >= 1 to avoid redundant derivation in subsequent proofs R0 *)
+Declaration:
+Definition R0R0_entry (m d n : nat) : Prop := m >= 1 /\ d >= 1 /\ n >= 1 /\ is_odd n /\ m = valid_R0R0_entry_number d n.
+
+.
+
+[Definition 13] (collatz_part_17.v:6-9)
+Comment: (* Canonical chain definition R1R0-entry or R0R0-entry patterns *)
+Declaration:
+Definition canonical_chain (entry_kind : bool) (d : nat) : list CollatzOp :=
+  if entry_kind then repeat_R1R0 d ++ [R0] else repeat_R0 d ++ [R1; R0].
+
+.
+
+[Definition 14] (collatz_part_17.v:350-353)
+Comment: (* Extract simple chains from full chain information: keep only (b，d) pairs *)
+Declaration:
+Definition extract_simple_chains (chains : list (bool * nat * nat * nat * nat)) : list (bool * nat) :=
+  map (fun '(b, d, _, _, _) => (b, d)) chains.
+
+.
+
+[Definition 15] (collatz_part_17.v:459-466)
+Comment: (* Valid chain sequence condition: defines valid R1R0-entry or R0R0-entry chains *)
+Declaration:
+Definition valid_chain_sequence_condition (b : bool) (d : nat) (n : nat) (m : nat) (Send : nat) : Prop :=
+  d >= 1 /\
+  ((b = true /\ n >= 0 /\ m = valid_R1R0_entry_number d n /\
+    sequence_end m (repeat_R1R0 d) = Send /\ is_even Send) \/
+   (b = false /\ n >= 1 /\ is_odd n /\ m = valid_R0R0_entry_number d n /\
+    sequence_end m (repeat_R0 d) = Send /\ is_odd Send)).
+
+.
+
+[Definition 16] (collatz_part_18.v:4-11)
+Comment: (* Valid chains condition non-empty list with valid chain sequence conditions *)
+Declaration:
+Definition valid_chains_condition
+  (chains : list (bool * nat * nat * nat * nat)) : Prop :=
+  chains <> nil /\
+  (forall bdnds, In bdnds chains ->
+    let '(b, d, n, m, Send) := bdnds in
+    valid_chain_sequence_condition b d n m Send).
+
+.
+
+[Definition 17] (collatz_part_18.v:12-20)
+Comment: (* Chains R0 advantage R0 operations exceed R1 operations with specific difference *)
+Declaration:
+Definition chains_R0_advantage
+  (chains : list (bool * nat * nat * nat * nat)) : Prop :=
+  let total_seq := concat (map (fun '(b, d, _, _, _) => canonical_chain b d) chains) in
+  let simple_chains := extract_simple_chains chains in
+  fst (count_operations total_seq) > snd (count_operations total_seq) /\
+  fst (count_operations total_seq) - snd (count_operations total_seq) =
+    sum_contributions simple_chains.
+
+.
+
+[Definition 18] (collatz_part_19.v:345-346)
+Comment: (* Extract 2-factors from n (full decomposition) *)
+Declaration:
+Definition factor2 (n : nat) : nat * nat := factor2_bounded n n.
+
+.
+
+[Definition 19] (collatz_part_19.v:347-348)
+Comment: (* Exponent of 2 in n's prime factorization *)
+Declaration:
+Definition factor2_exp (n : nat) : nat := fst (factor2 n).
+
+.
+
+[Definition 20] (collatz_part_19.v:349-354)
+Comment: (* Odd part of n after removing all factors of 2 *)
+Declaration:
+Definition factor2_odd (n : nat) : nat := snd (factor2 n).
+
+.
+
+[Definition 21] (collatz_part_19.v:462-471)
+Comment: (* Canonical macro-step for mod6=2 *)
+Declaration:
+Definition canonical_mod62_macrostep_chains (m0 : nat)
+  : list (bool * nat * nat * nat * nat) :=
+  let '(d0, n0) := factor2 m0 in
+  let m1 := n0 in
+  let '(d1, q1) := factor2 (m1 + 1) in
+  let n1 := q1 / 2 in
+  let m2 := sequence_end m1 (repeat_R1R0 d1) in
+  [(false, d0, n0, m0, m1); (true, d1, n1, m1, m2)].
+
+.
+
+[Definition 22] (collatz_part_19.v:472-478)
+Comment: (* End state after canonical macro-step for mod6=2 *)
+Declaration:
+Definition canonical_mod62_macrostep_end (m0 : nat) : nat :=
+  let '(d0, n0) := factor2 m0 in
+  let m1 := n0 in
+  let '(d1, _) := factor2 (m1 + 1) in
+  sequence_end m1 (repeat_R1R0 d1).
+
+.
+
+============================== Recursive Function ==============================
+
+[Recursive Function 01] (collatz_part_1.v:45-52)
+Comment: (* Define counting R0 function *)
+Declaration:
+Fixpoint count_R0 (ops: list CollatzOp) : nat :=
+match ops with
+| [] => 0
+| R0 :: rest => S (count_R0 rest)
+| R1 :: rest => count_R0 rest
+end.
+
+.
+
+[Recursive Function 02] (collatz_part_1.v:53-63)
+Comment: (* Define counting R1 function *)
+Declaration:
+Fixpoint count_R1 (ops: list CollatzOp) : nat :=
+match ops with
+| [] => 0
+| R0 :: rest => count_R1 rest
+| R1 :: rest => S (count_R1 rest)
+end.
+
+.
+
+[Recursive Function 03] (collatz_part_1.v:64-76)
+Comment: (* Define counting function for R0 and R1 in sequence *)
+Declaration:
+Fixpoint count_operations (ops: list CollatzOp) : (nat * nat) :=
+  match ops with
+  | nil => (0, 0)
+  | op :: rest =>
+    let (r0s, r1s) := count_operations rest in
+    match op with
+    | R0 => (S r0s, r1s)
+    | R1 => (r0s, S r1s)
+    end
+  end.
+
+.
+
+[Recursive Function 04] (collatz_part_1.v:84-90)
+Comment: (* Define the k-th value in sequence *)
+Declaration:
+Fixpoint nth_sequence_value (n: nat) (k: nat) : nat :=
+  match k with
+  | 0 => n
+  | S k' => collatz_step (nth_sequence_value n k')
+  end.
+
+.
+
+[Recursive Function 05] (collatz_part_1.v:101-107)
+Comment: (* R0 pattern repetition constructor - can handle single R0 and consecutive R0 *)
+Declaration:
+Fixpoint repeat_R0 (d: nat) : list CollatzOp :=
+  match d with
+  | 0 => []
+  | S d' => R0 :: repeat_R0 d'
+  end.
+
+.
+
+[Recursive Function 06] (collatz_part_1.v:108-114)
+Comment: (* This function constructs an operation list containing D consecutive R1R0 operation pairs *)
+Declaration:
+Fixpoint repeat_R1R0 (d: nat) : list CollatzOp :=
+  match d with
+  | 0 => []
+  | S d' => R1 :: R0 :: repeat_R1R0 d'
+  end.
+
+.
+
+[Recursive Function 07] (collatz_part_1.v:115-122)
+Comment: (* Consecutive R0 pattern counting function *)
+Declaration:
+Fixpoint count_consecutive_R0 (ops: list CollatzOp) : nat :=
+  match ops with
+  | [] => 0
+  | R0 :: rest => 1 + count_consecutive_R0 rest
+  | _ => 0
+  end.
+
+.
+
+[Recursive Function 08] (collatz_part_1.v:123-131)
+Comment: (* Consecutive R1R0 pattern counting *)
+Declaration:
+Fixpoint count_consecutive_R1R0 (ops: list CollatzOp) : nat :=
+  match ops with
+  | [] => 0
+  | [_] => 0
+  | R1 :: R0 :: rest => S (count_consecutive_R1R0 rest)
+  | _ :: rest => count_consecutive_R1R0 rest
+  end.
+
+.
+
+[Recursive Function 09] (collatz_part_1.v:132-142)
+Comment: (* Main theorem structure *)
+Declaration:
+Fixpoint build_k_steps (n: nat) (k: nat) : list CollatzOp :=
+  match k with
+  | 0 => []
+  | S k' =>
+    let prev_ops := build_k_steps n k' in
+    let curr_n := sequence_end n prev_ops in
+    if Nat.even curr_n
+    then prev_ops ++ [R0]          (* Even: add R0 *)
+    else prev_ops ++ [R1; R0]      (* Odd: add R1R0 *)
+  end.
+
+.
+
+[Recursive Function 10] (collatz_part_17.v:10-18)
+Comment: (* Sum contributions R1R0-entry adds 1 R0R0-entry adds d *)
+Declaration:
+Fixpoint sum_contributions (chains : list (bool * nat)) : nat :=
+  match chains with
+  | nil => 0
+  | (b, d) :: rest =>
+      let contribution := if b then 1 else d in
+      contribution + sum_contributions rest
+  end.
+
+.
+
+[Recursive Function 11] (collatz_part_17.v:19-26)
+Comment: (* Convert chain list to operation sequence *)
+Declaration:
+Fixpoint chains_to_sequence (chains : list (bool * nat)) : list CollatzOp :=
+  match chains with
+  | nil => nil
+  | (b, d) :: rest =>
+      canonical_chain b d ++ chains_to_sequence rest
+  end.
+
+.
+
+[Recursive Function 12] (collatz_part_19.v:334-344)
+Comment: (* Extract 2-factors from n with bounded iterations *)
+Declaration:
+Fixpoint factor2_bounded (k n : nat) : nat * nat :=
+  match k with
+  | 0 => (0, n)
+  | S k' =>
+      if Nat.even n then
+        let '(d, q) := factor2_bounded k' (n / 2) in
+        (S d, q)
+      else (0, n)
+  end.
+
+.
+
+[Recursive Function 13] (collatz_part_19.v:479-489)
+Comment: (* Iterated canonical macro-steps for mod6=2: concatenate chains from t steps *)
+Declaration:
+Fixpoint canonical_mod62_iterated_chains (t : nat) (m0 : nat)
+  : list (bool * nat * nat * nat * nat) :=
+  match t with
+  | 0 => []
+  | S t' =>
+      let chains1 := canonical_mod62_macrostep_chains m0 in
+      let m2 := canonical_mod62_macrostep_end m0 in
+      chains1 ++ canonical_mod62_iterated_chains t' m2
+  end.
+
+.
+
+[Recursive Function 14] (collatz_part_19.v:490-496)
+Comment: (* Final state after t iterated canonical macro-steps for mod6=2 *)
+Declaration:
+Fixpoint canonical_mod62_iterated_end (t : nat) (m0 : nat) : nat :=
+  match t with
+  | 0 => m0
+  | S t' => canonical_mod62_iterated_end t' (canonical_mod62_macrostep_end m0)
+  end.
+
+.
+
+============================== Inductive Type ==============================
+
+[Inductive Type 01] (collatz_part_1.v:15-19)
+Comment: (* Define Collatz operations Documentation uses Coq 8.10.2 version *)
+Declaration:
+Inductive CollatzOp : Type :=
+  | R0 : CollatzOp
+  | R1 : CollatzOp.
+
+.
+
+============================== Axiom ==============================
+
+[Axiom 01] (log2_p.v:20-20)
+Comment: (* No comment *)
+Declaration:
+ Axiom log2_spec : forall a, 0<a -> 2^(log2 a) <= a < 2^(S (log2 a)).
+
+.
+
+[Axiom 02] (log2_p.v:21-30)
+Comment: (* No comment *)
+Declaration:
+ Axiom log2_nonpos : forall a, a<=0 -> log2 a == 0.
+End NZLog2Spec.
+Module Type NZLog2 (A : NZOrdAxiomsSig)(B : Pow A) := Log2 A <+ NZLog2Spec A B.
+Module Type NZLog2Prop
+ (Import A : NZOrdAxiomsSig')
+ (Import B : NZPow' A)
+ (Import C : NZLog2 A B)
+ (Import D : NZMulOrderProp A)
+ (Import E : NZPowProp A B D).
+
+.
+
+============================== Parameter ==============================
+
+[Parameter 01] (log2_p.v:15-19)
+Comment: (* No comment *)
+Declaration:
+ Parameter Inline log2 : t -> t.
+End Log2.
+
+Module Type NZLog2Spec (A : NZOrdAxiomsSig')(B : Pow' A)(C : Log2 A).
+ Import A B C.
+
+.
+
+============================== Statistics ==============================
+Definition count: 22
+Recursive Function count: 14
+Inductive Type count: 1
+Record count: 0
+Axiom count: 2
+Parameter count: 1
+Total count: 40

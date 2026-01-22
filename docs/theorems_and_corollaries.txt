@@ -1,0 +1,333 @@
+Theorems and Corollaries
+==================================================
+
+Overview of theorems and corollaries:
+  01. [Theorem] complete_number_classification (collatz_part_3.v:142-175)
+  02. [Corollary] repeat_R0_output_one_when_n_one (collatz_part_10.v:208-215)
+  03. [Theorem] build_k_steps_pattern_completeness (collatz_part_11.v:5-20)
+  04. [Corollary] repeat_R1R0_output_closed_form_no_div (collatz_part_11.v:51-60)
+  05. [Theorem] R1R0_bounds_summary (collatz_part_11.v:96-107)
+  06. [Theorem] R1R0_power_iff (collatz_part_11.v:111-154)
+  07. [Theorem] R0R0_bounds_summary (collatz_part_12.v:51-60)
+  08. [Theorem] build_k_steps_numeric_bounds_exists (collatz_part_12.v:64-96)
+  09. [Theorem] build_k_steps_numeric_canonical (collatz_part_14.v:130-195)
+  10. [Theorem] odd_leads_R1R0_then_R0_pattern (collatz_part_16.v:5-59)
+  11. [Theorem] even_leads_R0_then_R1R0_pattern (collatz_part_16.v:63-127)
+  12. [Theorem] canonical_chain_R0_advantage (collatz_part_17.v:140-151)
+  13. [Theorem] generalized_concatenated_chains_R0_advantage (collatz_part_17.v:257-346)
+  14. [Theorem] generalized_valid_chains_sequence_R0_advantage (collatz_part_17.v:402-454)
+  15. [Corollary] valid_chains_sequence_R0_advantage_corollary (collatz_part_17.v:467-508)
+  16. [Corollary] universal_R0_advantage_bounds (collatz_part_18.v:21-35)
+  17. [Theorem] direct_conversion_to_mod6_2_orbit_canonical (collatz_part_19.v:33-174)
+  18. [Theorem] mod62_R0advantage_canonical (collatz_part_19.v:177-329)
+  19. [Theorem] mod62_macrostep_iterated_lower_bound_canonical (collatz_part_19.v:699-808)
+  20. [Theorem] global_mod62_advantage_growth_canonical (collatz_part_19.v:811-854)
+
+Arranged in order of appearance in the original file
+
+[Theorem 01] (collatz_part_3.v:142-175)
+Comment: (* Complete classification of positive integers: odd numbers as R1R0 entries， even numbers as R0R0 entries *)
+Declaration:
+Theorem complete_number_classification :
+  forall m, m >= 1 ->
+    (is_odd m /\ exists d n, d >= 1 /\ n >= 0 /\ m = valid_R1R0_entry_number d n) \/
+    (is_even m /\ exists d n, d >= 1 /\ n >= 1 /\ m = valid_R0R0_entry_number d n).
+
+.
+
+[Corollary 02] (collatz_part_10.v:208-215)
+Comment: (* Corollary: When n=1， the output after D consecutive R0 operations is 1 *)
+Declaration:
+Corollary repeat_R0_output_one_when_n_one : forall D,
+  D >= 1 ->
+  let m := valid_R0R0_entry_number D 1 in
+  sequence_end m (repeat_R0 D) = 1.
+
+.
+
+[Theorem 03] (collatz_part_11.v:5-20)
+Comment: (* Pattern Completeness Theorem *)
+Declaration:
+Theorem build_k_steps_pattern_completeness : forall m,
+	m >= 1 ->
+	(exists d n, d >= 1 /\ n >= 0 /\ m = valid_R1R0_entry_number d n /\
+							 build_k_steps m d = repeat_R1R0 d) \/
+	(exists d n, d >= 1 /\ n >= 1 /\ m = valid_R0R0_entry_number d n /\
+							 build_k_steps m d = repeat_R0 d).
+
+.
+
+[Corollary 04] (collatz_part_11.v:51-60)
+Comment: (* Corollary of R1R0 Final Value Closed Form *)
+Declaration:
+Corollary repeat_R1R0_output_closed_form_no_div : forall D n,
+  D >= 1 -> n >= 0 ->
+  sequence_end (valid_R1R0_entry_number D n) (repeat_R1R0 D) = 2 * 3^D * n + (3^D - 1).
+
+.
+
+[Theorem 05] (collatz_part_11.v:96-107)
+Comment: (* R1R0 Combined Bounds Summary: max(2*3^D*n， 3^D - 1) <= output <= 3^D*(2n+1) *)
+Declaration:
+Theorem R1R0_bounds_summary : forall D n,
+	D >= 1 -> n >= 0 ->
+	let out := sequence_end (valid_R1R0_entry_number D n) (repeat_R1R0 D) in
+		(2 * 3^D * n <= out) /\ (3^D - 1 <= out) /\ out <= 3^D * (2*n + 1).
+
+.
+
+[Theorem 06] (collatz_part_11.v:111-154)
+Comment: (* Necessary and sufficient condition for R1R0 sequence output to be a power of 2 *)
+Declaration:
+Theorem R1R0_power_iff :
+  forall d n k,
+    d >= 1 -> n >= 0 ->
+    (sequence_end (valid_R1R0_entry_number d n) (repeat_R1R0 d) = 2 ^ k) <->
+    (2 ^ k + 1 = 3 ^ d * (2 * n + 1)).
+
+.
+
+[Theorem 07] (collatz_part_12.v:51-60)
+Comment: (* R0R0 Combined Bounds Summary Theorem *)
+Declaration:
+Theorem R0R0_bounds_summary : forall D n,
+  D >= 1 -> n >= 1 ->
+  let m := valid_R0R0_entry_number D n in
+    1 <= n /\ n <= m /\ sequence_end m (repeat_R0 D) = n.
+
+.
+
+[Theorem 08] (collatz_part_12.v:64-96)
+Comment: (* Combined Bounds General Theorem *)
+Declaration:
+Theorem build_k_steps_numeric_bounds_exists : forall m,
+  m >= 1 ->
+  (exists d n, d >= 1 /\ n >= 0 /\
+      m = valid_R1R0_entry_number d n /\
+      build_k_steps m d = repeat_R1R0 d /\
+      2 * 3^d * n <= sequence_end (valid_R1R0_entry_number d n) (repeat_R1R0 d) /\
+      3^d - 1 <= sequence_end (valid_R1R0_entry_number d n) (repeat_R1R0 d) /\
+      sequence_end (valid_R1R0_entry_number d n) (repeat_R1R0 d) <= 3^d * (2 * n + 1)) \/
+  (exists d n, d >= 1 /\ n >= 1 /\
+      m = valid_R0R0_entry_number d n /\
+      build_k_steps m d = repeat_R0 d /\
+      1 <= n /\ n <= m /\
+      sequence_end (valid_R0R0_entry_number d n) (repeat_R0 d) = n).
+
+.
+
+[Theorem 09] (collatz_part_14.v:130-195)
+Comment: (* Every positive integer m uniquely corresponds to canonical representation of R1R0 or R0R0 branch with determined bounds *)
+Declaration:
+Theorem build_k_steps_numeric_canonical :
+  forall m, m >= 1 ->
+   (exists d n,
+      d >= 1 /\ n >= 0 /\
+      m = valid_R1R0_entry_number d n /\
+      build_k_steps m d = repeat_R1R0 d /\
+      let S := sequence_end m (repeat_R1R0 d) in
+        (2*3 ^ d*n <= S /\ S < 2*3 ^ d*(n+1) /\ 3 ^ d - 1 <= S) /\
+        (forall d' n', d' >= 1 -> n' >= 0 ->
+          m = valid_R1R0_entry_number d' n' -> d'=d /\ n'=n)) \/
+   (exists d n,
+      d >= 1 /\ n >= 1 /\ is_odd n /\
+      m = valid_R0R0_entry_number d n /\
+      build_k_steps m d = repeat_R0 d /\
+      sequence_end m (repeat_R0 d) = n /\
+      (forall d' n', d' >= 1 -> n' >= 1 -> is_odd n' ->
+        m = valid_R0R0_entry_number d' n' -> d'=d /\ n'=n)).
+
+.
+
+[Theorem 10] (collatz_part_16.v:5-59)
+Comment: (* Canonical pattern transformation theorem: odd numbers leading R1R0 sequence must be followed by R0 *)
+Declaration:
+Theorem odd_leads_R1R0_then_R0_pattern : forall m d n,
+  m >= 1 -> d >= 1 -> n >= 0 -> m = valid_R1R0_entry_number d n ->
+  exists Send,
+    sequence_end m (repeat_R1R0 d) = Send /\
+    is_even Send /\
+    (2 * 3 ^ d * n <= Send /\ Send < 2 * 3 ^ d * (n + 1) /\ 3 ^ d - 1 <= Send) /\
+    build_k_steps m (S d) = repeat_R1R0 d ++ [R0] /\
+    (forall d' n', d' >= 1 -> n' >= 0 -> m = valid_R1R0_entry_number d' n' -> d' = d /\ n' = n).
+
+.
+
+[Theorem 11] (collatz_part_16.v:63-127)
+Comment: (* Canonical pattern transformation theorem: even numbers leading R0 sequence must be followed by R1R0 *)
+Declaration:
+Theorem even_leads_R0_then_R1R0_pattern : forall m d n,
+  m >= 1 -> d >= 1 -> n >= 1 -> is_odd n -> m = valid_R0R0_entry_number d n ->
+  exists Send,
+    sequence_end m (repeat_R0 d) = Send /\
+    is_odd Send /\
+    Send = n /\
+    build_k_steps m (S d) = repeat_R0 d ++ [R1; R0] /\
+    (forall d' n', d' >= 1 -> n' >= 1 -> is_odd n' -> m = valid_R0R0_entry_number d' n' -> d' = d /\ n' = n).
+
+.
+
+[Theorem 12] (collatz_part_17.v:140-151)
+Comment: (* R0 advantage theorem: R0 operations always outnumber R1 operations *)
+Declaration:
+Theorem canonical_chain_R0_advantage : forall b d,
+  d >= 1 ->
+  let '(r0s, r1s) := count_operations (canonical_chain b d) in
+  r0s > r1s /\ r0s - r1s = (if b then 1 else d).
+
+.
+
+[Theorem 13] (collatz_part_17.v:257-346)
+Comment: (* Generalized theorem: R0 advantage of concatenated canonical chains *)
+Declaration:
+Theorem generalized_concatenated_chains_R0_advantage :
+  forall (chains : list (bool * nat)),
+  chains <> nil ->
+  (forall bd, In bd chains -> let (b, d) := bd in d >= 1) ->
+  fst (count_operations (chains_to_sequence chains)) > snd (count_operations (chains_to_sequence chains)) /\
+  fst (count_operations (chains_to_sequence chains)) - snd (count_operations (chains_to_sequence chains)) = sum_contributions chains.
+
+.
+
+[Theorem 14] (collatz_part_17.v:402-454)
+Comment: (* Generalized R0 advantage theorem: valid chain sequences maintain R0 advantage *)
+Declaration:
+Theorem generalized_valid_chains_sequence_R0_advantage :
+  forall (chains : list (bool * nat * nat * nat * nat)),
+  chains <> nil ->
+  (forall bdnds, In bdnds chains ->
+    let '(b, d, n, m, Send) := bdnds in
+    d >= 1 /\
+    ((b = true /\ n >= 0 /\ m = valid_R1R0_entry_number d n) \/
+     (b = false /\ n >= 1 /\ is_odd n /\ m = valid_R0R0_entry_number d n)) /\
+    ((b = true /\
+      sequence_end m (repeat_R1R0 d) = Send /\ is_even Send) \/
+     (b = false /\
+      sequence_end m (repeat_R0 d) = Send /\ is_odd Send))) ->
+  (let total_seq := concat (map (fun '(b, d, _, _, _) => canonical_chain b d) chains) in
+   fst (count_operations total_seq) > snd (count_operations total_seq) /\
+   fst (count_operations total_seq) - snd (count_operations total_seq) =
+   sum_contributions (extract_simple_chains chains)).
+
+.
+
+[Corollary 15] (collatz_part_17.v:467-508)
+Comment: (* Corollary: R0 advantage for valid chain sequences using condition definition *)
+Declaration:
+Corollary valid_chains_sequence_R0_advantage_corollary :
+  forall (chains : list (bool * nat * nat * nat * nat)),
+  chains <> nil ->
+  (forall bdnds, In bdnds chains ->
+    let '(b, d, n, m, Send) := bdnds in
+    valid_chain_sequence_condition b d n m Send) ->
+  (let total_seq := concat (map (fun '(b, d, _, _, _) => canonical_chain b d) chains) in
+   let simple_chains := extract_simple_chains chains in
+   fst (count_operations total_seq) > snd (count_operations total_seq) /\
+   fst (count_operations total_seq) - snd (count_operations total_seq) =
+   sum_contributions simple_chains).
+
+.
+
+[Corollary 16] (collatz_part_18.v:21-35)
+Comment: (* Universal R0 advantage bounds precise counts for canonical chains *)
+Declaration:
+Corollary universal_R0_advantage_bounds :
+  forall b d, d >= 1 ->
+  let '(r0s, r1s) := count_operations (canonical_chain b d) in
+  match b with
+  | true => r0s = d + 1 /\ r1s = d /\ r0s = r1s + 1 /\ r0s <= 2 * r1s
+  | false => r0s = d + 1 /\ r1s = 1 /\ r0s = (d + 1) * r1s /\ r0s >= 2 * r1s
+  end.
+
+.
+
+[Theorem 17] (collatz_part_19.v:33-174)
+Comment: (* Canonical conversion to mod6=2 orbit using build_k_steps as canonical prefix *)
+Declaration:
+Theorem direct_conversion_to_mod6_2_orbit_canonical :
+  forall m,
+    valid_input m ->
+    exists (K k : nat) (m_final : nat) (ops : list CollatzOp),
+      ops = build_k_steps m K /\
+      length ops = k /\
+      valid_sequence ops m /\
+      sequence_end m ops = m_final /\
+      m_final mod 6 = 2 /\
+      k <= 2 * (log2 m + 1).
+
+.
+
+[Theorem 18] (collatz_part_19.v:177-329)
+Comment: (* Canonical R0 advantage for mod6=2 numbers: two-step chain with positive contribution *)
+Declaration:
+Theorem mod62_R0advantage_canonical :
+  forall m0,
+    m0 mod 6 = 2 ->
+    exists d0 n0 d1 n1 m1 m2,
+      d0 >= 1 /\
+      n0 >= 1 /\
+      is_odd n0 /\
+      m0 = valid_R0R0_entry_number d0 n0 /\
+      build_k_steps m0 d0 = repeat_R0 d0 /\
+      m1 = sequence_end m0 (repeat_R0 d0) /\
+      m1 = n0 /\
+      d1 >= 1 /\
+      n1 >= 0 /\
+      m1 = valid_R1R0_entry_number d1 n1 /\
+      build_k_steps m1 d1 = repeat_R1R0 d1 /\
+      m2 = sequence_end m1 (repeat_R1R0 d1) /\
+      let chains := [(false, d0, n0, m0, m1); (true, d1, n1, m1, m2)] in
+      valid_chains_condition chains /\
+      chains_R0_advantage chains /\
+      m2 mod 6 = 2 /\
+      sum_contributions (extract_simple_chains chains) = d0 + 1.
+
+.
+
+[Theorem 19] (collatz_part_19.v:699-808)
+Comment: (* Iterated canonical macro-steps for mod6=2: lower bound on total contributions *)
+Declaration:
+Theorem mod62_macrostep_iterated_lower_bound_canonical :
+  forall t m0,
+    t >= 1 ->
+    m0 mod 6 = 2 ->
+    let chains := canonical_mod62_iterated_chains t m0 in
+    let mt := canonical_mod62_iterated_end t m0 in
+      length chains = 2 * t /\
+      valid_chains_condition chains /\
+      mt mod 6 = 2 /\
+      2 * t <= sum_contributions (extract_simple_chains chains) /\
+      chains_R0_advantage chains.
+
+.
+
+[Theorem 20] (collatz_part_19.v:811-854)
+Comment: (* Global advantage growth for mod6=2: linear growth of contributions *)
+Declaration:
+Theorem global_mod62_advantage_growth_canonical :
+  forall m t,
+    valid_input m ->
+    t >= 1 ->
+    exists (K k : nat) (m2 mt : nat)
+           (ops : list CollatzOp)
+           (chains : list (bool * nat * nat * nat * nat)),
+      ops = build_k_steps m K /\
+      length ops = k /\
+      valid_sequence ops m /\
+      sequence_end m ops = m2 /\
+      k <= 2 * (log2 m + 1) /\
+      m2 mod 6 = 2 /\
+      chains = canonical_mod62_iterated_chains t m2 /\
+      mt = canonical_mod62_iterated_end t m2 /\
+      length chains = 2 * t /\
+      valid_chains_condition chains /\
+      mt mod 6 = 2 /\
+      2 * t <= sum_contributions (extract_simple_chains chains) /\
+      chains_R0_advantage chains.
+
+.
+
+============================== Statistics ==============================
+Total Theorem count: 16
+Total Corollary count: 4
+Total count: 20
