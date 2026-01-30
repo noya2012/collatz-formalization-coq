@@ -12,40 +12,45 @@ Statistics:
   - Total dependent theorems: 12
   - Maximum dependency depth: 4
 
+Bracket notation:
+  - 【name】 : Theorem-like (Theorem/Proposition/Corollary/Fact)
+  - [name]   : Lemma
+  - (name)   : Other (Definition/Fixpoint/Inductive/Axiom/...)
+
 Dependency levels:
 Level 0 (1 theorems):
-  - complete_number_classification
+  - 【complete_number_classification】                    collatz_part_3.v,142,175
 
 Level 1 (2 theorems):
-  - even_eq_R0R0_entry_number
-  - odd_eq_R1R0_entry_number
+  - [even_eq_R0R0_entry_number]                    collatz_part_3.v,109,137
+  - [odd_eq_R1R0_entry_number]                    collatz_part_3.v,66,106
 
 Level 2 (5 theorems):
-  - odd_decomposition
-  - pow2_ge_2
-  - power2_odd_decomposition
-  - valid_R0R0_entry_number
-  - valid_R1R0_entry_number
+  - [odd_decomposition]                    collatz_part_2.v,215,229
+  - [pow2_ge_2]                    collatz_part_2.v,40,49
+  - [power2_odd_decomposition]                    collatz_part_2.v,232,302
+  - (valid_R0R0_entry_number)                    collatz_part_1.v,36,39
+  - (valid_R1R0_entry_number)                    collatz_part_1.v,40,44
 
 Level 3 (4 theorems):
-  - even_decomposition
-  - even_ge_1_implies_ge_2
-  - gt_0_2_pow
-  - is_odd
+  - [even_decomposition]                    collatz_part_2.v,203,212
+  - [even_ge_1_implies_ge_2]                    collatz_part_2.v,111,128
+  - [gt_0_2_pow]                    collatz_part_2.v,32,37
+  - (is_odd)                    collatz_part_1.v,24,26
 
 Level 4 (1 theorems):
-  - is_even
+  - (is_even)                    collatz_part_1.v,23,23
 
 Dependency tree:
-├── even_eq_R0R0_entry_number
-│   ├── is_even
-│   ├── valid_R0R0_entry_number
-│   └── even_decomposition
-└── odd_eq_R1R0_entry_number
-    ├── is_odd
-    ├── valid_R1R0_entry_number
-    ├── power2_odd_decomposition
-    │   └── even_ge_1_implies_ge_2
-    ├── odd_decomposition
-    └── pow2_ge_2
-        └── gt_0_2_pow
+├── [even_eq_R0R0_entry_number]
+│   ├── (is_even)
+│   ├── (valid_R0R0_entry_number)
+│   └── [even_decomposition]
+└── [odd_eq_R1R0_entry_number]
+    ├── (is_odd)
+    ├── (valid_R1R0_entry_number)
+    ├── [power2_odd_decomposition]
+    │   └── [even_ge_1_implies_ge_2]
+    ├── [odd_decomposition]
+    └── [pow2_ge_2]
+        └── [gt_0_2_pow]

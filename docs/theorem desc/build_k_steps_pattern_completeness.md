@@ -17,8 +17,6 @@ Theorem build_k_steps_pattern_completeness : forall m,
 							 build_k_steps m d = repeat_R0 d).
 ```
 
-**Note**: There appears to be a typo in the original statement - the second branch should reference `valid_R0R0_entry_number` instead of `valid_R1R0_entry_number`.
-
 ## Theorem Purpose
 
 This theorem establishes the completeness of the `build_k_steps` construction relative to standard Collatz operation patterns. Its purposes include:

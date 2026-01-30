@@ -15,7 +15,7 @@ Theorem global_mod62_advantage_growth_canonical :
     t >= 1 ->
     exists (K k : nat) (m2 mt : nat)
            (ops : list CollatzOp)
-           (chains : list (bool * nat * nat * nat)),
+           (chains : list (bool * nat * nat * nat * nat)),
       ops = build_k_steps m K /\
       length ops = k /\
       valid_sequence ops m /\
@@ -49,7 +49,7 @@ This theorem establishes the **global R0 advantage growth** property for Collatz
 3. **Linear Growth**: Total R0 advantage grows at least linearly (≥ 2*t)
 4. **Efficient Operations**: k bounded by 2*(log2 m + 1) (logarithmic in m)
 5. **Orbit Control**: Constrained to mod6=2 orbit (strategic subset)
-6. **Additivity**: sum_contributions = 2*t exactly when chains are canonical
+6. **Lower Bound**: sum_contributions ≥ 2*t (linear growth guarantee, not equality)
 
 ### Growth Relationship Analysis
 
@@ -63,8 +63,8 @@ This theorem establishes the **global R0 advantage growth** property for Collatz
 
 **Chain Structure**:
 - **Length**: 2*t chains (exactly 2 per macrostep)
-- **Total Operations**: k = sum of all operation counts across t macrosteps
-- **Advantage**: sum_contributions = total R0 - total R1
+- **Operations vs Advantage**: k (prefix operations to reach mod6=2) vs sum_contributions (advantage from t macrosteps)
+- **Note**: These are different metrics with different measurement scopes; the theorem does not directly compare their growth rates
 
 ### Structural Properties
 
@@ -87,14 +87,17 @@ This theorem establishes the **global R0 advantage growth** property for Collatz
    - Provides inductive structure for linear growth
    - Location: collatz_part_19.v:699-808
 
-3. **canonical_mod62_iterated_chains**
-   - Generates t macrosteps (2*t chains)
-   - Uses recursive macrostep construction
-   - Based on canonical_mod62_macrostep_chains
+### Key Definitions and Constructions
 
-4. **canonical_mod62_iterated_end**
+1. **canonical_mod62_iterated_chains**
+   - Generates t macrosteps (2*t chains) for mod6=2 numbers
+   - Recursive construction based on canonical_mod62_macrostep_chains
+   - Location: collatz_part_19.v:479-489
+
+2. **canonical_mod62_iterated_end**
    - Computes final state after t macrosteps
    - Ensures final state is on mod6=2 orbit
+   - Location: collatz_part_19.v:490-496
 
 ### Key Functions
 

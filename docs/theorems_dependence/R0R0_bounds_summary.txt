@@ -12,52 +12,57 @@ Statistics:
   - Total dependent theorems: 16
   - Maximum dependency depth: 6
 
+Bracket notation:
+  - 【name】 : Theorem-like (Theorem/Proposition/Corollary/Fact)
+  - [name]   : Lemma
+  - (name)   : Other (Definition/Fixpoint/Inductive/Axiom/...)
+
 Dependency levels:
 Level 0 (1 theorems):
-  - R0R0_bounds_summary
+  - 【R0R0_bounds_summary】                    collatz_part_12.v,51,60
 
 Level 1 (2 theorems):
-  - R0R0_input_ge_n
-  - R0R0_output_exact_n
+  - [R0R0_input_ge_n]                    collatz_part_12.v,5,15
+  - [R0R0_output_exact_n]                    collatz_part_12.v,18,25
 
 Level 2 (2 theorems):
-  - pow2_ge_2
-  - repeat_R0_output_reaches_one
+  - [pow2_ge_2]                    collatz_part_2.v,40,49
+  - [repeat_R0_output_reaches_one]                    collatz_part_10.v,153,205
 
 Level 3 (3 theorems):
-  - R0_pattern_closure
-  - nth_sequence_value_app
-  - repeat_R0_length
+  - [R0_pattern_closure]                    collatz_part_10.v,47,84
+  - [nth_sequence_value_app]                    collatz_part_7.v,24,33
+  - [repeat_R0_length]                    collatz_part_10.v,4,10
 
 Level 4 (6 theorems):
-  - div2_divmod_eq
-  - even_div2_mul2
-  - gt_0_2_pow
-  - pow2_even_when_ge_2
-  - sequence_end
-  - valid_R0R0_entry_number
+  - [div2_divmod_eq]                    collatz_part_2.v,100,106
+  - [even_div2_mul2]                    collatz_part_2.v,86,94
+  - [gt_0_2_pow]                    collatz_part_2.v,32,37
+  - [pow2_even_when_ge_2]                    collatz_part_2.v,183,199
+  - (sequence_end)                    collatz_part_1.v,91,94
+  - (valid_R0R0_entry_number)                    collatz_part_1.v,36,39
 
 Level 5 (2 theorems):
-  - is_even
-  - nth_sequence_value
+  - (is_even)                    collatz_part_1.v,23,23
+  - (nth_sequence_value)                    collatz_part_1.v,84,90
 
 Level 6 (1 theorems):
-  - collatz_step
+  - (collatz_step)                    collatz_part_1.v,27,31
 
 Dependency tree:
-├── valid_R0R0_entry_number
-├── sequence_end
-│   └── nth_sequence_value
-│   │   └── collatz_step
-├── R0R0_input_ge_n
-│   └── pow2_ge_2
-│   │   └── gt_0_2_pow
-└── R0R0_output_exact_n
-    └── repeat_R0_output_reaches_one
-        ├── is_even
-        ├── div2_divmod_eq
-        ├── repeat_R0_length
-        ├── nth_sequence_value_app
-        └── R0_pattern_closure
-            ├── pow2_even_when_ge_2
-            └── even_div2_mul2
+├── (valid_R0R0_entry_number)
+├── (sequence_end)
+│   └── (nth_sequence_value)
+│   │   └── (collatz_step)
+├── [R0R0_input_ge_n]
+│   └── [pow2_ge_2]
+│   │   └── [gt_0_2_pow]
+└── [R0R0_output_exact_n]
+    └── [repeat_R0_output_reaches_one]
+        ├── (is_even)
+        ├── [div2_divmod_eq]
+        ├── [repeat_R0_length]
+        ├── [nth_sequence_value_app]
+        └── [R0_pattern_closure]
+            ├── [pow2_even_when_ge_2]
+            └── [even_div2_mul2]

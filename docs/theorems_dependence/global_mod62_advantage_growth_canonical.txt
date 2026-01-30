@@ -12,328 +12,333 @@ Statistics:
   - Total dependent theorems: 143
   - Maximum dependency depth: 17
 
+Bracket notation:
+  - 【name】 : Theorem-like (Theorem/Proposition/Corollary/Fact)
+  - [name]   : Lemma
+  - (name)   : Other (Definition/Fixpoint/Inductive/Axiom/...)
+
 Dependency levels:
 Level 0 (1 theorems):
-  - global_mod62_advantage_growth_canonical
+  - 【global_mod62_advantage_growth_canonical】                    collatz_part_19.v,811,854
 
 Level 1 (2 theorems):
-  - direct_conversion_to_mod6_2_orbit_canonical
-  - mod62_macrostep_iterated_lower_bound_canonical
+  - 【direct_conversion_to_mod6_2_orbit_canonical】                    collatz_part_19.v,33,174
+  - 【mod62_macrostep_iterated_lower_bound_canonical】                    collatz_part_19.v,699,808
 
 Level 2 (11 theorems):
-  - R1R0_entry_d_log2_bound
-  - build_k_steps_add
-  - build_k_steps_numeric_canonical
-  - build_k_steps_valid
-  - canonical_mod62_iterated_chains
-  - extract_simple_chains_app
-  - log2_monotone
-  - log2_mul_pow2
-  - repeat_R1R0_length
-  - sum_contributions_app
-  - valid_sequence_app
+  - [R1R0_entry_d_log2_bound]                    collatz_part_18.v,89,109
+  - [build_k_steps_add]                    collatz_part_19.v,4,30
+  - 【build_k_steps_numeric_canonical】                    collatz_part_14.v,130,195
+  - [build_k_steps_valid]                    collatz_part_6.v,7,92
+  - (canonical_mod62_iterated_chains)                    collatz_part_19.v,479,489
+  - [extract_simple_chains_app]                    collatz_part_18.v,112,120
+  - [log2_monotone]                    log2_p.v,90,95
+  - [log2_mul_pow2]                    collatz_part_18.v,71,86
+  - [repeat_R1R0_length]                    collatz_part_9.v,30,36
+  - [sum_contributions_app]                    collatz_part_18.v,123,131
+  - [valid_sequence_app]                    collatz_part_18.v,38,68
 
 Level 3 (13 theorems):
-  - R0R0_branch_simplification
-  - R0R0_canonical_factorization
-  - R0R0_decomposition_unique
-  - R1R0_decomposition_unique
-  - build_k_steps_numeric_bounds_exists
-  - canonical_mod62_macrostep_chains
-  - log2_mult_power2
-  - nth_append_last
-  - nth_append_two
-  - nth_sequence_value_succ
-  - sequence_end_valid
-  - tighten_R1R0_strict_upper
-  - valid_R1R0_entry_number_is_odd
+  - [R0R0_branch_simplification]                    collatz_part_14.v,86,125
+  - [R0R0_canonical_factorization]                    collatz_part_14.v,6,37
+  - [R0R0_decomposition_unique]                    collatz_part_13.v,111,150
+  - [R1R0_decomposition_unique]                    collatz_part_13.v,88,108
+  - 【build_k_steps_numeric_bounds_exists】                    collatz_part_12.v,64,96
+  - (canonical_mod62_macrostep_chains)                    collatz_part_19.v,462,471
+  - [log2_mult_power2]                    log2_p.v,97,117
+  - [nth_append_last]                    collatz_part_5.v,22,28
+  - [nth_append_two]                    collatz_part_5.v,66,77
+  - [nth_sequence_value_succ]                    collatz_part_4.v,54,59
+  - [sequence_end_valid]                    collatz_part_5.v,8,19
+  - [tighten_R1R0_strict_upper]                    collatz_part_14.v,44,64
+  - [valid_R1R0_entry_number_is_odd]                    collatz_part_14.v,66,81
 
 Level 4 (12 theorems):
-  - R0R0_bounds_summary
-  - build_k_steps_pattern_completeness
-  - canonical_mod62_macrostep_end
-  - even_false_implies_odd
-  - log2
-  - pow2_times_odd_unique
-  - pow3_pos
-  - repeat_R1R0_output_lower_bound_const
-  - repeat_R1R0_output_lower_bound_linear
-  - repeat_R1R0_output_upper_bound
-  - valid_sequence
-  - valid_sequence_inductive
+  - 【R0R0_bounds_summary】                    collatz_part_12.v,51,60
+  - 【build_k_steps_pattern_completeness】                    collatz_part_11.v,5,20
+  - (canonical_mod62_macrostep_end)                    collatz_part_19.v,472,478
+  - [even_false_implies_odd]                    collatz_part_2.v,5,11
+  - (log2)                    log2_p.v,15,19
+  - [pow2_times_odd_unique]                    collatz_part_13.v,58,70
+  - [pow3_pos]                    collatz_part_3.v,211,214
+  - [repeat_R1R0_output_lower_bound_const]                    collatz_part_11.v,86,93
+  - [repeat_R1R0_output_lower_bound_linear]                    collatz_part_11.v,76,83
+  - [repeat_R1R0_output_upper_bound]                    collatz_part_11.v,65,73
+  - (valid_sequence)                    collatz_part_1.v,95,100
+  - [valid_sequence_inductive]                    collatz_part_4.v,33,50
 
 Level 5 (10 theorems):
-  - Inline
-  - R0R0_input_ge_n
-  - R0R0_output_exact_n
-  - build_k_steps_on_valid_R0R0
-  - build_k_steps_on_valid_R1R0
-  - canonical_mod62_iterated_end
-  - complete_number_classification
-  - log2_spec
-  - pow2_times_odd_unique_le
-  - single_step_valid
+  - (Inline)                    log2_p.v,15,19
+  - [R0R0_input_ge_n]                    collatz_part_12.v,5,15
+  - [R0R0_output_exact_n]                    collatz_part_12.v,18,25
+  - [build_k_steps_on_valid_R0R0]                    collatz_part_10.v,326,333
+  - [build_k_steps_on_valid_R1R0]                    collatz_part_9.v,260,266
+  - (canonical_mod62_iterated_end)                    collatz_part_19.v,490,496
+  - 【complete_number_classification】                    collatz_part_3.v,142,175
+  - (log2_spec)                    log2_p.v,20,20
+  - [pow2_times_odd_unique_le]                    collatz_part_13.v,32,55
+  - [single_step_valid]                    collatz_part_4.v,5,30
 
 Level 6 (9 theorems):
-  - build_k_steps_on_valid_R0R0_prefix
-  - build_k_steps_on_valid_R1R0_prefix_simple
-  - canonical_mod62_macrostep_spec
-  - even_eq_R0R0_entry_number
-  - log2_nonpos
-  - odd_eq_R1R0_entry_number
-  - pow_cancel_lower
-  - power_2_even_property
-  - valid_operation
+  - [build_k_steps_on_valid_R0R0_prefix]                    collatz_part_10.v,289,323
+  - [build_k_steps_on_valid_R1R0_prefix_simple]                    collatz_part_9.v,227,257
+  - [canonical_mod62_macrostep_spec]                    collatz_part_19.v,497,696
+  - [even_eq_R0R0_entry_number]                    collatz_part_3.v,109,137
+  - (log2_nonpos)                    log2_p.v,21,30
+  - [odd_eq_R1R0_entry_number]                    collatz_part_3.v,66,106
+  - [pow_cancel_lower]                    collatz_part_13.v,18,29
+  - [power_2_even_property]                    collatz_part_13.v,4,15
+  - (valid_operation)                    collatz_part_1.v,77,83
 
 Level 7 (17 theorems):
-  - R1R0_output_mod6
-  - build_k_steps_Sn
-  - even_2x
-  - even_true_implies_even
-  - factor2_spec_decomp
-  - factor2_spec_odd
-  - log2_upper_bound
-  - odd_decomposition
-  - power2_odd_decomposition
-  - repeat_R0_append_single
-  - repeat_R1R0_output_even
-  - repeat_R1R0_snoc
-  - sequence_end_valid_R0_prefix
-  - valid_R0R0_entry_number_properties
-  - valid_R1R0_entry_number_odd
-  - valid_R1R0_entry_number_plus1
-  - valid_chains_condition
+  - [R1R0_output_mod6]                    collatz_part_11.v,158,207
+  - [build_k_steps_Sn]                    collatz_part_6.v,96,107
+  - [even_2x]                    collatz_part_2.v,26,29
+  - [even_true_implies_even]                    collatz_part_2.v,14,20
+  - [factor2_spec_decomp]                    collatz_part_19.v,439,449
+  - [factor2_spec_odd]                    collatz_part_19.v,452,459
+  - [log2_upper_bound]                    log2_p.v,31,44
+  - [odd_decomposition]                    collatz_part_2.v,215,229
+  - [power2_odd_decomposition]                    collatz_part_2.v,232,302
+  - [repeat_R0_append_single]                    collatz_part_10.v,275,286
+  - [repeat_R1R0_output_even]                    collatz_part_9.v,109,135
+  - [repeat_R1R0_snoc]                    collatz_part_9.v,219,224
+  - [sequence_end_valid_R0_prefix]                    collatz_part_10.v,231,272
+  - [valid_R0R0_entry_number_properties]                    collatz_part_3.v,39,63
+  - [valid_R1R0_entry_number_odd]                    collatz_part_9.v,209,216
+  - [valid_R1R0_entry_number_plus1]                    collatz_part_13.v,73,85
+  - (valid_chains_condition)                    collatz_part_18.v,4,11
 
 Level 8 (9 theorems):
-  - build_k_steps
-  - chains_R0_advantage
-  - even_decomposition
-  - even_ge_1_implies_ge_2
-  - factor2
-  - factor2_bounded_odd
-  - repeat_R0_output_reaches_one
-  - repeat_R1R0_output_closed_form_no_div
-  - valid_chain_sequence_condition
+  - (build_k_steps)                    collatz_part_1.v,132,142
+  - (chains_R0_advantage)                    collatz_part_18.v,12,20
+  - [even_decomposition]                    collatz_part_2.v,203,212
+  - [even_ge_1_implies_ge_2]                    collatz_part_2.v,111,128
+  - (factor2)                    collatz_part_19.v,345,346
+  - [factor2_bounded_odd]                    collatz_part_19.v,392,436
+  - [repeat_R0_output_reaches_one]                    collatz_part_10.v,153,205
+  - 【repeat_R1R0_output_closed_form_no_div】                    collatz_part_11.v,51,60
+  - (valid_chain_sequence_condition)                    collatz_part_17.v,459,466
 
 Level 9 (7 theorems):
-  - R0_pattern_closure
-  - factor2_bounded
-  - pow3_minus1_twice_half
-  - repeat_R0_length
-  - repeat_R1R0_output_closed_form
-  - universal_R0_advantage_bounds
-  - valid_chains_sequence_R0_advantage_corollary
+  - [R0_pattern_closure]                    collatz_part_10.v,47,84
+  - (factor2_bounded)                    collatz_part_19.v,334,344
+  - [pow3_minus1_twice_half]                    collatz_part_11.v,38,48
+  - [repeat_R0_length]                    collatz_part_10.v,4,10
+  - [repeat_R1R0_output_closed_form]                    collatz_part_11.v,23,34
+  - 【universal_R0_advantage_bounds】                    collatz_part_18.v,21,35
+  - 【valid_chains_sequence_R0_advantage_corollary】                    collatz_part_17.v,467,508
 
 Level 10 (9 theorems):
-  - even_div2_mul2
-  - extract_simple_chains
-  - factor2_exp
-  - generalized_valid_chains_sequence_R0_advantage
-  - pow2_even_when_ge_2
-  - pow3_is_odd
-  - sequence_end_valid_R1R0_prefix
-  - valid_R0R0_entry_number
-  - valid_R1R0_entry_number_d0
+  - [even_div2_mul2]                    collatz_part_2.v,86,94
+  - (extract_simple_chains)                    collatz_part_17.v,350,353
+  - (factor2_exp)                    collatz_part_19.v,347,348
+  - 【generalized_valid_chains_sequence_R0_advantage】                    collatz_part_17.v,402,454
+  - [pow2_even_when_ge_2]                    collatz_part_2.v,183,199
+  - [pow3_is_odd]                    collatz_part_3.v,184,193
+  - [sequence_end_valid_R1R0_prefix]                    collatz_part_9.v,159,204
+  - (valid_R0R0_entry_number)                    collatz_part_1.v,36,39
+  - [valid_R1R0_entry_number_d0]                    collatz_part_9.v,98,105
 
 Level 11 (8 theorems):
-  - R1R0_pattern_closure
-  - arithmetic_identity_for_R1R0
-  - canonical_chains_to_sequence
-  - extract_simple_chains_nonempty
-  - extract_simple_chains_valid
-  - factor2_odd
-  - generalized_concatenated_chains_R0_advantage
-  - sequence_end_app
+  - [R1R0_pattern_closure]                    collatz_part_8.v,78,181
+  - [arithmetic_identity_for_R1R0]                    collatz_part_9.v,140,156
+  - [canonical_chains_to_sequence]                    collatz_part_17.v,387,399
+  - [extract_simple_chains_nonempty]                    collatz_part_17.v,354,366
+  - [extract_simple_chains_valid]                    collatz_part_17.v,369,384
+  - (factor2_odd)                    collatz_part_19.v,349,354
+  - 【generalized_concatenated_chains_R0_advantage】                    collatz_part_17.v,257,346
+  - [sequence_end_app]                    collatz_part_7.v,36,44
 
 Level 12 (8 theorems):
-  - R1R0_two_steps_reduce
-  - count_operations_canonical_chain
-  - count_operations_chains_sequence
-  - factor2_bounded_decomp
-  - nth_sequence_value_app
-  - pow3_expand
-  - sequence_end_two_steps
-  - valid_R1R0_entry_number_properties
+  - [R1R0_two_steps_reduce]                    collatz_part_8.v,5,43
+  - [count_operations_canonical_chain]                    collatz_part_17.v,118,136
+  - [count_operations_chains_sequence]                    collatz_part_17.v,194,254
+  - [factor2_bounded_decomp]                    collatz_part_19.v,355,389
+  - [nth_sequence_value_app]                    collatz_part_7.v,24,33
+  - [pow3_expand]                    collatz_part_3.v,178,181
+  - [sequence_end_two_steps]                    collatz_part_8.v,46,75
+  - [valid_R1R0_entry_number_properties]                    collatz_part_3.v,5,36
 
 Level 13 (15 theorems):
-  - count_R0_repeat_R0_plus_R1R0
-  - count_R0_repeat_R1R0_plus_R0
-  - count_R1_repeat_R0_plus_R1R0
-  - count_R1_repeat_R1R0_plus_R0
-  - count_operations_app
-  - count_repeat_R0
-  - count_repeat_R1R0
-  - div2_divmod_eq
-  - even_3n_plus_1
-  - pow2_ge_2
-  - pow2_minus_1_odd
-  - sequence_end
-  - sum_contributions
-  - valid_R1R0_entry_number
-  - valid_input
+  - [count_R0_repeat_R0_plus_R1R0]                    collatz_part_17.v,55,73
+  - [count_R0_repeat_R1R0_plus_R0]                    collatz_part_17.v,76,94
+  - [count_R1_repeat_R0_plus_R1R0]                    collatz_part_17.v,97,115
+  - [count_R1_repeat_R1R0_plus_R0]                    collatz_part_17.v,34,52
+  - [count_operations_app]                    collatz_part_17.v,174,191
+  - [count_repeat_R0]                    collatz_part_17.v,164,169
+  - [count_repeat_R1R0]                    collatz_part_17.v,156,161
+  - [div2_divmod_eq]                    collatz_part_2.v,100,106
+  - [even_3n_plus_1]                    collatz_part_2.v,305,316
+  - [pow2_ge_2]                    collatz_part_2.v,40,49
+  - [pow2_minus_1_odd]                    collatz_part_2.v,141,174
+  - (sequence_end)                    collatz_part_1.v,91,94
+  - (sum_contributions)                    collatz_part_17.v,10,18
+  - (valid_R1R0_entry_number)                    collatz_part_1.v,40,44
+  - (valid_input)                    collatz_part_1.v,20,22
 
 Level 14 (7 theorems):
-  - chains_to_sequence
-  - count_operations
-  - gt_0_2_pow
-  - is_even
-  - is_odd
-  - nth_sequence_value
-  - pow2_gt_0
+  - (chains_to_sequence)                    collatz_part_17.v,19,26
+  - (count_operations)                    collatz_part_1.v,64,76
+  - [gt_0_2_pow]                    collatz_part_2.v,32,37
+  - (is_even)                    collatz_part_1.v,23,23
+  - (is_odd)                    collatz_part_1.v,24,26
+  - (nth_sequence_value)                    collatz_part_1.v,84,90
+  - [pow2_gt_0]                    collatz_part_2.v,72,81
 
 Level 15 (2 theorems):
-  - canonical_chain
-  - collatz_step
+  - (canonical_chain)                    collatz_part_17.v,6,9
+  - (collatz_step)                    collatz_part_1.v,27,31
 
 Level 16 (3 theorems):
-  - length_repeat_R1R0
-  - repeat_R0
-  - repeat_R1R0
+  - [length_repeat_R1R0]                    collatz_part_17.v,27,30
+  - (repeat_R0)                    collatz_part_1.v,101,107
+  - (repeat_R1R0)                    collatz_part_1.v,108,114
 
 Level 17 (1 theorems):
-  - CollatzOp
+  - (CollatzOp)                    collatz_part_1.v,15,19
 
 Dependency tree:
-├── valid_input
-├── CollatzOp
-├── build_k_steps
-│   └── sequence_end
-│   │   └── nth_sequence_value
-│   │       └── collatz_step
-├── valid_sequence
-│   └── valid_operation
-│   │   ├── is_even
-│   │   └── is_odd
-├── canonical_mod62_iterated_chains
-│   └── canonical_mod62_macrostep_chains
-│   │   ├── factor2
-│   │   │   └── factor2_bounded
-│   │   │   │   └── factor2_exp
-│   │   │   │       └── factor2_odd
-│   │   │   │           └── factor2_bounded_decomp
-│   │   │   │               └── div2_divmod_eq
-│   │   └── canonical_mod62_macrostep_end
-│   │       └── canonical_mod62_iterated_end
-│   │           └── canonical_mod62_macrostep_spec
-│   │               ├── valid_chains_condition
-│   │               │   ├── valid_chain_sequence_condition
-│   │               │   │   ├── valid_R1R0_entry_number
-│   │               │   │   ├── valid_R0R0_entry_number
-│   │               │   │   └── valid_chains_sequence_R0_advantage_corollary
-│   │               │   │   │   ├── canonical_chain
-│   │               │   │   │   │   ├── repeat_R1R0
-│   │               │   │   │   │   ├── repeat_R0
-│   │               │   │   │   │   └── sum_contributions
-│   │               │   │   │   │   │   └── chains_to_sequence
-│   │               │   │   │   │   │       └── length_repeat_R1R0
-│   │               │   │   │   ├── extract_simple_chains
-│   │               │   │   │   │   └── extract_simple_chains_nonempty
-│   │               │   │   │   └── generalized_valid_chains_sequence_R0_advantage
-│   │               │   │   │       ├── extract_simple_chains_valid
-│   │               │   │   │       ├── generalized_concatenated_chains_R0_advantage
-│   │               │   │   │       │   ├── count_operations_chains_sequence
-│   │               │   │   │       │   │   ├── count_operations_app
-│   │               │   │   │       │   │   │   └── count_operations
-│   │               │   │   │       │   │   ├── count_repeat_R1R0
-│   │               │   │   │       │   │   └── count_repeat_R0
-│   │               │   │   │       │   └── count_operations_canonical_chain
-│   │               │   │   │       │   │   ├── count_R0_repeat_R1R0_plus_R0
-│   │               │   │   │       │   │   ├── count_R1_repeat_R1R0_plus_R0
-│   │               │   │   │       │   │   ├── count_R0_repeat_R0_plus_R1R0
-│   │               │   │   │       │   │   └── count_R1_repeat_R0_plus_R1R0
-│   │               │   │   │       └── canonical_chains_to_sequence
-│   │               │   └── chains_R0_advantage
-│   │               │   │   └── universal_R0_advantage_bounds
-│   │               ├── factor2_spec_decomp
-│   │               ├── factor2_spec_odd
-│   │               │   └── factor2_bounded_odd
-│   │               ├── valid_R1R0_entry_number_plus1
-│   │               ├── R1R0_output_mod6
-│   │               │   └── repeat_R1R0_output_closed_form_no_div
-│   │               │   │   ├── repeat_R1R0_output_closed_form
-│   │               │   │   │   ├── sequence_end_valid_R1R0_prefix
-│   │               │   │   │   │   ├── sequence_end_app
-│   │               │   │   │   │   │   └── nth_sequence_value_app
-│   │               │   │   │   │   ├── R1R0_pattern_closure
-│   │               │   │   │   │   │   ├── valid_R1R0_entry_number_properties
-│   │               │   │   │   │   │   │   ├── pow2_ge_2
-│   │               │   │   │   │   │   │   │   └── gt_0_2_pow
-│   │               │   │   │   │   │   │   └── pow2_minus_1_odd
-│   │               │   │   │   │   │   │   │   └── pow2_gt_0
-│   │               │   │   │   │   │   ├── sequence_end_two_steps
-│   │               │   │   │   │   │   │   └── even_3n_plus_1
-│   │               │   │   │   │   │   └── R1R0_two_steps_reduce
-│   │               │   │   │   │   └── arithmetic_identity_for_R1R0
-│   │               │   │   │   │   │   └── pow3_expand
-│   │               │   │   │   └── valid_R1R0_entry_number_d0
-│   │               │   │   └── pow3_minus1_twice_half
-│   │               │   │       └── pow3_is_odd
-│   │               ├── repeat_R1R0_output_even
-│   │               ├── even_true_implies_even
-│   │               ├── even_2x
-│   │               └── repeat_R0_output_reaches_one
-│   │                   ├── repeat_R0_length
-│   │                   └── R0_pattern_closure
-│   │                       ├── pow2_even_when_ge_2
-│   │                       └── even_div2_mul2
-├── direct_conversion_to_mod6_2_orbit_canonical
-│   ├── build_k_steps_numeric_canonical
-│   │   ├── build_k_steps_numeric_bounds_exists
-│   │   │   ├── build_k_steps_pattern_completeness
-│   │   │   │   ├── complete_number_classification
-│   │   │   │   │   ├── even_eq_R0R0_entry_number
-│   │   │   │   │   │   └── even_decomposition
-│   │   │   │   │   └── odd_eq_R1R0_entry_number
-│   │   │   │   │   │   ├── power2_odd_decomposition
-│   │   │   │   │   │   │   └── even_ge_1_implies_ge_2
-│   │   │   │   │   │   └── odd_decomposition
-│   │   │   │   ├── build_k_steps_on_valid_R1R0
-│   │   │   │   │   └── build_k_steps_on_valid_R1R0_prefix_simple
-│   │   │   │   │   │   ├── build_k_steps_Sn
-│   │   │   │   │   │   ├── valid_R1R0_entry_number_odd
-│   │   │   │   │   │   └── repeat_R1R0_snoc
-│   │   │   │   └── build_k_steps_on_valid_R0R0
-│   │   │   │   │   └── build_k_steps_on_valid_R0R0_prefix
-│   │   │   │   │       ├── sequence_end_valid_R0_prefix
-│   │   │   │   │       ├── valid_R0R0_entry_number_properties
-│   │   │   │   │       └── repeat_R0_append_single
-│   │   │   ├── repeat_R1R0_output_lower_bound_linear
-│   │   │   ├── repeat_R1R0_output_lower_bound_const
-│   │   │   ├── repeat_R1R0_output_upper_bound
-│   │   │   └── R0R0_bounds_summary
-│   │   │   │   ├── R0R0_input_ge_n
-│   │   │   │   └── R0R0_output_exact_n
-│   │   ├── tighten_R1R0_strict_upper
-│   │   │   └── pow3_pos
-│   │   ├── valid_R1R0_entry_number_is_odd
-│   │   │   └── power_2_even_property
-│   │   ├── R1R0_decomposition_unique
-│   │   │   └── pow2_times_odd_unique
-│   │   │   │   └── pow2_times_odd_unique_le
-│   │   │   │       └── pow_cancel_lower
-│   │   ├── R0R0_canonical_factorization
-│   │   ├── R0R0_branch_simplification
-│   │   │   └── even_false_implies_odd
-│   │   └── R0R0_decomposition_unique
-│   ├── repeat_R1R0_length
-│   ├── build_k_steps_valid
-│   │   ├── sequence_end_valid
-│   │   │   └── valid_sequence_inductive
-│   │   │   │   └── single_step_valid
-│   │   ├── nth_append_last
-│   │   ├── nth_append_two
-│   │   └── nth_sequence_value_succ
-│   ├── R1R0_entry_d_log2_bound
-│   │   └── log2
-│   │   │   ├── Inline
-│   │   │   └── log2_spec
-│   │   │       └── log2_nonpos
-│   │   │           └── log2_upper_bound
-│   ├── log2_monotone
-│   ├── log2_mult_power2
-│   ├── build_k_steps_add
-│   ├── valid_sequence_app
-│   └── log2_mul_pow2
-└── mod62_macrostep_iterated_lower_bound_canonical
-    ├── extract_simple_chains_app
-    └── sum_contributions_app
+├── (valid_input)
+├── (CollatzOp)
+├── (build_k_steps)
+│   └── (sequence_end)
+│   │   └── (nth_sequence_value)
+│   │       └── (collatz_step)
+├── (valid_sequence)
+│   └── (valid_operation)
+│   │   ├── (is_even)
+│   │   └── (is_odd)
+├── (canonical_mod62_iterated_chains)
+│   └── (canonical_mod62_macrostep_chains)
+│   │   ├── (factor2)
+│   │   │   └── (factor2_bounded)
+│   │   │   │   └── (factor2_exp)
+│   │   │   │       └── (factor2_odd)
+│   │   │   │           └── [factor2_bounded_decomp]
+│   │   │   │               └── [div2_divmod_eq]
+│   │   └── (canonical_mod62_macrostep_end)
+│   │       └── (canonical_mod62_iterated_end)
+│   │           └── [canonical_mod62_macrostep_spec]
+│   │               ├── (valid_chains_condition)
+│   │               │   ├── (valid_chain_sequence_condition)
+│   │               │   │   ├── (valid_R1R0_entry_number)
+│   │               │   │   ├── (valid_R0R0_entry_number)
+│   │               │   │   └── 【valid_chains_sequence_R0_advantage_corollary】
+│   │               │   │   │   ├── (canonical_chain)
+│   │               │   │   │   │   ├── (repeat_R1R0)
+│   │               │   │   │   │   ├── (repeat_R0)
+│   │               │   │   │   │   └── (sum_contributions)
+│   │               │   │   │   │   │   └── (chains_to_sequence)
+│   │               │   │   │   │   │       └── [length_repeat_R1R0]
+│   │               │   │   │   ├── (extract_simple_chains)
+│   │               │   │   │   │   └── [extract_simple_chains_nonempty]
+│   │               │   │   │   └── 【generalized_valid_chains_sequence_R0_advantage】
+│   │               │   │   │       ├── [extract_simple_chains_valid]
+│   │               │   │   │       ├── 【generalized_concatenated_chains_R0_advantage】
+│   │               │   │   │       │   ├── [count_operations_chains_sequence]
+│   │               │   │   │       │   │   ├── [count_operations_app]
+│   │               │   │   │       │   │   │   └── (count_operations)
+│   │               │   │   │       │   │   ├── [count_repeat_R1R0]
+│   │               │   │   │       │   │   └── [count_repeat_R0]
+│   │               │   │   │       │   └── [count_operations_canonical_chain]
+│   │               │   │   │       │   │   ├── [count_R0_repeat_R1R0_plus_R0]
+│   │               │   │   │       │   │   ├── [count_R1_repeat_R1R0_plus_R0]
+│   │               │   │   │       │   │   ├── [count_R0_repeat_R0_plus_R1R0]
+│   │               │   │   │       │   │   └── [count_R1_repeat_R0_plus_R1R0]
+│   │               │   │   │       └── [canonical_chains_to_sequence]
+│   │               │   └── (chains_R0_advantage)
+│   │               │   │   └── 【universal_R0_advantage_bounds】
+│   │               ├── [factor2_spec_decomp]
+│   │               ├── [factor2_spec_odd]
+│   │               │   └── [factor2_bounded_odd]
+│   │               ├── [valid_R1R0_entry_number_plus1]
+│   │               ├── [R1R0_output_mod6]
+│   │               │   └── 【repeat_R1R0_output_closed_form_no_div】
+│   │               │   │   ├── [repeat_R1R0_output_closed_form]
+│   │               │   │   │   ├── [sequence_end_valid_R1R0_prefix]
+│   │               │   │   │   │   ├── [sequence_end_app]
+│   │               │   │   │   │   │   └── [nth_sequence_value_app]
+│   │               │   │   │   │   ├── [R1R0_pattern_closure]
+│   │               │   │   │   │   │   ├── [valid_R1R0_entry_number_properties]
+│   │               │   │   │   │   │   │   ├── [pow2_ge_2]
+│   │               │   │   │   │   │   │   │   └── [gt_0_2_pow]
+│   │               │   │   │   │   │   │   └── [pow2_minus_1_odd]
+│   │               │   │   │   │   │   │   │   └── [pow2_gt_0]
+│   │               │   │   │   │   │   ├── [sequence_end_two_steps]
+│   │               │   │   │   │   │   │   └── [even_3n_plus_1]
+│   │               │   │   │   │   │   └── [R1R0_two_steps_reduce]
+│   │               │   │   │   │   └── [arithmetic_identity_for_R1R0]
+│   │               │   │   │   │   │   └── [pow3_expand]
+│   │               │   │   │   └── [valid_R1R0_entry_number_d0]
+│   │               │   │   └── [pow3_minus1_twice_half]
+│   │               │   │       └── [pow3_is_odd]
+│   │               ├── [repeat_R1R0_output_even]
+│   │               ├── [even_true_implies_even]
+│   │               ├── [even_2x]
+│   │               └── [repeat_R0_output_reaches_one]
+│   │                   ├── [repeat_R0_length]
+│   │                   └── [R0_pattern_closure]
+│   │                       ├── [pow2_even_when_ge_2]
+│   │                       └── [even_div2_mul2]
+├── 【direct_conversion_to_mod6_2_orbit_canonical】
+│   ├── 【build_k_steps_numeric_canonical】
+│   │   ├── 【build_k_steps_numeric_bounds_exists】
+│   │   │   ├── 【build_k_steps_pattern_completeness】
+│   │   │   │   ├── 【complete_number_classification】
+│   │   │   │   │   ├── [even_eq_R0R0_entry_number]
+│   │   │   │   │   │   └── [even_decomposition]
+│   │   │   │   │   └── [odd_eq_R1R0_entry_number]
+│   │   │   │   │   │   ├── [power2_odd_decomposition]
+│   │   │   │   │   │   │   └── [even_ge_1_implies_ge_2]
+│   │   │   │   │   │   └── [odd_decomposition]
+│   │   │   │   ├── [build_k_steps_on_valid_R1R0]
+│   │   │   │   │   └── [build_k_steps_on_valid_R1R0_prefix_simple]
+│   │   │   │   │   │   ├── [build_k_steps_Sn]
+│   │   │   │   │   │   ├── [valid_R1R0_entry_number_odd]
+│   │   │   │   │   │   └── [repeat_R1R0_snoc]
+│   │   │   │   └── [build_k_steps_on_valid_R0R0]
+│   │   │   │   │   └── [build_k_steps_on_valid_R0R0_prefix]
+│   │   │   │   │       ├── [sequence_end_valid_R0_prefix]
+│   │   │   │   │       ├── [valid_R0R0_entry_number_properties]
+│   │   │   │   │       └── [repeat_R0_append_single]
+│   │   │   ├── [repeat_R1R0_output_lower_bound_linear]
+│   │   │   ├── [repeat_R1R0_output_lower_bound_const]
+│   │   │   ├── [repeat_R1R0_output_upper_bound]
+│   │   │   └── 【R0R0_bounds_summary】
+│   │   │   │   ├── [R0R0_input_ge_n]
+│   │   │   │   └── [R0R0_output_exact_n]
+│   │   ├── [tighten_R1R0_strict_upper]
+│   │   │   └── [pow3_pos]
+│   │   ├── [valid_R1R0_entry_number_is_odd]
+│   │   │   └── [power_2_even_property]
+│   │   ├── [R1R0_decomposition_unique]
+│   │   │   └── [pow2_times_odd_unique]
+│   │   │   │   └── [pow2_times_odd_unique_le]
+│   │   │   │       └── [pow_cancel_lower]
+│   │   ├── [R0R0_canonical_factorization]
+│   │   ├── [R0R0_branch_simplification]
+│   │   │   └── [even_false_implies_odd]
+│   │   └── [R0R0_decomposition_unique]
+│   ├── [repeat_R1R0_length]
+│   ├── [build_k_steps_valid]
+│   │   ├── [sequence_end_valid]
+│   │   │   └── [valid_sequence_inductive]
+│   │   │   │   └── [single_step_valid]
+│   │   ├── [nth_append_last]
+│   │   ├── [nth_append_two]
+│   │   └── [nth_sequence_value_succ]
+│   ├── [R1R0_entry_d_log2_bound]
+│   │   └── (log2)
+│   │   │   ├── (Inline)
+│   │   │   └── (log2_spec)
+│   │   │       └── (log2_nonpos)
+│   │   │           └── [log2_upper_bound]
+│   ├── [log2_monotone]
+│   ├── [log2_mult_power2]
+│   ├── [build_k_steps_add]
+│   ├── [valid_sequence_app]
+│   └── [log2_mul_pow2]
+└── 【mod62_macrostep_iterated_lower_bound_canonical】
+    ├── [extract_simple_chains_app]
+    └── [sum_contributions_app]

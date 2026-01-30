@@ -12,122 +12,127 @@ Statistics:
   - Total dependent theorems: 49
   - Maximum dependency depth: 8
 
+Bracket notation:
+  - 【name】 : Theorem-like (Theorem/Proposition/Corollary/Fact)
+  - [name]   : Lemma
+  - (name)   : Other (Definition/Fixpoint/Inductive/Axiom/...)
+
 Dependency levels:
 Level 0 (1 theorems):
-  - build_k_steps_pattern_completeness
+  - 【build_k_steps_pattern_completeness】                    collatz_part_11.v,5,20
 
 Level 1 (3 theorems):
-  - build_k_steps_on_valid_R0R0
-  - build_k_steps_on_valid_R1R0
-  - complete_number_classification
+  - [build_k_steps_on_valid_R0R0]                    collatz_part_10.v,326,333
+  - [build_k_steps_on_valid_R1R0]                    collatz_part_9.v,260,266
+  - 【complete_number_classification】                    collatz_part_3.v,142,175
 
 Level 2 (4 theorems):
-  - build_k_steps_on_valid_R0R0_prefix
-  - build_k_steps_on_valid_R1R0_prefix_simple
-  - even_eq_R0R0_entry_number
-  - odd_eq_R1R0_entry_number
+  - [build_k_steps_on_valid_R0R0_prefix]                    collatz_part_10.v,289,323
+  - [build_k_steps_on_valid_R1R0_prefix_simple]                    collatz_part_9.v,227,257
+  - [even_eq_R0R0_entry_number]                    collatz_part_3.v,109,137
+  - [odd_eq_R1R0_entry_number]                    collatz_part_3.v,66,106
 
 Level 3 (9 theorems):
-  - build_k_steps_Sn
-  - odd_decomposition
-  - power2_odd_decomposition
-  - repeat_R0_append_single
-  - repeat_R1R0_snoc
-  - sequence_end_valid_R0_prefix
-  - sequence_end_valid_R1R0_prefix
-  - valid_R0R0_entry_number_properties
-  - valid_R1R0_entry_number_odd
+  - [build_k_steps_Sn]                    collatz_part_6.v,96,107
+  - [odd_decomposition]                    collatz_part_2.v,215,229
+  - [power2_odd_decomposition]                    collatz_part_2.v,232,302
+  - [repeat_R0_append_single]                    collatz_part_10.v,275,286
+  - [repeat_R1R0_snoc]                    collatz_part_9.v,219,224
+  - [sequence_end_valid_R0_prefix]                    collatz_part_10.v,231,272
+  - [sequence_end_valid_R1R0_prefix]                    collatz_part_9.v,159,204
+  - [valid_R0R0_entry_number_properties]                    collatz_part_3.v,39,63
+  - [valid_R1R0_entry_number_odd]                    collatz_part_9.v,209,216
 
 Level 4 (9 theorems):
-  - R1R0_pattern_closure
-  - arithmetic_identity_for_R1R0
-  - build_k_steps
-  - even_decomposition
-  - even_ge_1_implies_ge_2
-  - repeat_R0
-  - repeat_R0_output_reaches_one
-  - repeat_R1R0
-  - sequence_end_app
+  - [R1R0_pattern_closure]                    collatz_part_8.v,78,181
+  - [arithmetic_identity_for_R1R0]                    collatz_part_9.v,140,156
+  - (build_k_steps)                    collatz_part_1.v,132,142
+  - [even_decomposition]                    collatz_part_2.v,203,212
+  - [even_ge_1_implies_ge_2]                    collatz_part_2.v,111,128
+  - (repeat_R0)                    collatz_part_1.v,101,107
+  - [repeat_R0_output_reaches_one]                    collatz_part_10.v,153,205
+  - (repeat_R1R0)                    collatz_part_1.v,108,114
+  - [sequence_end_app]                    collatz_part_7.v,36,44
 
 Level 5 (8 theorems):
-  - CollatzOp
-  - R0_pattern_closure
-  - R1R0_two_steps_reduce
-  - nth_sequence_value_app
-  - pow3_expand
-  - repeat_R0_length
-  - sequence_end_two_steps
-  - valid_R1R0_entry_number_properties
+  - (CollatzOp)                    collatz_part_1.v,15,19
+  - [R0_pattern_closure]                    collatz_part_10.v,47,84
+  - [R1R0_two_steps_reduce]                    collatz_part_8.v,5,43
+  - [nth_sequence_value_app]                    collatz_part_7.v,24,33
+  - [pow3_expand]                    collatz_part_3.v,178,181
+  - [repeat_R0_length]                    collatz_part_10.v,4,10
+  - [sequence_end_two_steps]                    collatz_part_8.v,46,75
+  - [valid_R1R0_entry_number_properties]                    collatz_part_3.v,5,36
 
 Level 6 (10 theorems):
-  - div2_divmod_eq
-  - even_3n_plus_1
-  - even_div2_mul2
-  - pow2_even_when_ge_2
-  - pow2_ge_2
-  - pow2_minus_1_odd
-  - sequence_end
-  - valid_R0R0_entry_number
-  - valid_R1R0_entry_number
-  - valid_input
+  - [div2_divmod_eq]                    collatz_part_2.v,100,106
+  - [even_3n_plus_1]                    collatz_part_2.v,305,316
+  - [even_div2_mul2]                    collatz_part_2.v,86,94
+  - [pow2_even_when_ge_2]                    collatz_part_2.v,183,199
+  - [pow2_ge_2]                    collatz_part_2.v,40,49
+  - [pow2_minus_1_odd]                    collatz_part_2.v,141,174
+  - (sequence_end)                    collatz_part_1.v,91,94
+  - (valid_R0R0_entry_number)                    collatz_part_1.v,36,39
+  - (valid_R1R0_entry_number)                    collatz_part_1.v,40,44
+  - (valid_input)                    collatz_part_1.v,20,22
 
 Level 7 (5 theorems):
-  - gt_0_2_pow
-  - is_even
-  - is_odd
-  - nth_sequence_value
-  - pow2_gt_0
+  - [gt_0_2_pow]                    collatz_part_2.v,32,37
+  - (is_even)                    collatz_part_1.v,23,23
+  - (is_odd)                    collatz_part_1.v,24,26
+  - (nth_sequence_value)                    collatz_part_1.v,84,90
+  - [pow2_gt_0]                    collatz_part_2.v,72,81
 
 Level 8 (1 theorems):
-  - collatz_step
+  - (collatz_step)                    collatz_part_1.v,27,31
 
 Dependency tree:
-├── valid_R1R0_entry_number
-├── build_k_steps
-│   ├── CollatzOp
-│   └── sequence_end
-│   │   └── nth_sequence_value
-│   │       └── collatz_step
-├── repeat_R1R0
-├── valid_R0R0_entry_number
-├── repeat_R0
-├── complete_number_classification
-│   ├── even_eq_R0R0_entry_number
-│   │   ├── is_even
-│   │   └── even_decomposition
-│   └── odd_eq_R1R0_entry_number
-│   │   ├── is_odd
-│   │   ├── power2_odd_decomposition
-│   │   │   └── even_ge_1_implies_ge_2
-│   │   ├── odd_decomposition
-│   │   └── pow2_ge_2
-│   │       └── gt_0_2_pow
-├── build_k_steps_on_valid_R1R0
-│   └── build_k_steps_on_valid_R1R0_prefix_simple
-│   │   ├── valid_input
-│   │   ├── valid_R1R0_entry_number_properties
-│   │   │   └── pow2_minus_1_odd
-│   │   │   │   └── pow2_gt_0
-│   │   ├── build_k_steps_Sn
-│   │   ├── sequence_end_valid_R1R0_prefix
-│   │   │   ├── sequence_end_app
-│   │   │   │   └── nth_sequence_value_app
-│   │   │   ├── R1R0_pattern_closure
-│   │   │   │   ├── sequence_end_two_steps
-│   │   │   │   │   └── even_3n_plus_1
-│   │   │   │   └── R1R0_two_steps_reduce
-│   │   │   └── arithmetic_identity_for_R1R0
-│   │   │   │   └── pow3_expand
-│   │   ├── valid_R1R0_entry_number_odd
-│   │   └── repeat_R1R0_snoc
-└── build_k_steps_on_valid_R0R0
-    └── build_k_steps_on_valid_R0R0_prefix
-        ├── sequence_end_valid_R0_prefix
-        │   └── repeat_R0_output_reaches_one
-        │   │   ├── div2_divmod_eq
-        │   │   ├── repeat_R0_length
-        │   │   └── R0_pattern_closure
-        │   │       ├── pow2_even_when_ge_2
-        │   │       └── even_div2_mul2
-        ├── valid_R0R0_entry_number_properties
-        └── repeat_R0_append_single
+├── (valid_R1R0_entry_number)
+├── (build_k_steps)
+│   ├── (CollatzOp)
+│   └── (sequence_end)
+│   │   └── (nth_sequence_value)
+│   │       └── (collatz_step)
+├── (repeat_R1R0)
+├── (valid_R0R0_entry_number)
+├── (repeat_R0)
+├── 【complete_number_classification】
+│   ├── [even_eq_R0R0_entry_number]
+│   │   ├── (is_even)
+│   │   └── [even_decomposition]
+│   └── [odd_eq_R1R0_entry_number]
+│   │   ├── (is_odd)
+│   │   ├── [power2_odd_decomposition]
+│   │   │   └── [even_ge_1_implies_ge_2]
+│   │   ├── [odd_decomposition]
+│   │   └── [pow2_ge_2]
+│   │       └── [gt_0_2_pow]
+├── [build_k_steps_on_valid_R1R0]
+│   └── [build_k_steps_on_valid_R1R0_prefix_simple]
+│   │   ├── (valid_input)
+│   │   ├── [valid_R1R0_entry_number_properties]
+│   │   │   └── [pow2_minus_1_odd]
+│   │   │   │   └── [pow2_gt_0]
+│   │   ├── [build_k_steps_Sn]
+│   │   ├── [sequence_end_valid_R1R0_prefix]
+│   │   │   ├── [sequence_end_app]
+│   │   │   │   └── [nth_sequence_value_app]
+│   │   │   ├── [R1R0_pattern_closure]
+│   │   │   │   ├── [sequence_end_two_steps]
+│   │   │   │   │   └── [even_3n_plus_1]
+│   │   │   │   └── [R1R0_two_steps_reduce]
+│   │   │   └── [arithmetic_identity_for_R1R0]
+│   │   │   │   └── [pow3_expand]
+│   │   ├── [valid_R1R0_entry_number_odd]
+│   │   └── [repeat_R1R0_snoc]
+└── [build_k_steps_on_valid_R0R0]
+    └── [build_k_steps_on_valid_R0R0_prefix]
+        ├── [sequence_end_valid_R0_prefix]
+        │   └── [repeat_R0_output_reaches_one]
+        │   │   ├── [div2_divmod_eq]
+        │   │   ├── [repeat_R0_length]
+        │   │   └── [R0_pattern_closure]
+        │   │       ├── [pow2_even_when_ge_2]
+        │   │       └── [even_div2_mul2]
+        ├── [valid_R0R0_entry_number_properties]
+        └── [repeat_R0_append_single]

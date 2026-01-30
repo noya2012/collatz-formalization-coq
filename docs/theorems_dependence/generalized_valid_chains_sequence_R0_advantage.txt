@@ -12,74 +12,79 @@ Statistics:
   - Total dependent theorems: 26
   - Maximum dependency depth: 7
 
+Bracket notation:
+  - 【name】 : Theorem-like (Theorem/Proposition/Corollary/Fact)
+  - [name]   : Lemma
+  - (name)   : Other (Definition/Fixpoint/Inductive/Axiom/...)
+
 Dependency levels:
 Level 0 (1 theorems):
-  - generalized_valid_chains_sequence_R0_advantage
+  - 【generalized_valid_chains_sequence_R0_advantage】                    collatz_part_17.v,402,454
 
 Level 1 (6 theorems):
-  - canonical_chains_to_sequence
-  - extract_simple_chains_nonempty
-  - extract_simple_chains_valid
-  - generalized_concatenated_chains_R0_advantage
-  - is_even
-  - sequence_end
+  - [canonical_chains_to_sequence]                    collatz_part_17.v,387,399
+  - [extract_simple_chains_nonempty]                    collatz_part_17.v,354,366
+  - [extract_simple_chains_valid]                    collatz_part_17.v,369,384
+  - 【generalized_concatenated_chains_R0_advantage】                    collatz_part_17.v,257,346
+  - (is_even)                    collatz_part_1.v,23,23
+  - (sequence_end)                    collatz_part_1.v,91,94
 
 Level 2 (4 theorems):
-  - count_operations_canonical_chain
-  - count_operations_chains_sequence
-  - extract_simple_chains
-  - nth_sequence_value
+  - [count_operations_canonical_chain]                    collatz_part_17.v,118,136
+  - [count_operations_chains_sequence]                    collatz_part_17.v,194,254
+  - (extract_simple_chains)                    collatz_part_17.v,350,353
+  - (nth_sequence_value)                    collatz_part_1.v,84,90
 
 Level 3 (9 theorems):
-  - collatz_step
-  - count_R0_repeat_R0_plus_R1R0
-  - count_R0_repeat_R1R0_plus_R0
-  - count_R1_repeat_R0_plus_R1R0
-  - count_R1_repeat_R1R0_plus_R0
-  - count_operations_app
-  - count_repeat_R0
-  - count_repeat_R1R0
-  - sum_contributions
+  - (collatz_step)                    collatz_part_1.v,27,31
+  - [count_R0_repeat_R0_plus_R1R0]                    collatz_part_17.v,55,73
+  - [count_R0_repeat_R1R0_plus_R0]                    collatz_part_17.v,76,94
+  - [count_R1_repeat_R0_plus_R1R0]                    collatz_part_17.v,97,115
+  - [count_R1_repeat_R1R0_plus_R0]                    collatz_part_17.v,34,52
+  - [count_operations_app]                    collatz_part_17.v,174,191
+  - [count_repeat_R0]                    collatz_part_17.v,164,169
+  - [count_repeat_R1R0]                    collatz_part_17.v,156,161
+  - (sum_contributions)                    collatz_part_17.v,10,18
 
 Level 4 (2 theorems):
-  - chains_to_sequence
-  - count_operations
+  - (chains_to_sequence)                    collatz_part_17.v,19,26
+  - (count_operations)                    collatz_part_1.v,64,76
 
 Level 5 (1 theorems):
-  - canonical_chain
+  - (canonical_chain)                    collatz_part_17.v,6,9
 
 Level 6 (3 theorems):
-  - length_repeat_R1R0
-  - repeat_R0
-  - repeat_R1R0
+  - [length_repeat_R1R0]                    collatz_part_17.v,27,30
+  - (repeat_R0)                    collatz_part_1.v,101,107
+  - (repeat_R1R0)                    collatz_part_1.v,108,114
 
 Level 7 (1 theorems):
-  - CollatzOp
+  - (CollatzOp)                    collatz_part_1.v,15,19
 
 Dependency tree:
-├── sequence_end
-│   └── nth_sequence_value
-│   │   └── collatz_step
-├── is_even
-├── canonical_chain
-│   ├── CollatzOp
-│   ├── repeat_R1R0
-│   ├── repeat_R0
-│   └── sum_contributions
-│   │   └── chains_to_sequence
-│   │       └── length_repeat_R1R0
-├── extract_simple_chains_nonempty
-│   └── extract_simple_chains
-├── extract_simple_chains_valid
-├── generalized_concatenated_chains_R0_advantage
-│   ├── count_operations_chains_sequence
-│   │   ├── count_operations_app
-│   │   │   └── count_operations
-│   │   ├── count_repeat_R1R0
-│   │   └── count_repeat_R0
-│   └── count_operations_canonical_chain
-│   │   ├── count_R0_repeat_R1R0_plus_R0
-│   │   ├── count_R1_repeat_R1R0_plus_R0
-│   │   ├── count_R0_repeat_R0_plus_R1R0
-│   │   └── count_R1_repeat_R0_plus_R1R0
-└── canonical_chains_to_sequence
+├── (sequence_end)
+│   └── (nth_sequence_value)
+│   │   └── (collatz_step)
+├── (is_even)
+├── (canonical_chain)
+│   ├── (CollatzOp)
+│   ├── (repeat_R1R0)
+│   ├── (repeat_R0)
+│   └── (sum_contributions)
+│   │   └── (chains_to_sequence)
+│   │       └── [length_repeat_R1R0]
+├── [extract_simple_chains_nonempty]
+│   └── (extract_simple_chains)
+├── [extract_simple_chains_valid]
+├── 【generalized_concatenated_chains_R0_advantage】
+│   ├── [count_operations_chains_sequence]
+│   │   ├── [count_operations_app]
+│   │   │   └── (count_operations)
+│   │   ├── [count_repeat_R1R0]
+│   │   └── [count_repeat_R0]
+│   └── [count_operations_canonical_chain]
+│   │   ├── [count_R0_repeat_R1R0_plus_R0]
+│   │   ├── [count_R1_repeat_R1R0_plus_R0]
+│   │   ├── [count_R0_repeat_R0_plus_R1R0]
+│   │   └── [count_R1_repeat_R0_plus_R1R0]
+└── [canonical_chains_to_sequence]

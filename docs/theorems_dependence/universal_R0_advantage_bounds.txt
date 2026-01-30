@@ -12,34 +12,39 @@ Statistics:
   - Total dependent theorems: 9
   - Maximum dependency depth: 4
 
+Bracket notation:
+  - 【name】 : Theorem-like (Theorem/Proposition/Corollary/Fact)
+  - [name]   : Lemma
+  - (name)   : Other (Definition/Fixpoint/Inductive/Axiom/...)
+
 Dependency levels:
 Level 0 (1 theorems):
-  - universal_R0_advantage_bounds
+  - 【universal_R0_advantage_bounds】                    collatz_part_18.v,21,35
 
 Level 1 (1 theorems):
-  - count_operations_canonical_chain
+  - [count_operations_canonical_chain]                    collatz_part_17.v,118,136
 
 Level 2 (5 theorems):
-  - count_R0_repeat_R0_plus_R1R0
-  - count_R0_repeat_R1R0_plus_R0
-  - count_R1_repeat_R0_plus_R1R0
-  - count_R1_repeat_R1R0_plus_R0
-  - count_operations
+  - [count_R0_repeat_R0_plus_R1R0]                    collatz_part_17.v,55,73
+  - [count_R0_repeat_R1R0_plus_R0]                    collatz_part_17.v,76,94
+  - [count_R1_repeat_R0_plus_R1R0]                    collatz_part_17.v,97,115
+  - [count_R1_repeat_R1R0_plus_R0]                    collatz_part_17.v,34,52
+  - (count_operations)                    collatz_part_1.v,64,76
 
 Level 3 (2 theorems):
-  - repeat_R0
-  - repeat_R1R0
+  - (repeat_R0)                    collatz_part_1.v,101,107
+  - (repeat_R1R0)                    collatz_part_1.v,108,114
 
 Level 4 (1 theorems):
-  - CollatzOp
+  - (CollatzOp)                    collatz_part_1.v,15,19
 
 Dependency tree:
-├── count_operations
-└── count_operations_canonical_chain
-    ├── repeat_R1R0
-    │   └── CollatzOp
-    ├── count_R0_repeat_R1R0_plus_R0
-    ├── count_R1_repeat_R1R0_plus_R0
-    ├── repeat_R0
-    ├── count_R0_repeat_R0_plus_R1R0
-    └── count_R1_repeat_R0_plus_R1R0
+├── (count_operations)
+└── [count_operations_canonical_chain]
+    ├── (repeat_R1R0)
+    │   └── (CollatzOp)
+    ├── [count_R0_repeat_R1R0_plus_R0]
+    ├── [count_R1_repeat_R1R0_plus_R0]
+    ├── (repeat_R0)
+    ├── [count_R0_repeat_R0_plus_R1R0]
+    └── [count_R1_repeat_R0_plus_R1R0]
