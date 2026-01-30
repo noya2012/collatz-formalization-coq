@@ -261,7 +261,7 @@
             </div>
             <div class="legend-item">
                 <div class="legend-box" style="border-color: #8b5cf6; background: rgba(139, 92, 246, 0.1);"></div>
-                <span>Canonical Chain Boundary</span>
+                <span>Chain Record Boundary (Coq `chains`)</span>
             </div>
         </div>
         
@@ -295,7 +295,7 @@
             </div>
             <div class="stat-item">
                 <div class="stat-value" id="canonicalCount">0</div>
-                <div class="stat-label">Canonical Chains</div>
+                <div class="stat-label">Chain Records (Coq `chains`)</div>
             </div>
             <div class="stat-item">
                 <div class="stat-value" id="peakValue">0</div>
@@ -310,7 +310,7 @@
             </div>
             
             <div class="info-section">
-                <h3>Canonical Chain Analysis</h3>
+                <h3>Chain Record Analysis (Coq theorem `chains`)</h3>
                 <div class="chain-summary" id="canonicalSummary"></div>
             </div>
         </div>
@@ -323,7 +323,12 @@
         let collatzSequence = [];
         let operations = [];
         let macrostepChains = [];
-        let canonicalChains = [];
+        // Coq theorem statement `chains : list (bool * nat * nat * nat * nat)`
+        // Here we visualize those *chain records* along the real Collatz orbit.
+        // Each macrostep contributes exactly two records:
+        //   (false, d0, n0, m0, m1) and (true, d1, n1, m1, m2)
+        // See: collatz_part_19.v canonical_mod62_macrostep_chains.
+        let chainRecords = [];
         
         const OperationType = {
             R0: 'R0',
@@ -365,7 +370,7 @@
             }
             
             analyzeMacrostepChains();
-            analyzeCanonicalChains();
+            analyzeChainRecords();
             updateStatistics();
             updateVisualization();
         }
@@ -431,88 +436,64 @@
             };
         }
         
-        // Analyze canonical chains
-        function analyzeCanonicalChains() {
-            canonicalChains = [];
-            let currentIndex = 0;
-            
-            while (currentIndex < operations.length) {
-                const r0r0Chain = findR0R0Chain(currentIndex);
-                if (r0r0Chain) {
-                    canonicalChains.push(r0r0Chain);
-                    currentIndex = r0r0Chain.endIndex + 1;
-                    continue;
-                }
-                
-                const r1r0Chain = findR1R0Chain(currentIndex);
-                if (r1r0Chain) {
-                    canonicalChains.push(r1r0Chain);
-                    currentIndex = r1r0Chain.endIndex + 1;
-                    continue;
-                }
-                
-                currentIndex++;
-            }
+        // Build Coq-style chain records (bool * nat * nat * nat * nat)
+        // from detected macrosteps along the real orbit.
+        function analyzeChainRecords() {
+            chainRecords = [];
+
+            macrostepChains.forEach((m, idx) => {
+                const m0 = m.startValue;
+                const m2 = m.endValue;
+                const startIndex = m.startIndex;
+                const endIndex = m.endIndex;
+
+                // After d0 consecutive R0 steps, we reach the odd part n0 (= m1).
+                const midIndex = startIndex + m.d0;
+                if (midIndex >= collatzSequence.length) return;
+
+                const m1 = collatzSequence[midIndex];
+                const n0 = m1; // matches Coq: n0 is the odd part after factor2
+
+                // For consistency with Coq naming:
+                // If m1 + 1 = 2^d1 * (2*n1 + 1), then n1 = floor(((m1+1)/2^d1)/2).
+                // We compute it arithmetically for display; it is not used elsewhere.
+                const q1 = (m1 + 1) / Math.pow(2, m.d1);
+                const n1 = Math.floor(q1 / 2);
+
+                // Record 1: (false, d0, n0, m0, m1)
+                chainRecords.push({
+                    macrostepIndex: idx,
+                    b: false,
+                    type: 'R0R0_entry',
+                    d: m.d0,
+                    n: n0,
+                    startIndex: startIndex,
+                    endIndex: midIndex,
+                    startValue: m0,
+                    endValue: m1,
+                    contribution: m.d0
+                });
+
+                // Record 2: (true, d1, n1, m1, m2)
+                chainRecords.push({
+                    macrostepIndex: idx,
+                    b: true,
+                    type: 'R1R0_entry',
+                    d: m.d1,
+                    n: n1,
+                    startIndex: midIndex,
+                    endIndex: endIndex,
+                    startValue: m1,
+                    endValue: m2,
+                    contribution: 1
+                });
+            });
         }
         
-        // Find R0R0 entry canonical chain
-        function findR0R0Chain(startIndex) {
-            if (startIndex >= operations.length - 2) return null;
-            
-            let d = 0;
-            let index = startIndex;
-            
-            while (index < operations.length && operations[index] === OperationType.R0) {
-                d++;
-                index++;
-            }
-            
-            if (d >= 1 && index + 1 < operations.length && 
-                operations[index] === OperationType.R1 && 
-                operations[index + 1] === OperationType.R0) {
-                
-                return {
-                    type: 'R0R0',
-                    startIndex: startIndex,
-                    endIndex: index + 1,
-                    d: d,
-                    contribution: d,
-                    operationCount: d + 2
-                };
-            }
-            
-            return null;
-        }
-        
-        // Find R1R0 entry canonical chain
-        function findR1R0Chain(startIndex) {
-            if (startIndex >= operations.length - 1) return null;
-            
-            let d = 0;
-            let index = startIndex;
-            
-            while (index + 1 < operations.length && 
-                   operations[index] === OperationType.R1 && 
-                   operations[index + 1] === OperationType.R0) {
-                d++;
-                index += 2;
-            }
-            
-            if (d >= 1 && index < operations.length && 
-                operations[index] === OperationType.R0) {
-                
-                return {
-                    type: 'R1R0',
-                    startIndex: startIndex,
-                    endIndex: index,
-                    d: d,
-                    contribution: 1,
-                    operationCount: 2 * d + 1
-                };
-            }
-            
-            return null;
-        }
+        // Note: this visualization previously included a greedy partition into
+        // Coq `canonical_chain` op-lists (repeat_R0 d ++ [R1;R0] / repeat_R1R0 d ++ [R0]).
+        // We removed it because the current goal is to align with the theorem-statement
+        // chain records (bool * nat * nat * nat * nat) produced per macrostep.
         
         // Update statistics
         function updateStatistics() {
@@ -525,7 +506,7 @@
             document.getElementById('r1Count').textContent = r1Count;
             document.getElementById('advantage').textContent = r0Count - r1Count;
             document.getElementById('macrostepCount').textContent = macrostepChains.length;
-            document.getElementById('canonicalCount').textContent = canonicalChains.length;
+            document.getElementById('canonicalCount').textContent = chainRecords.length;
             document.getElementById('peakValue').textContent = peakValue.toLocaleString();
             
             document.getElementById('spacingValue').textContent = 
@@ -554,25 +535,29 @@
                 macrostepSummary.innerHTML = '<p>No macrostep structures found</p>';
             }
             
-            // Update canonical chain summary
+            // Update chain-record summary (Coq theorem statement `chains`)
             const canonicalSummary = document.getElementById('canonicalSummary');
-            if (canonicalChains.length > 0) {
-                canonicalSummary.innerHTML = canonicalChains.map((c, i) => {
-                    const color = c.type === 'R0R0' ? '#8b5cf6' : '#ec4899';
-                    const pattern = c.type === 'R0R0' ? 
-                        `R0^${c.d} → [R1,R0]` : `R1R0^${c.d} → [R0]`;
+            if (chainRecords.length > 0) {
+                canonicalSummary.innerHTML = chainRecords.map((c, i) => {
+                    const color = c.b ? '#ec4899' : '#8b5cf6';
+                    const bg = c.b ? '#fde8f2' : '#f3e8ff';
+                    const kind = c.b ? 'b=true (R1R0 entry)' : 'b=false (R0R0 entry)';
+                    const pattern = c.b ? `repeat_R1R0(${c.d})` : `repeat_R0(${c.d})`;
                     return `<div class="chain-group" style="border-left: 4px solid ${color};">
-                        <h4 style="color: ${color};">Canonical Chain ${i + 1} (${c.type} Entry)</h4>
-                        <div class="chain-item" style="background: #f3e8ff; color: ${color};">
+                        <h4 style="color: ${color};">Chain Record ${i + 1} [Macrostep ${c.macrostepIndex + 1}]</h4>
+                        <div class="chain-item" style="background: ${bg}; color: ${color};">
+                            ${kind}, d=${c.d}, n=${c.n}
+                        </div>
+                        <div class="chain-item" style="background: ${bg}; color: ${color};">
                             Range: idx ${c.startIndex} → ${c.endIndex}
                         </div>
-                        <div class="chain-item" style="background: #f3e8ff; color: ${color};">
-                            Pattern: ${pattern}, d=${c.d}
+                        <div class="chain-item" style="background: ${bg}; color: ${color};">
+                            ${pattern}, contribution=${c.contribution}
                         </div>
                     </div>`;
                 }).join('');
             } else {
-                canonicalSummary.innerHTML = '<p>No canonical chain structures found</p>';
+                canonicalSummary.innerHTML = '<p>No Coq-style chain records found</p>';
             }
         }
         
@@ -758,8 +743,8 @@
         
         // Draw canonical chain boundary boxes
         function drawCanonicalBoxes(ctx, spacing, getY) {
-            canonicalChains.forEach((chain, idx) => {
-                const color = chain.type === 'R0R0' ? '#8b5cf6' : '#ec4899';
+            chainRecords.forEach((chain, idx) => {
+                const color = chain.b ? '#ec4899' : '#8b5cf6';
                 const minIdx = chain.startIndex;
                 const maxIdx = chain.endIndex;
                 
@@ -786,11 +771,13 @@
                 ctx.strokeRect(boxX, boxY, boxEndX - boxX, boxHeight);
                 
                 // Add canonical chain label (only show partial to avoid overlap)
-                if (idx < 15) {
+                if (idx < 30) {
                     ctx.fillStyle = color;
                     ctx.font = 'bold 10px sans-serif';
                     ctx.textAlign = 'left';
-                    const label = chain.type === 'R0R0' ? `C${idx + 1}(d=${chain.d})` : `D${idx + 1}(d=${chain.d})`;
+                    const label = chain.b
+                        ? `b=1 #${idx + 1} (d=${chain.d})`
+                        : `b=0 #${idx + 1} (d=${chain.d})`;
                     ctx.fillText(label, boxX, boxY - 3);
                 }
             });
