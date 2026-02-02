@@ -113,7 +113,7 @@ This theorem establishes **conversion to mod6=2 orbit**:
 
 ### Example 1: m=5 (R1R0 branch)
 - Canonical: d=1, n=1 (5 = valid_R1R0_entry_number 1 1)
-- Build: build_k_steps 5 1 = [R1; R0; R0]
+- Build: build_k_steps 5 1 = [R1; R0]
 - Length: k = 2
 - Final: m_final = 8 (from 5 → 16 → 8)
 - Check: 8 mod 6 = 2 ✓
@@ -122,17 +122,17 @@ This theorem establishes **conversion to mod6=2 orbit**:
 ### Example 2: m=12 (R0R0 branch)
 - Canonical: d=2, n=3 (12 = valid_R0R0_entry_number 2 3)
 - R0^2: 12 → 6 → 3 (q=3)
-- R1R0^1 from q=3: 3 → 10 → 5
-- Total: K = 2+1 = 3
-- Build: [R0; R0; R1; R0; R0]
-- Length: k = 5
+- R1R0^2 from q=3: 3 → 10 → 5 → 16 → 8
+- Total: K = 2+2 = 4
+- Build: build_k_steps 12 4 = [R0; R0; R1; R0; R1; R0]
+- Length: k = 6
 - Final: m_final = 8 (from 12 → 6 → 3 → 10 → 5 → 16 → 8)
 - Check: 8 mod 6 = 2 ✓
-- Bound: 5 ≤ 2*(log2 12 + 1) = 2*5 = 10 ✓
+- Bound: 6 ≤ 2*(log2 12 + 1) = 2*5 = 10 ✓
 
 ### Example 3: m=1
 - Canonical: d=1, n=0 (1 = valid_R1R0_entry_number 1 0)
-- Build: [R1; R0; R0]
+- Build: build_k_steps 1 1 = [R1; R0]
 - Final: 1 → 4 → 2
 - Check: 2 mod 6 = 2 ✓
 - Bound: 2 ≤ 2*(0 + 1) = 2 ✓

@@ -187,20 +187,20 @@ The proof uses complex case analysis to construct the macrostep:
   - Advantage: 3
 
 - **Canonical Decomposition of m1 = 1**:
-  - 1 = valid_R1R0_entry_number 1 0 = 0 + 1 = 1
+  - 1 = valid_R1R0_entry_number 1 0 = (2*2*0) + (2-1) = 0 + 1 = 1
   - d1 = 1, n1 = 0 ✓
 
 - **Phase 2 - R1R0^1**:
-  - Pattern: [R1, R0; R0]
+  - Pattern: [R1, R0]
   - Process: 1 → 4 → 2
   - Output: m2 = 2 (mod 6 = 2 ✓)
   - Advantage: 1
 
 - **Macrostep Properties**:
   - Chains: [(false, 3, 1, 8, 1), (true, 1, 0, 1, 2)]
-  - Total operations: 2*3 + 2*1 = 8
-  - R0 count: 4, R1 count: 2
-  - Total advantage: 3 + 1 = 4 = d0 + 1 ✓
+  - Total operations: d0 + 2*d1 = 3 + 2*1 = 5
+  - R0 count: d0 + d1 = 3 + 1 = 4, R1 count: d1 = 1
+  - Total advantage: d0 + 1 = 3 + 1 = 4 ✓
   - sum_contributions: 4 ✓
 
 ### Example 2: m0 = 14 (mod 6 = 2)
@@ -215,114 +215,25 @@ The proof uses complex case analysis to construct the macrostep:
   - Advantage: 1
 
 - **Canonical Decomposition of m1 = 7**:
-  - 7 = valid_R1R0_entry_number 1 3 = 2*2*3 + 1 = 13 (not 7!)
-  
-  **Error**: This shows m1 cannot be R1R0 entry. Let me recalculate...
+  - 7 = valid_R1R0_entry_number 3 0 = (2*8)*0 + 7 = 7
+  - d1 = 3, n1 = 0 ✓
 
-  Actually: 7 (odd) should be R1R0 entry:
-  - Try d1=0: valid_R1R0_entry_number 0 7 = (2*1)*7 + 0 = 14, not 7
-  - Try d1=1: valid_R1R0_entry_number 1 7 = (2*2)*7 + 1 = 29, not 7
-  
-  **Issue**: 7 is odd but not a valid R1R0_entry_number for small d. This means we need a larger d1.
-
-  Let me try the correct example...
-
-### Example 2 (Corrected): m0 = 20 (mod 6 = 2)
-- **Canonical Decomposition**:
-  - 20 = valid_R0R0_entry_number 2 5 = 5 * 2^2 = 20
-  - d0 = 2, n0 = 5 (odd ✓)
-
-- **Phase 1 - R0^2**:
-  - Pattern: [R0, R0]
-  - Process: 20 → 10 → 5
-  - Output: m1 = 5 ✓
-  - Advantage: 2
-
-- **Canonical Decomposition of m1 = 5**:
-  - 5 = valid_R1R0_entry_number 1 2 = (2*2)*2 + 1 = 9, not 5
-  
-  **Still wrong**: Let me check if 5 can be R1R0 entry...
-  - For n1=1, d1=1: output = 2*3*1 + 2 = 8
-  - For n1=0, d1=1: output = 0 + 2 = 2 ✓
-  
-  **Correct**: n1 = 0, d1 = 1
-  - valid_R1R0_entry_number 1 0 = (2*2)*0 + 1 = 1... wait, m1=5
-
-  **Issue**: The R1R0 pattern produces numbers ≡ 2 (mod 6), but we need to reach mod6=2, not necessarily 2.
-
-  Let me use a better example...
-
-### Example 2 (Final): m0 = 26 (mod 6 = 2)
-- **Canonical Decomposition**:
-  - 26 = valid_R0R0_entry_number 1 13 = 13 * 2^1 = 26
-  - d0 = 1, n0 = 13 (odd ✓)
-
-- **Phase 1 - R0^1**:
-  - Pattern: [R0]
-  - Process: 26 → 13
-  - Output: m1 = 13 ✓
+- **Phase 2 - R1R0^3**:
+  - Pattern: [R1, R0, R1, R0, R1, R0] (3 R1R0 pairs)
+  - Process: 7 → 22 → 11 → 34 → 17 → 52 → 26
+  - Output: m2 = 26 (mod 6 = 2 ✓)
   - Advantage: 1
 
-- **Canonical Decomposition of m1 = 13**:
-  - 13 (odd) is R1R0 entry
-  - For d1=1, n1=6: valid_R1R0_entry_number 1 6 = (2*2)*6 + 1 = 25
-  - For d1=2, n1=3: valid_R1R0_entry_number 2 3 = (2*4)*3 + 3 = 27
-  - For d1=2, n1=2: valid_R1R0_entry_number 2 2 = (2*4)*2 + 3 = 19
-  - For d1=3, n1=1: valid_R1R0_entry_number 3 1 = (2*8)*1 + 7 = 23
-  
-  **Best match**: d1=3, n1=1 gives m1=23
-  - Check: 23 mod 6 = 5, not 2
-  - Need m2 ≡ 2 (mod 6)
-  
-  Let me try d1=3, n1=0:
-  - valid_R1R0_entry_number 3 0 = (2*8)*0 + 7 = 7... still not 2
-  
-  Let me try d1=2, n1=2:
-  - valid_R1R0_entry_number 2 2 = (2*4)*2 + 3 = 19... not 2
-  
-  **Realization**: For m1=13, we need to find d1,n1 such that output ≡ 2 (mod 6)
-  - Using R1R0_output_mod6 property: any valid_R1R0_entry produces output ≡ 2 (mod 6)
-  - So choose d1=1, n1=3: valid_R1R0_entry_number 1 3 = 25
-  - Check: 25 mod 6 = 1... need mod 6 = 2
-  
-  - Choose d1=1, n1=4: valid_R1R0_entry_number 1 4 = 33, 33 mod 6 = 3... not 2
-  
-  This example is getting complex. Let me simplify with m0 = 2.
-
-### Example 2 (Simplified): m0 = 2 (mod 6 = 2)
-- **Canonical Decomposition**:
-  - 2 = valid_R0R0_entry_number 1 1 = 1 * 2^1 = 2
-  - d0 = 1, n0 = 1 (odd ✓)
-
-- **Phase 1 - R0^1**:
-  - Pattern: [R0]
-  - Process: 2 → 1
-  - Output: m1 = 1 ✓
-  - Advantage: 1
-
-- **Canonical Decomposition of m1 = 1**:
-  - 1 (odd) is R1R0 entry
-  - For d1=1, n1=0: valid_R1R0_entry_number 1 0 = 2*2*0 + 1 = 1
-  - Output: m2 = 1 mod 6 = 1... need mod 6 = 2
-  
-  - For d1=1, n1=1: valid_R1R0_entry_number 1 1 = 2*2*1 + 1 = 5
-  - Output: m2 = 5 mod 6 = 5... not 2
-  
-  - For d1=2, n1=0: valid_R1R0_entry_number 2 0 = 4*0 + 3 = 7
-  - Output: m2 = 7 mod 6 = 1... not 2
-  
-  - For d1=2, n1=1: valid_R1R0_entry_number 2 1 = 8*1 + 3 = 11
-  - Output: m2 = 11 mod 6 = 5... not 2
-  
-  **Key insight**: Starting from m1=1, we need d1,n1 such that output ≡ 2 (mod 6)
-  - But 1 itself is a special case...
+- **Macrostep Properties**:
+  - Chains: [(false, 1, 7, 14, 7), (true, 3, 0, 7, 26)]
+  - Total operations: d0 + 2*d1 = 1 + 2*3 = 7
+  - R0 count: d0 + d1 = 1 + 3 = 4, R1 count: d1 = 3
+  - Total advantage: d0 + 1 = 1 + 1 = 2 ✓
+  - sum_contributions: 2 ✓
 
 ### Example 3: m0 = 32 (mod 6 = 2)
 - **Canonical Decomposition**:
-  - 32 = valid_R0R0_entry_number 2 8 = 8 * 2^2 = 32
-  - d0 = 2, n0 = 8 (even... wait, n0 must be odd!)
-
-  - **Correction**: 32 = valid_R0R0_entry_number 5 1 = 1 * 2^5 = 32
+  - 32 = valid_R0R0_entry_number 5 1 = 1 * 2^5 = 32
   - d0 = 5, n0 = 1 (odd ✓)
 
 - **Phase 1 - R0^5**:
@@ -331,12 +242,22 @@ The proof uses complex case analysis to construct the macrostep:
   - Output: m1 = 1 ✓
   - Advantage: 5
 
-- **Phase 2 - R1R0^?**:
-  - Need d1,n1 with m1=1
-  - d1=1, n1=0: output = 1 ≡ 1 (mod 6)... need 2
-  - d1=1, n1=3: output = 25 ≡ 1 (mod 6)... need 2
-  
-  **Complexity**: Finding d1,n1 with output ≡ 2 (mod 6) from m1=1 is non-trivial
+- **Canonical Decomposition of m1 = 1**:
+  - 1 = valid_R1R0_entry_number 1 0 = (2*2)*0 + 1 = 1
+  - d1 = 1, n1 = 0 ✓
+
+- **Phase 2 - R1R0^1**:
+  - Pattern: [R1, R0]
+  - Process: 1 → 4 → 2
+  - Output: m2 = 2 (mod 6 = 2 ✓)
+  - Advantage: 1
+
+- **Macrostep Properties**:
+  - Chains: [(false, 5, 1, 32, 1), (true, 1, 0, 1, 2)]
+  - Total operations: d0 + 2*d1 = 5 + 2*1 = 7
+  - R0 count: d0 + d1 = 5 + 1 = 6, R1 count: d1 = 1
+  - Total advantage: d0 + 1 = 5 + 1 = 6 ✓
+  - sum_contributions: 6 ✓
 
 ## Related Theorems
 

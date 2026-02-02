@@ -172,10 +172,10 @@ Qed.
 ## Example Explanations
 
 ### Example 1: Odd Number Case
-- **Input**: m=7 (odd)
-- **Classification**: 7 = valid_R1R0_entry_number 1 1 (since 7 = 2*2^1*1 + (2^1-1) = 4+3)
-- **Pattern**: build_k_steps 7 1 should equal repeat_R1R0 1 = [R1; R0]
-- **Verification**: Starting from 7 (odd), build_k_steps adds [R1; R0], which matches repeat_R1R0 1
+- **Input**: m=5 (odd)
+- **Classification**: 5 = valid_R1R0_entry_number 1 1 (since 5 = 2*2^1*1 + (2^1-1) = 4+1)
+- **Pattern**: build_k_steps 5 1 should equal repeat_R1R0 1 = [R1; R0]
+- **Verification**: Starting from 5 (odd), build_k_steps adds [R1; R0], which matches repeat_R1R0 1
 
 ### Example 2: Even Number Case
 - **Input**: m=12 (even)
@@ -187,13 +187,14 @@ Qed.
   - Result: [R0; R0] = repeat_R0 2 ✓
 
 ### Example 3: Higher D Value (Odd)
-- **Input**: m=31 (odd)
-- **Classification**: 31 = valid_R1R0_entry_number 2 3 (since 31 = 2*4*3 + 3 = 24+7)
-- **Pattern**: build_k_steps 31 2 should equal repeat_R1R0 2 = [R1; R0; R1; R0]
+- **Input**: m=23 (odd)
+- **Classification**: 23 = valid_R1R0_entry_number 3 1 (since 23 = 2*8*1 + (8-1) = 16+7)
+- **Pattern**: build_k_steps 23 3 should equal repeat_R1R0 3 = [R1; R0; R1; R0; R1; R0]
 - **Verification**:
-  - Step 1: 31 (odd), add [R1; R0] → 31 → 94 → 47
-  - Step 2: 47 (odd), add [R1; R0] → 47 → 142 → 71
-  - Result: [R1; R0; R1; R0] ✓
+  - Step 1: 23 (odd), add [R1; R0] → 23 → 70 → 35
+  - Step 2: 35 (odd), add [R1; R0] → 35 → 106 → 53
+  - Step 3: 53 (odd), add [R1; R0] → 53 → 160 → 80
+  - Result: [R1; R0; R1; R0; R1; R0] ✓
 
 ## Related Theorems
 

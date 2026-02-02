@@ -239,54 +239,57 @@ The proof uses:
 - Phase 1: 14 → 7 (R0^1), m1 = 7
 - m1 is NOT mod6=2 (7 mod 6 = 1)
 
-- Phase 2: 7 = valid_R1R0_entry_number 1 1
-- Process: 7 → 22 → 11 (R1R0^1), m2 = 11
+- Phase 2: Apply R1R0 pattern (build_k_steps generates R1R0 pair)
+- Process: 7 → 22 → 11 (R1R0), m2 = 11
 - m2 mod 6 = 5 (not 2)
 
-- Phase 3: 11 = valid_R1R0_entry_number 1 2
-- Process: 11 → 34 → 17 (R1R0^1), m3 = 17
+- Phase 3: Apply R1R0 pattern
+- Process: 11 → 34 → 17 (R1R0), m3 = 17
 - m3 mod 6 = 5 (not 2)
 
-- Phase 4: 17 = valid_R1R0_entry_number 1 3
-- Process: 17 → 52 → 26 (R1R0^1), m4 = 26
+- Phase 4: Apply R1R0 pattern
+- Process: 17 → 52 → 26 (R1R0), m4 = 26
 - m4 mod 6 = 2 ✓
 
-- Total operations: 1 (R0) + 2+2+2 (three R1R0) = 7
+- Total operations: 1 (R0) + 2+2+2 (three R1R0 pairs) = 7
+1 (R0) + 2+2+2 (three R1R0 pairs) = 7
 - K = 7 (total operations)
 - Bound: 2*(log2 14 + 1) = 2*4 = 8 ≥ 7 ✓
 
 **Analysis**:
 - First phase (m=14→m1=7): R0^1, advantage = 1
-- Second phase (m=7→m2=11): R1R0^1, advantage = 1
-- Third phase (m=11→m3=17): R1R0^1, advantage = 1
-- Fourth phase (m=17→m4=26): R1R0^1, advantage = 1
+- Second phase (m=7→m2=11): R1R0, advantage = 1
+- Third phase (m=11→m3=17): R1R0, advantage = 1
+- Fourth phase (m=17→m4=26): R1R0, advantage = 1
 - Total initial advantage: 4 (before reaching mod6=2)
 
 **t=2 macrosteps from m4=26**:
 - Total advantage ≥ 4 (initial) + 2*2 = 8
 - Chains = 4 chains, valid, mt mod 6 = 2
-- Second macrostep (m1=7→m2=11): R1R0^1, advantage = 1
-- Third macrostep (m2=11→m3=17): R1R0^1, advantage = 1
-- Fourth macrostep (m3=17→m4=26): R1R0^1, advantage = 1
-- Total advantage = 4, 2*t = 2*4 = 8 ≥ 4 ✓
 
 ### Example 3: m = 32
 
 **Initial Conversion**:
 - Start: m = 32
-- Canonical: 32 = valid_R0R0_entry_number 1 16
-- Process: 32 → 16 → 8 → 4 → 2 → 1 (R0^4)
+- Canonical decomposition: 32 = valid_R0R0_entry_number 5 1 = 1 * 2^5 = 32
+- Process: 32 → 16 → 8 → 4 → 2 → 1 (R0^5)
 - m1 = 1, m1 mod 6 = 1 (not 2)
-- Continue: 1 → 4 → 2 (R1R0^1)
+- Continue: Apply R1R0 pattern (build_k_steps generates R1R0 pair)
+- Process: 1 → 4 → 2 (R1R0)
 - m2 = 2, m2 mod 6 = 2 ✓
 
-- Operations: 4 + 2 = 6, K = 2 macrosteps
-- Bound: 2*(log2 32 + 1) = 2*6 = 12 ≥ 6 ✓
+- Total operations: 5 (R0) + 2 (R1R0) = 7
+- K = 7 (total operations)
+- Bound: 2*(log2 32 + 1) = 2*6 = 12 ≥ 7 ✓
 
-**Total advantage**:
-- First macrostep (R0^4): advantage = 4
-- Second macrostep (R1R0^1): advantage = 1
-- Total: 5 ≥ 2*2 = 4 ✓
+**Analysis**:
+- First phase (m=32→m1=1): R0^5, advantage = 5
+- Second phase (m1=1→m2=2): R1R0, advantage = 1
+- Total initial advantage: 6 (before reaching mod6=2)
+
+**t=1 macrostep from m2=2**:
+- Total advantage ≥ 6 (initial) + 2*1 = 8
+- Chains = 2 chains, valid, mt mod 6 = 2
 
 ## Related Theorems
 

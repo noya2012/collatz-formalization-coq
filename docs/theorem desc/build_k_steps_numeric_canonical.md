@@ -118,9 +118,9 @@ Key innovation: Adds **uniqueness quantification** to the existence theorem.
 
 ## Example Explanations
 
-### Example 1: m=7 (R1R0 branch)
+### Example 1: m=5 (R1R0 branch)
 - Unique representation: d=1, n=1
-- Valid: 7 = valid_R1R0_entry_number 1 1 ✓
+- Valid: 5 = valid_R1R0_entry_number 1 1 ✓
 - Pattern: [R1; R0]
 - Bounds: 6 ≤ 8 < 12, 2 ≤ 8 ✓
 - Uniqueness: No other (d',n') works

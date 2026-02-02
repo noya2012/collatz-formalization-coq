@@ -118,8 +118,8 @@ Qed.
 ## Example Explanations
 
 ### Odd Number Example
-- m=7 (odd)
-- Decomposition: 7 = (2 * 2^1 * 1) + (2^1 - 1) = 4 + 3 = valid_R1R0_entry_number 1 1
+- m=5 (odd)
+- Decomposition: 5 = (2 * 2^1 * 1) + (2^1 - 1) = 4 + 1 = valid_R1R0_entry_number 1 1
 - Correspondence: d=1, n=1, representing one R1R0 operation
 
 ### Even Number Example

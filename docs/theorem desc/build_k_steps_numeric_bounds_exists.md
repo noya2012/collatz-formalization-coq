@@ -114,9 +114,9 @@ Qed.
 
 ## Example Explanations
 
-### Example 1: m=7 (odd, R1R0 branch)
-- Classification: 7 = valid_R1R0_entry_number 1 1
-- Pattern: build_k_steps 7 1 = repeat_R1R0 1 = [R1; R0]
+### Example 1: m=5 (odd, R1R0 branch)
+- Classification: 5 = valid_R1R0_entry_number 1 1
+- Pattern: build_k_steps 5 1 = repeat_R1R0 1 = [R1; R0]
 - Bounds:
   - 2*3^1*1 = 6 ≤ output = 8 ≤ 3^1*(2*1+1) = 9 ✓
   - 3^1-1 = 2 ≤ output = 8 ✓
