@@ -29,10 +29,54 @@ README_CN.md
 # 忽略中文文档文件
 docs/主要方法论创新点.md
 docs/模6=2轨道上的优势线性增长定理.md
+full方法论.md
 
-# 忽略依赖分析文件夹
-full_dependency_analysis/
+# 配置依赖分析文件夹
+# 先允许所有文件
+!full_dependency_analysis/
+# 保留核心脚本（run_lite_analysis.cmd 及其关联的 Python 文件）
+!full_dependency_analysis/run_lite_analysis.cmd
+!full_dependency_analysis/dependency_extractor.py
+!full_dependency_analysis/code_lite_generator.py
+!full_dependency_analysis/major_theorem_dependency_analyzer.py
+# 保留配置文件和文档
+!full_dependency_analysis/prj_files.txt
+!full_dependency_analysis/README.md
+
+# 忽略其他 .cmd 脚本
+full_dependency_analysis/run_full_dependency_analysis.cmd
+full_dependency_analysis/skill.md
+
+# 忽略其他 Python 脚本
+full_dependency_analysis/batch_dependency_extractor.py
+full_dependency_analysis/single_theorem_extractor.py
+full_dependency_analysis/extract_independent_theorems.py
+full_dependency_analysis/find_independent_elements.py
+full_dependency_analysis/theorem_corollary_separator.py
+
+# 忽略分析输出文件（按类型分组，保留 run_lite_analysis.cmd 的输出）
+# .txt 文件
+full_dependency_analysis/*.txt
+!full_dependency_analysis/prj_files.txt
+!full_dependency_analysis/README.md
+!full_dependency_analysis/code_index.txt
+!full_dependency_analysis/namelist.txt
+!full_dependency_analysis/code_lite.txt
+
+# .csv 文件
+full_dependency_analysis/*.csv
+!full_dependency_analysis/theorem_deps.csv
+!full_dependency_analysis/theorem_reverse_deps.csv
+
+# .dot 文件
+full_dependency_analysis/*.dot
+!full_dependency_analysis/theorem_deps.dot
+
+# 忽略分析输出子目录
+full_dependency_analysis/independence/
+full_dependency_analysis/theorems_dependence/
 
 # 忽略未完成的Coq证明文件
 collatz_part_19_0.v
 collatz_part_19_1.v
+collatz_part_20.v
