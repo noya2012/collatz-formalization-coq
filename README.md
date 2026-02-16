@@ -234,6 +234,12 @@ These contributions provide important insights into the dynamic and numerical‑
 
 Building upon traditional Collatz research, this formalization supplies new analytical tools and proof paradigms to the field via formal verification methods. Not only does it prove key sub‑propositions of the Collatz conjecture, more importantly it **contributes a systematic technical framework to the domain of mathematical formalization**, demonstrating an effective path for transforming intuitive mathematical insights into machine‑verifiable proofs.
 
+## Documentation
+
+- **Project Wiki**: [GitHub Wiki](https://github.com/noya2012/collatz-formalization-coq/wiki) - Interactive documentation with core insights, quantitative results, theorem roadmap, and concept reference
+- **Interactive Visualization**: [cz_ms_cc_visualization.html](docs/cz_ms_cc_visualization.html) - Interactive visualization of Collatz sequence patterns and macro-step analysis
+- **Theorem Descriptions**: [docs/theorem desc/](docs/theorem desc/) - Detailed documentation for 20+ key theorems and corollaries
+
 ## Related Resources
 
 - **Original research repository**: [noya2012/collatz-prof1](https://github.com/noya2012/collatz-prof1)
@@ -241,13 +247,6 @@ Building upon traditional Collatz research, this formalization supplies new anal
 - **Collatz conjecture overview**: [Wikipedia](https://en.wikipedia.org/wiki/Collatz_conjecture)
 - **Terence Tao's progress (2019)**: Almost all Collatz orbits attain almost bounded values
 
-## Documentation
-
-- **[Project Wiki](https://github.com/noya2012/collatz-formalization-coq/wiki)** - Interactive documentation with core insights, quantitative results, theorem roadmap, and concept reference
-
-Additional documentation is available in the `docs/` directory:
-- [Interactive Visualization](docs/cz_ms_cc_visualization.html) - Interactive visualization of Collatz sequence patterns and macro-step analysis
-- [Theorem Descriptions](docs/theorem desc/) - Detailed documentation for 20+ key theorems and corollaries
 
 ## Changelog
 
