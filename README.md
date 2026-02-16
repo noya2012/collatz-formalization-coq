@@ -243,6 +243,8 @@ Building upon traditional Collatz research, this formalization supplies new anal
 
 ## Documentation
 
+- **[Project Wiki](https://github.com/noya2012/collatz-formalization-coq/wiki)** - Interactive documentation with core insights, quantitative results, theorem roadmap, and concept reference
+
 Additional documentation is available in the `docs/` directory:
 - [Interactive Visualization](docs/cz_ms_cc_visualization.html) - Interactive visualization of Collatz sequence patterns and macro-step analysis
 - [Theorem Descriptions](docs/theorem desc/) - Detailed documentation for 20+ key theorems and corollaries
