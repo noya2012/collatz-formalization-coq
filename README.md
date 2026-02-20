@@ -194,18 +194,23 @@ coqc collatz_part_19.v
 ```bash
 cd full_dependency_analysis
 python dependency_extractor.py
-python batch_dependency_extractor.py --verbose
 ```
 
 **3. Generate lite code index (optional):**
 ```bash
 cd full_dependency_analysis
-python collatz_lite_generator.py
+python code_lite_generator.py
 ```
 
 **4. Check dependency depth for key theorems:**
 ```bash
+cd full_dependency_analysis
 python major_theorem_dependency_analyzer.py global_mod62_advantage_growth_canonical --to-file
+```
+
+Or use the automated batch script (Windows):
+```bash
+full_dependency_analysis\run_lite_analysis.cmd
 ```
 
 ### Quick Reference
@@ -237,8 +242,8 @@ Building upon traditional Collatz research, this formalization supplies new anal
 ## Documentation
 
 - **Project Wiki**: [GitHub Wiki](https://github.com/noya2012/collatz-formalization-coq/wiki) - Interactive documentation with core insights, quantitative results, theorem roadmap, and concept reference
-- **Interactive Visualization**: [cz_ms_cc_visualization.html](docs/cz_ms_cc_visualization.html) - Interactive visualization of Collatz sequence patterns and macro-step analysis
-- **Theorem Descriptions**: [docs/theorem desc/](docs/theorem desc/) - Detailed documentation for 20+ key theorems and corollaries
+- **Interactive Visualization**: [Collatz Sequence Visualization](https://noya2012.github.io/collatz-formalization-coq/cz_ms_cc_visualization.html) - Interactive visualization of Collatz sequence patterns and macro-step analysis
+- **Theorem Descriptions**: [docs/theorem desc/](docs/theorem%20desc/) - Detailed documentation for 20+ key theorems and corollaries
 
 ## Related Resources
 
