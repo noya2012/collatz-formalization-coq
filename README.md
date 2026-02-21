@@ -1,5 +1,10 @@
 # Advancing the Collatz Conjecture: A Coq‑Formalized Proof of Linear Division Advantage on Structured Orbits
 
+[![Coq](https://img.shields.io/badge/Coq-8.10.2+-blue.svg)](https://coq.inria.fr)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Version](https://img.shields.io/badge/Version-1.0-green.svg)](https://github.com/noya2012/collatz-formalization-coq/releases)
+[![Last Updated](https://img.shields.io/badge/Last_Updated-January_2026-orange.svg)](https://github.com/noya2012/collatz-formalization-coq/commits/main)
+
 *Combinatorial Analysis and Machine Verification of the mod‑6≡2 Invariant*
 
 *Author: JN.Z (JNZ)*
