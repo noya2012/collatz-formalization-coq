@@ -3,22 +3,37 @@
 [![Coq](https://img.shields.io/badge/Coq-8.10.2+-blue.svg)](https://coq.inria.fr)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Version](https://img.shields.io/badge/Version-1.0-green.svg)](https://github.com/noya2012/collatz-formalization-coq/releases)
-[![Last Updated](https://img.shields.io/badge/Last_Updated-January_2026-orange.svg)](https://github.com/noya2012/collatz-formalization-coq/commits/main)
+[![Last Updated](https://img.shields.io/badge/Last_Updated-February_2026-orange.svg)](https://github.com/noya2012/collatz-formalization-coq/commits/main)
 
-*Combinatorial Analysis and Machine Verification of the mod‑6≡2 Invariant*
+> **Formal Verification of the 3n+1 Problem using Coq Proof Assistant | Number Theory | Discrete Mathematics | Dynamical Systems**
+
+*A machine-verified combinatorial analysis framework proving linear division advantage on mod‑6≡2 invariant orbits*
 
 *Author: JN.Z (JNZ)*
 
 **License**: MIT License  
 **Version**: 1.0  
-**Last Updated**: January 2026  
+**Last Updated**: February 2026  
 **Contact**: For questions or contributions, please open an issue in the repository or contact the author through GitHub.
+
+---
+
+## 🔍 About This Project
+
+This repository presents a **Coq formalization framework** for the **Collatz conjecture** (also known as the **3n+1 problem**, **3x+1 conjecture**, or **Syracuse problem**) - one of the most famous unsolved problems in **number theory** and **discrete mathematics**.
+
+Using a novel **combinatorial analysis framework** combined with **formal verification** techniques, this project delivers machine-checked proofs of key structural properties of Collatz sequences. The work focuses on the **mod‑6≡2 invariant orbit** and establishes rigorous quantitative bounds on operation advantages.
+
+### 🎯 Key Research Keywords
+`Collatz Conjecture` · `3n+1 Problem` · `Coq Proof Assistant` · `Formal Verification` · `Number Theory` · `Discrete Mathematics` · `Dynamical Systems` · `Combinatorial Analysis` · `Mathematical Logic` · `Theorem Proving`
+
+---
 
 ## Project Overview
 
-This repository develops a comprehensive Coq formalization of the Collatz conjecture (3n+1 problem) using a **combinatorial analysis framework**. The approach identifies repeated patterns (R1R0 and R0R0 patterns) in Collatz sequences, constructs graph theory models, and combines local properties into global theorems, resulting in a complete proof system implemented in the Coq proof assistant.
+This repository develops a comprehensive **Coq formalization** of the **Collatz conjecture** (**3n+1 problem**) using a **combinatorial analysis framework**. The approach identifies repeated patterns (**R1R0** and **R0R0 patterns**) in **Collatz sequences**, constructs **graph theory models**, and combines local properties into global theorems, resulting in a complete **proof system** implemented in the **Coq proof assistant**.
 
-**Key Breakthrough**: First rigorous formal proof that on the mod‑6≡2 orbit, the advantage of R0 operations (division by 2) over R1 operations (3n+1) grows at least linearly, providing core quantitative support for the convergence of Collatz sequences to 1.
+**Key Breakthrough**: First rigorous **formal proof** that on the **mod‑6≡2 orbit**, the advantage of **R0 operations** (division by 2) over **R1 operations** (3n+1) grows at least linearly, providing core quantitative support for the convergence of **Collatz sequences** to 1.
 
 The key technical contributions include:
 
@@ -258,7 +273,7 @@ Building upon traditional Collatz research, this formalization supplies new anal
 - **Terence Tao's progress (2019)**: Almost all Collatz orbits attain almost bounded values
 
 
-## Changelog
+## Current version
 
 ### Version 1.0 (January 2026)
 - Initial release of the comprehensive Coq formalization
@@ -267,7 +282,43 @@ Building upon traditional Collatz research, this formalization supplies new anal
 - Key breakthrough: `global_mod62_advantage_growth_canonical` theorem
 - Dependency analysis framework with 7 Python tools
 - Complete documentation in English and Chinese
+## Changelog
 
+### Version 1.0 (February 2026)
+- Core breakthrough: `global_mod62_advantage_growth_canonical` theorem
+- R0 Advantage Theorem System: 6-level hierarchical proof architecture
+- Sequence pattern upper bound theorems and exact numerical upper bounds
+- Pattern continuity and preservation theorems
+
+### Version 0.5 (February 2026)
+- Sequence decomposable and combinable theorems
+- Sequence pattern generation form theorems
+- Main composition theorems refined
+
+### Version 0.4 (January 2026)
+- Combinatorial analysis framework established
+- Triangular undirected graph decomposition method
+- Intensive theorem proving period (Jan 20-30)
+
+### Version 0.3 (October 2025)
+- **Oct 10**: Project migrated to `collatz-formalization-coq`, "Collatz Project" created
+- **Oct 14**: Complete Collatz Lite formalization with canonical decomposition theorems, pattern classification, numerical bounds, and logarithmic upper bounds analysis
+- **Oct 15-18**: Canonical theory established, mod62 classification system, `canonical_mod62` theorem series
+
+### Version 0.2 (May - June 2025)
+- BKS (`build_k_steps`) theoretical foundation established
+- Core operation definitions: R1R0, R0R0
+- Preliminary local property exploration
+
+### Version 0.1 (November - December 2024)
+- `collatz-prof1` repository created (Nov 24)
+- Original idea documents organized (docx)
+- Combinatorial analysis method conceived
+
+### Pre-Version (March 2023 - October 2024)
+- Earliest paper written (Mar 9, 2023)
+- Original ideas formed and iterated
+- Numerical observation and pattern discovery
 ### Key Statistics
 - **Total theorems and corollaries**: 20+ main theorems
 - **Maximum dependency depth**: 17 layers
