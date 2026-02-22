@@ -1,0 +1,30 @@
+cff-version: 1.2.0
+title: Collatz Formalization Framework
+message: If you use this software, please cite it as below
+authors:
+  - name: JN.Z
+    url: https://github.com/noya2012
+year: 2026
+date-released: 2026-02-01
+version: 1.0
+license: MIT
+url: https://github.com/noya2012/collatz-formalization-coq
+repository-code: https://github.com/noya2012/collatz-formalization-coq
+description: |
+  A comprehensive Coq formalization framework for the Collatz conjecture 
+  (3n+1 problem) using combinatorial analysis. This project provides 
+  machine-verified proofs of key structural properties of Collatz sequences, 
+  focusing on the mod-6≡2 invariant orbit and establishing rigorous 
+  quantitative bounds on operation advantages.
+keywords:
+  - collatz-conjecture
+  - 3n+1-problem
+  - coq
+  - formal-verification
+  - proof-assistant
+  - number-theory
+  - discrete-mathematics
+  - dynamical-systems
+  - mathematical-logic
+  - theorem-proving
+  - combinatorial-analysis
