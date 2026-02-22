@@ -21,12 +21,15 @@ import os
 import re
 from typing import List, Tuple
 
-# Project root directory (relative to this script)
-PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+# Script directory (where this script is located)
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+# Project root directory (parent of SCRIPT_DIR)
+PROJECT_ROOT = os.path.dirname(SCRIPT_DIR)
+
 # Project file list path
-PRJ_FILES_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'prj_files.txt')
+PRJ_FILES_PATH = os.path.join(SCRIPT_DIR, 'prj_files.txt')
 # Output file path
-OUTPUT_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'code_lite.txt')
+OUTPUT_FILE = os.path.join(SCRIPT_DIR, 'code_lite.txt')
 
 def load_project_files() -> List[str]:
     """
@@ -50,11 +53,11 @@ def load_project_files() -> List[str]:
             if line and not line.startswith('#'):
                 # Convert path to current system format
                 normalized_path = line.replace('/', os.sep).replace('\\', os.sep)
-                # If path is absolute, use directly; otherwise relative to project root
+                # If path is absolute, use directly; otherwise relative to script directory
                 if os.path.isabs(normalized_path):
                     file_paths.append(normalized_path)
                 else:
-                    file_paths.append(os.path.join(PROJECT_ROOT, normalized_path))
+                    file_paths.append(os.path.join(SCRIPT_DIR, normalized_path))
         
         print(f"Loaded {len(file_paths)} files from {PRJ_FILES_PATH}")
         return file_paths

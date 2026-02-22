@@ -152,25 +152,6 @@ Qed.
 - **Formula**: 2*3^1*0 + (3^1-1) = 0 + 2 = 2 ✓
 
 ### Example 2: D=1, n=1
-- **Starting number**: valid_R1R0_entry_number 1 1 = (2*2*1) + (2-1) = 4+3 = 7
-- **Operations**: [R1; R0]
-- **Process**: 7 → 22 (R1: 3*7+1) → 11 (R0: 22/2)
-- **Formula**: 2*3^1*1 + (3^1-1) = 6 + 2 = 8
-
-**Note**: Wait, this doesn't match! Let me recalculate:
-- Process: 7 → 3*7+1 = 22 → 22/2 = 11
-- But formula gives: 2*3*1 + 2 = 8
-
-There seems to be a discrepancy. Let me re-examine...
-
-Actually, let me check the valid_R1R0_entry_number definition:
-valid_R1R0_entry_number D n = (2 * 2^D * n) + (2^D - 1)
-
-For D=1, n=1: (2 * 2^1 * 1) + (2^1 - 1) = (2*2*1) + (2-1) = 4+1 = 5 (not 7!)
-
-Let me redo this example correctly:
-
-### Example 2 (Corrected): D=1, n=1
 - **Starting number**: valid_R1R0_entry_number 1 1 = 5
 - **Operations**: [R1; R0]
 - **Process**: 5 → 16 (R1: 3*5+1) → 8 (R0: 16/2)

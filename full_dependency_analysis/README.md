@@ -88,8 +88,35 @@ python major_theorem_dependency_analyzer.py "theorem_name" --to-file
 Before running any analysis, configure `prj_files.txt` to specify Coq source files:
 
 ```powershell
-# Generate file list
-Get-ChildItem -Path E:\collatz -Filter "*.v" -Recurse | Select-Object -ExpandProperty FullName > prj_files.txt
+# Generate file list (adjust path to your project directory)
+Get-ChildItem -Path "YourProjectPath" -Filter "*.v" -Recurse | Select-Object -ExpandProperty FullName > prj_files.txt
+```
+
+**Important: Path Configuration Notes**
+
+The paths in `prj_files.txt` are relative to the script execution directory (`full_dependency_analysis/`). Choose the appropriate format based on your project structure:
+
+**If .v files are in a parent directory (use `../` prefix):**
+```
+../log2_p.v
+../collatz_part_1.v
+../collatz_part_2.v
+...
+```
+
+**If .v files are in the same directory:**
+```
+log2_p.v
+collatz_part_1.v
+collatz_part_2.v
+...
+```
+
+**If .v files are in a subdirectory:**
+```
+../your_subdir/log2_p.v
+../your_subdir/collatz_part_1.v
+...
 ```
 
 **Note**: The order matters—files that are depended upon should appear earlier in the list.

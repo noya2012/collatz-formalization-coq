@@ -6,7 +6,7 @@ echo Coq Dependency Analyzer - Lite Version
 echo ============================================
 echo.
 
-cd /d "e:\collatz\full_dependency_analysis"
+cd /d "%~dp0"
 
 REM Check required files exist
 if not exist "dependency_extractor.py" (

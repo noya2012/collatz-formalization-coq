@@ -1,7 +1,7 @@
 Code Lite
 ==================================================
 Description: This file contains Coq code with proof sections removed
-Processed files: 21
+Processed files: 22
 Failed files: 0
 ============================================================
 File: log2_p.v
@@ -880,6 +880,53 @@ Lemma next_entry_from_R0R0 : forall m d n,
     build_k_steps m (S d) = repeat_R0 d ++ [R1; R0].
 .
 ============================================================
+File: collatz_part_16_1.v
+============================================================
+Load "collatz_part_16.v".
+(* Collatz Pattern Cycle Deterministic: Proves that for any starting value m ≥ 1 the Collatz sequence follows a deterministic cycle pattern between R1R0 and R0R0 entries *)
+Theorem collatz_pattern_cycle_deterministic : forall m,
+  m >= 1 ->
+  (exists d n Send d' n',
+      d >= 1 /\ n >= 0 /\ m = valid_R1R0_entry_number d n /\
+      sequence_end m (repeat_R1R0 d) = Send /\
+      is_even Send /\
+      build_k_steps m d = repeat_R1R0 d /\
+      build_k_steps m (S d) = repeat_R1R0 d ++ [R0] /\
+      d' >= 1 /\ n' >= 1 /\ is_odd n' /\
+      Send = valid_R0R0_entry_number d' n' /\
+      sequence_end Send (repeat_R0 d') = n' /\
+      build_k_steps Send d' = repeat_R0 d' /\
+      build_k_steps Send (S d') = repeat_R0 d' ++ [R1; R0] /\
+      (forall d0 n0, d0 >= 1 -> n0 >= 0 -> m = valid_R1R0_entry_number d0 n0 -> d0 = d /\ n0 = n) /\
+      (forall d0 n0, d0 >= 1 -> n0 >= 1 -> is_odd n0 -> Send = valid_R0R0_entry_number d0 n0 -> d0 = d' /\ n0 = n')) \/
+  (exists d n Send d' n' NextEven,
+    d >= 1 /\ n >= 1 /\ is_odd n /\ m = valid_R0R0_entry_number d n /\
+    sequence_end m (repeat_R0 d) = Send /\
+    is_odd Send /\
+    build_k_steps m d = repeat_R0 d /\
+    build_k_steps m (S d) = repeat_R0 d ++ [R1; R0] /\
+    d' >= 1 /\ n' >= 0 /\ Send = valid_R1R0_entry_number d' n' /\
+    sequence_end Send (repeat_R1R0 d') = NextEven /\ is_even NextEven /\
+    build_k_steps Send d' = repeat_R1R0 d' /\
+    build_k_steps Send (S d') = repeat_R1R0 d' ++ [R0] /\
+    (forall d0 n0, d0 >= 1 -> n0 >= 1 -> is_odd n0 -> m = valid_R0R0_entry_number d0 n0 -> d0 = d /\ n0 = n) /\
+    (forall d0 n0, d0 >= 1 -> n0 >= 0 -> Send = valid_R1R0_entry_number d0 n0 -> d0 = d' /\ n0 = n')).
+.
+(* Collatz cycle branch theorem *)
+Theorem collatz_cycle : forall m d n,
+  (R1R0_entry m d n) \/ (R0R0_entry m d n) ->
+  (exists Send d' n',
+      sequence_end m (repeat_R1R0 d) = Send /\
+      is_even Send /\
+      R0R0_entry Send d' n' /\
+      build_k_steps m (S d) = repeat_R1R0 d ++ [R0]) \/
+  (exists Send d' n',
+      sequence_end m (repeat_R0 d) = Send /\
+      is_odd Send /\
+      R1R0_entry Send d' n' /\
+      build_k_steps m (S d) = repeat_R0 d ++ [R1; R0]).
+.
+============================================================
 File: collatz_part_17.v
 ============================================================
 Load "collatz_part_16.v".
@@ -1089,6 +1136,371 @@ Lemma chains_R0_advantage_app :
     chains_R0_advantage (chains1 ++ chains2).
 .
 ============================================================
+File: collatz_part_18_1.v
+============================================================
+Load "collatz_part_18.v".
+(* Load "collatz_part_16_2.v".*)
+(*  定理R1R0到R0R0的闭包  *)
+Theorem R1R0_to_R0R0_closure :
+  forall (d : nat) (n : nat),
+  d >= 1 -> n >= 0 ->
+  let m := valid_R1R0_entry_number d n in
+  let Send := sequence_end m (repeat_R1R0 d) in
+  is_even Send ->
+  exists (d' : nat) (n' : nat),
+    d' >= 1 /\ is_odd n' /\ n' >= 1 /\
+    Send = valid_R0R0_entry_number d' n' /\
+    sequence_end (valid_R0R0_entry_number d' n') (repeat_R0 d') = n'.
+.
+(*  R0到R1R0的闭包  *)
+Theorem R0R0_to_R1R0_reverse : forall (d' : nat) (n' : nat),
+  d' >= 1 -> is_odd n' -> n' >= 1 ->
+  exists (d : nat) (n : nat),
+    d >= 1 /\ n >= 0 /\
+    n' = valid_R1R0_entry_number d n /\
+    is_odd (valid_R1R0_entry_number d n).
+.
+(*  从 R1R0 分支出发，经过 R0R0 分支，再回到 R1R0 分支*)
+Theorem R1R0_full_cycle_step :
+  forall (d : nat) (n : nat),
+  d >= 1 -> n >= 0 ->
+  let m := valid_R1R0_entry_number d n in
+  let Send := sequence_end m (repeat_R1R0 d) in
+  is_even Send ->
+  exists (d' d'' : nat) (n' n'' : nat),
+    d' >= 1 /\ is_odd n' /\ n' >= 1 /\
+    Send = valid_R0R0_entry_number d' n' /\
+    sequence_end Send (repeat_R0 d') = n' /\
+    d'' >= 1 /\ n'' >= 0 /\
+    n' = valid_R1R0_entry_number d'' n'' /\
+    is_odd (valid_R1R0_entry_number d'' n'').
+.
+(* R0R0 分支也有对称的完整循环步骤 *)
+Theorem R0R0_full_cycle_step :
+  forall (d : nat) (n : nat),
+  d >= 1 -> n >= 1 -> is_odd n ->
+  let m := valid_R0R0_entry_number d n in
+  let Send := sequence_end m (repeat_R0 d) in
+  (* Send = n，是奇数 *)
+  exists (d' d'' : nat) (n' n'' : nat),
+    (* 第一步：R0R0 链执行后进入 R1R0 分支 *)
+    d' >= 1 /\ n' >= 0 /\
+    Send = valid_R1R0_entry_number d' n' /\
+    is_odd (valid_R1R0_entry_number d' n') /\
+    (* 第二步：R1R0 链执行后 Send' 是偶数，可回到 R0R0 分支 *)
+    d'' >= 1 /\ is_odd n'' /\ n'' >= 1 /\
+    sequence_end (valid_R1R0_entry_number d' n') (repeat_R1R0 d') =
+      valid_R0R0_entry_number d'' n''.
+.
+(*  循环状态与迭代关系  *)
+Record cycle_state := {
+  cs_branch : bool;
+  cs_d : nat;
+  cs_n : nat
+}.
+(*  构造循环状态  *)
+Definition mk_cycle_state (b : bool) (d n : nat) : cycle_state :=
+  {| cs_branch := b; cs_d := d; cs_n := n |}.
+(*  循环状态的有效性  *)
+Definition valid_cycle_state (s : cycle_state) : Prop :=
+  match cs_branch s with
+  | true =>
+      cs_d s >= 1 /\
+      cs_n s >= 0 /\
+      is_even
+        (sequence_end (valid_R1R0_entry_number (cs_d s) (cs_n s))
+                      (repeat_R1R0 (cs_d s)))
+  | false =>
+      cs_d s >= 1 /\
+      cs_n s >= 1 /\
+      is_odd (cs_n s)
+  end.
+(*  循环步骤关系  *)
+Inductive cycle_step : cycle_state -> cycle_state -> Prop :=
+| cycle_step_from_R1R0 :
+    forall d n d' d'' n' n'',
+      d >= 1 ->
+      n >= 0 ->
+      let m := valid_R1R0_entry_number d n in
+      let Send := sequence_end m (repeat_R1R0 d) in
+      is_even Send ->
+      d' >= 1 ->
+      is_odd n' ->
+      n' >= 1 ->
+      Send = valid_R0R0_entry_number d' n' ->
+      sequence_end Send (repeat_R0 d') = n' ->
+      d'' >= 1 ->
+      n'' >= 0 ->
+      n' = valid_R1R0_entry_number d'' n'' ->
+      is_odd (valid_R1R0_entry_number d'' n'') ->
+      cycle_step (mk_cycle_state true d n) (mk_cycle_state true d'' n'')
+| cycle_step_from_R0R0 :
+    forall d n d' d'' n' n'',
+      d >= 1 ->
+      n >= 1 ->
+      is_odd n ->
+      let m := valid_R0R0_entry_number d n in
+      let Send := sequence_end m (repeat_R0 d) in
+      d' >= 1 ->
+      n' >= 0 ->
+      Send = valid_R1R0_entry_number d' n' ->
+      is_odd (valid_R1R0_entry_number d' n') ->
+      is_even (sequence_end (valid_R1R0_entry_number d' n') (repeat_R1R0 d')) ->
+      d'' >= 1 ->
+      is_odd n'' ->
+      n'' >= 1 ->
+      sequence_end (valid_R1R0_entry_number d' n') (repeat_R1R0 d') =
+        valid_R0R0_entry_number d'' n'' ->
+      cycle_step (mk_cycle_state false d n) (mk_cycle_state false d'' n'').
+(*  循环步骤的多步关系  *)
+Inductive cycle_steps : nat -> cycle_state -> cycle_state -> Prop :=
+| cycle_steps_zero :
+    forall s, cycle_steps 0 s s
+| cycle_steps_succ :
+    forall k s1 s2 s3,
+      cycle_step s1 s2 ->
+      cycle_steps k s2 s3 ->
+      cycle_steps (S k) s1 s3.
+(*  循环步骤的度量  *)
+Definition cycle_measure (s : cycle_state) : nat :=
+  match cs_branch s with
+  | true =>
+      sequence_end (valid_R1R0_entry_number (cs_d s) (cs_n s))
+                   (repeat_R1R0 (cs_d s))
+  | false =>
+      valid_R0R0_entry_number (cs_d s) (cs_n s)
+  end.
+(*  循环步骤的收敛性  *)
+Theorem cycle_steps_convergence_R1R0 :
+  forall (d : nat) (n : nat),
+    d >= 1 ->
+    n >= 0 ->
+    valid_cycle_state (mk_cycle_state true d n) ->
+    exists (k : nat) (s_final : cycle_state),
+      cycle_steps k (mk_cycle_state true d n) s_final /\
+      cs_branch s_final = true.
+.
+(*  R0R0 分支收敛性定理  *)
+Theorem cycle_steps_convergence_R0R0 :
+  forall (d : nat) (n : nat),
+    d >= 1 ->
+    n >= 1 ->
+    valid_cycle_state (mk_cycle_state false d n) ->
+    exists (k : nat) (s_final : cycle_state),
+      cycle_steps k (mk_cycle_state false d n) s_final /\
+      cs_branch s_final = false.
+.
+(*  循环状态可达性定理  *)
+Theorem cycle_state_reachability :
+  forall (s : cycle_state),
+    valid_cycle_state s ->
+    exists (k : nat) (s_final : cycle_state),
+      cycle_steps k s s_final /\
+      cs_branch s_final = cs_branch s.
+.
+(*  规范链的R0操作优势定理  *)
+Theorem canonical_R0_advantage :
+  forall (s : cycle_state),
+    valid_cycle_state s ->
+    let ops := canonical_chain (cs_branch s) (cs_d s) in
+    fst (count_operations ops) > snd (count_operations ops) /\
+    fst (count_operations ops) - snd (count_operations ops) =
+      (if cs_branch s then 1 else cs_d s).
+.
+(*  循环步性质封装  *)
+Lemma valid_cycle_state_cycle_step :
+  forall (s : cycle_state),
+    valid_cycle_state s ->
+    exists (s' : cycle_state),
+      cycle_step s s' /\ cs_branch s' = cs_branch s.
+.
+(* 对于任何有效的循环状态，存在一个有限步数k，使得经过k次循环步后，状态仍然保持在同一分支 *)
+Theorem chain_characterization_with_advantage :
+  (forall m, m mod 6 = 2 ->
+     exists d n, d >= 1 /\ n >= 0 /\
+     m = sequence_end (valid_R1R0_entry_number d n) (repeat_R1R0 d) /\
+     let '(r0s, r1s) := count_operations (canonical_chain true d) in
+     r0s = d + 1 /\ r1s = d /\ r0s <= 2 * r1s) /\
+  (forall m, m mod 2 = 1 ->
+     exists d n, d >= 1 /\ n >= 1 /\ is_odd n /\
+     m = sequence_end (valid_R0R0_entry_number d n) (repeat_R0 d) /\
+     let '(r0s, r1s) := count_operations (canonical_chain false d) in
+     r0s = d + 1 /\ r1s = 1 /\ r0s >= 2 * r1s).
+.
+(*  R1R0链比例公式 *)
+Theorem R1R0_chain_ratio_formula : forall d,
+  d >= 1 ->
+  let '(r0s, r1s) := count_operations (canonical_chain true d) in
+  r0s / r1s = (d + 1) / d /\
+  r0s = r1s + 1.
+.
+(*  R0链比例公式 *)
+Theorem R0_chain_ratio_formula : forall d,
+  d >= 1 ->
+  let '(r0s, r1s) := count_operations (canonical_chain false d) in
+  r0s / r1s = d + 1 /\
+  r0s = r1s * (d + 1).
+.
+(*  统一比例公式  *)
+Theorem unified_chain_ratio_formula : forall b d,
+  d >= 1 ->
+  let '(r0s, r1s) := count_operations (canonical_chain b d) in
+  match b with
+  | true => r0s = d + 1 /\ r1s = d /\ r0s = r1s + 1
+  | false => r0s = d + 1 /\ r1s = 1 /\ r0s = (d + 1) * r1s
+  end.
+.
+(*  比例优势分析  *)
+Theorem R0_advantage_ratio_analysis : forall b d,
+  d >= 1 ->
+  let '(r0s, r1s) := count_operations (canonical_chain b d) in
+  r0s > r1s /\
+  (if b then r0s <= 2 * r1s else r0s >= 2 * r1s) /\
+  r0s - r1s = (if b then 1 else d).
+.
+(*  序列组合的比例公式  *)
+Theorem total_operations_ratio_formula : forall chains,
+  chains <> nil ->
+  (forall bd, In bd chains -> let '(b, d) := bd in d >= 1) ->
+  let total_ops := chains_to_sequence chains in
+  let '(total_r0s, total_r1s) := count_operations total_ops in
+  let contributions := sum_contributions chains in
+  total_r0s = total_r1s + contributions.
+.
+(* pattern_toggle_deterministic : 确定性模式切换定理 *)
+Theorem pattern_toggle_deterministic :
+  (forall m, m mod 6 = 2 ->
+     exists d n d' n',
+       d >= 1 /\ n >= 0 /\
+       d' >= 1 /\ n' >= 1 /\ is_odd n' /\
+       m = sequence_end (valid_R1R0_entry_number d n) (repeat_R1R0 d) /\
+       valid_input m /\
+       m = valid_R0R0_entry_number d' n' /\
+       let next_m := sequence_end m (repeat_R0 d') in
+       next_m mod 2 = 1) /\
+  (forall m, m mod 2 = 1 ->
+     exists d n d' n',
+       d >= 1 /\ n >= 1 /\ is_odd n /\
+       d' >= 1 /\ n' >= 0 /\
+       m = sequence_end (valid_R0R0_entry_number d n) (repeat_R0 d) /\
+       valid_input m /\
+       m = valid_R1R0_entry_number d' n' /\
+       let next_m := sequence_end m (repeat_R1R0 d') in
+       next_m mod 6 = 2).
+.
+(* R0 advantage for the concatenated canonical chains. *)
+Theorem mod62_R0advantage :
+  forall m0,
+    m0 mod 6 = 2 ->
+    exists d0 n0 d1 n1 m1 m2,
+      let chains := [(false, d0, n0, m0, m1); (true, d1, n1, m1, m2)] in
+      valid_chains_condition chains /\
+      chains_R0_advantage chains /\
+      m2 mod 6 = 2 /\
+      sum_contributions (extract_simple_chains chains) = d0 + 1.
+.
+(* Macro-step advantage: mod6=2 numbers gain at least 2 net-R0 advantage *)
+Theorem mod62_macrostep_R0_net_advantage_ge_2 :
+  forall m0,
+    m0 mod 6 = 2 ->
+    exists d0 n0 d1 n1 m1 m2,
+      let chains := [(false, d0, n0, m0, m1); (true, d1, n1, m1, m2)] in
+      valid_chains_condition chains /\
+      chains_R0_advantage chains /\
+      m2 mod 6 = 2 /\
+      2 <= sum_contributions (extract_simple_chains chains).
+.
+(* Any valid m can reach a mod6=2 orbit *)
+Theorem direct_conversion_to_mod6_2_orbit :
+  forall m,
+    valid_input m ->
+    exists k : nat, exists m_final : nat,
+      m_final mod 6 = 2 /\
+      exists ops : list CollatzOp,
+        length ops = k /\
+        valid_sequence ops m /\
+        sequence_end m ops = m_final /\
+        k <= 2 * (log2 m + 1).
+.
+(* 迭代宏步展开的下界 *)
+Theorem mod62_macrostep_iterated_lower_bound :
+  forall t m0, t >= 1 -> m0 mod 6 = 2 ->
+    exists mt chains, length chains = 2 * t /\
+      valid_chains_condition chains /\
+      mt mod 6 = 2 /\
+      2 * t <= sum_contributions (extract_simple_chains chains) /\
+      chains_R0_advantage chains.
+.
+(* a combination of the two previous theorems. *)
+Theorem global_mod62_advantage_growth :
+  forall m t,
+    valid_input m ->
+    t >= 1 ->
+    exists (k : nat) (m2 mt : nat)
+           (ops : list CollatzOp)
+           (chains : list (bool * nat * nat * nat * nat)),
+      (* conversion stage *)
+      m2 mod 6 = 2 /\
+      length ops = k /\
+      valid_sequence ops m /\
+      sequence_end m ops = m2 /\
+      k <= 2 * (log2 m + 1) /\
+      (* macrostep stage *)
+      length chains = 2 * t /\
+      valid_chains_condition chains /\
+      mt mod 6 = 2 /\
+      2 * t <= sum_contributions (extract_simple_chains chains) /\
+      chains_R0_advantage chains.
+.
+(* r0 优势随序列长度增长定理 *)
+Theorem R0_advantage_growth :
+  forall m t,
+  valid_input m -> t >= 1 ->
+  exists (r0_total r1_total : nat) (k : nat) (m2 mt : nat)
+         (ops : list CollatzOp)
+         (chains : list (bool * nat * nat * nat * nat)),
+    (* 从global_mod6_orbit_advantage_growth获取chains *)
+    m2 mod 6 = 2 /\
+    length ops = k /\
+    valid_sequence ops m /\
+    sequence_end m ops = m2 /\
+    k <= 2 * (log2 m + 1) /\
+    length chains = 2 * t /\
+    valid_chains_condition chains /\
+    mt mod 6 = 2 /\
+    2 * t <= sum_contributions (extract_simple_chains chains) /\
+    chains_R0_advantage chains /\
+    (* 定义总序列和操作计数 *)
+    let total_seq := concat (map (fun '(b, d, _, _, _) => canonical_chain b d) chains) in
+    count_operations total_seq = (r0_total, r1_total) /\
+    (* 比例保证 *)
+    r0_total > r1_total /\
+    r0_total - r1_total >= 2 * t.
+.
+(* R0优势下界定理 *)
+Theorem R0_advantage_lower_bound :
+  forall m t,
+  valid_input m -> t >= 1 ->
+  exists (r0_total r1_total : nat) (k : nat) (m2 mt : nat)
+         (ops : list CollatzOp)
+         (chains : list (bool * nat * nat * nat * nat)),
+    (* 保持原有条件 *)
+    m2 mod 6 = 2 /\
+    length ops = k /\
+    valid_sequence ops m /\
+    sequence_end m ops = m2 /\
+    k <= 2 * (log2 m + 1) /\
+    length chains = 2 * t /\
+    valid_chains_condition chains /\
+    mt mod 6 = 2 /\
+    2 * t <= sum_contributions (extract_simple_chains chains) /\
+    chains_R0_advantage chains /\
+    let total_seq := concat (map (fun '(b, d, _, _, _) => canonical_chain b d) chains) in
+    count_operations total_seq = (r0_total, r1_total) /\
+    (* 新的不等式形式 *)
+    r0_total >= 2 * t + r1_total.
+.
+============================================================
 File: collatz_part_19.v
 ============================================================
 Load "collatz_part_18.v".
@@ -1245,46 +1657,4 @@ Theorem global_mod62_advantage_growth_canonical :
       mt mod 6 = 2 /\
       2 * t <= sum_contributions (extract_simple_chains chains) /\
       chains_R0_advantage chains.
-.
-============================================================
-File: collatz_part_20.v
-============================================================
-(** * collatz_part_20.v - Nontrivial Cycle Nonexistence on Mod6=2 Orbit *)
-Load "collatz_part_19.v".
-Local Open Scope nat.
-(** ** Shortest Canonical Chain on Mod6=2 Orbit: R0R1R0 *)
-(** For mod 6=2 orbit, the shortest canonical chain (d=1) forms the pattern R0R1R0.
-    This is the minimal cycle structure on this orbit.
-    Analysis:
-    - R0R0 entry (entry_kind = false, d = 1): repeat_R0 1 ++ [R1; R0] = [R0] ++ [R1; R0] = [R0, R1, R0]
-    - R1R0 entry (entry_kind = true, d = 1): repeat_R1R0 1 ++ [R0] = [R1; R0] ++ [R0] = [R1, R0, R0]
-    The shortest canonical chain is R0R1R0 (R0R0 entry with d=1).
-*)
-Theorem shortest_canonical_chain_is_R0R1R0 :
-  canonical_chain false 1 = [R0; R1; R0].
-.
-(** The other pattern for comparison: R1R0 entry with d=1 is R1R0R0 *)
-Theorem shortest_R1R0_chain_is_R1R0R0 :
-  canonical_chain true 1 = [R1; R0; R0].
-.
-(** ** Cycle Properties of Shortest Canonical Chain *)
-(** The shortest canonical chain R0R1R0 forms a cycle:
-    Starting from an even number m = 2*n, applying [R0; R1; R0]:
-    1. R0: m -> m/2 = n (even)
-    2. R1: n -> 3n + 1 (even, since n is odd for mod6=2)
-    3. R0: 3n+1 -> (3n+1)/2
-    For mod6=2 orbit, n must be odd, so the result is back to mod6=2.
-*)
-Lemma R0R1R0_cycle_mod62 :
-  forall n, 
-    n >= 1 ->
-    is_odd n ->
-    let m := 2 * n in
-    m mod 6 = 2 ->
-    let m' := sequence_end m [R0; R1; R0] in
-    m' mod 6 = 2 /\ m' > n.
-.
-(** The cycle length: R0R1R0 has length 3 *)
-Theorem shortest_cycle_length :
-  length [R0; R1; R0] = 3.
 .

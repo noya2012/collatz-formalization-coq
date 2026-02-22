@@ -121,49 +121,25 @@ Qed.
 
 ## Example Explanations
 
-### Example 1: m=7, d=1, n=1
-- Starting: 7 (valid_R1R0_entry_number 1 1)
-- R1R0 phase: 7 → 22 → 11
-- Output: Send = 11... wait, that's odd!
-
-Let me recalculate. The theorem states the output of R1R0 should be even.
-
-7 (odd) → R1: 3*7+1 = 22 → R0: 22/2 = 11 (odd)
-
-There seems to be an inconsistency. Let me check the valid_R1R0_entry_number definition:
-valid_R1R0_entry_number 1 1 = 2*2^1*1 + (2^1-1) = 4 + 1 = 5 (not 7!)
-
-Let me correct:
-
-### Example 1 (Corrected): m=5, d=1, n=1
-- Starting: 5 = valid_R1R0_entry_number 1 1 ✓
+### Example 1: m=5, d=1, n=1
+- Starting: 5 = valid_R1R0_entry_number 1 1
 - R1R0 phase: 5 → 16 → 8
-- Output: Send = 8 ✓ (even!)
-- Bounds: 2*3^1*1 = 6 ≤ 8 < 12 = 2*3^1*(1+1), 3^1-1 = 2 ≤ 8 ✓
+- Output: Send = 8 (even!)
+- Bounds: 2*3^1*1 = 6 ≤ 8 < 12 = 2*3^1*(1+1), 3^1-1 = 2 ≤ 8
 - Extended pattern: build_k_steps 5 2 = [R1; R0; R0]
 
-### Example 2: m=3, d=1, n=0
-- Starting: 3 = valid_R1R0_entry_number 1 0
-- R1R0 phase: 3 → 10 → 5
-- Output: Send = 5... still odd!
-
-Wait, let me recalculate 3 = valid_R1R0_entry_number 1 0:
-3 = 2*2^1*0 + (2^1-1) = 0 + 1 = 1 (not 3)
-
-Actually, valid_R1R0_entry_number 2 0 = 2*4*0 + (4-1) = 3, so d=2, n=0:
-
-### Example 2 (Corrected): m=3, d=2, n=0
-- Starting: 3 = valid_R1R0_entry_number 2 0 ✓
+### Example 2: m=3, d=2, n=0
+- Starting: 3 = valid_R1R0_entry_number 2 0
 - R1R0 phase: 3 → 10 → 5 → 16 → 8
-- Output: Send = 8 ✓ (even!)
-- Bounds: 2*3^2*0 = 0 ≤ 8 < 18 = 2*9*1, 9-1 = 8 ≤ 8 ✓
+- Output: Send = 8 (even!)
+- Bounds: 2*3^2*0 = 0 ≤ 8 < 18 = 2*9*1, 9-1 = 8 ≤ 8
 - Extended pattern: build_k_steps 3 3 = [R1; R0; R1; R0; R0]
 
 ### Example 3: m=11, d=2, n=1
 - Starting: 11 = valid_R1R0_entry_number 2 1
 - R1R0 phase: 11 → 34 → 17 → 52 → 26
-- Output: Send = 26 ✓ (even!)
-- Bounds: 2*9*1 = 18 ≤ 26 < 54 = 2*9*2, 9-1 = 8 ≤ 26 ✓
+- Output: Send = 26 (even!)
+- Bounds: 2*9*1 = 18 ≤ 26 < 54 = 2*9*2, 9-1 = 8 ≤ 26
 
 ## Related Theorems
 

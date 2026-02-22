@@ -139,6 +139,8 @@ Definition,R1R0_entry,Simplified entry predicates that directly include m >= 1 t
 Definition,R0R0_entry,Simplified entry predicates that directly include m >= 1 to avoid redundant derivation in subsequent proofs R0,collatz_part_16.v,133,135
 Lemma,next_entry_from_R1R0,R1R0 entry -> next entry (R0R0) construction,collatz_part_16.v,136,172
 Lemma,next_entry_from_R0R0,R0R0 entry -> next entry (R1R0) construction,collatz_part_16.v,175,205
+Theorem,collatz_pattern_cycle_deterministic,Collatz Pattern Cycle Deterministic: Proves that for any starting value m ≥ 1 the Collatz sequence follows a deterministic cycle pattern between R1R0 and R0R0 entries,collatz_part_16_1.v,4,119
+Theorem,collatz_cycle,Collatz cycle branch theorem,collatz_part_16_1.v,123,158
 Definition,canonical_chain,Canonical chain definition R1R0-entry or R0R0-entry patterns,collatz_part_17.v,6,9
 Fixpoint,sum_contributions,Sum contributions R1R0-entry adds 1 R0R0-entry adds d,collatz_part_17.v,10,18
 Fixpoint,chains_to_sequence,Convert chain list to operation sequence,collatz_part_17.v,19,26
@@ -170,6 +172,35 @@ Lemma,R1R0_entry_d_log2_bound,Log2 bound for R1R0 entry depth d <= log2m + 1,col
 Lemma,extract_simple_chains_app,Extract simple chains concatenation distributes over list append,collatz_part_18.v,112,120
 Lemma,sum_contributions_app,Sum contributions concatenation additive over list append,collatz_part_18.v,123,131
 Lemma,chains_R0_advantage_app,Chains R0 advantage concatenation preserved under list append,collatz_part_18.v,134,164
+Theorem,R1R0_to_R0R0_closure,定理R1R0到R0R0的闭包,collatz_part_18_1.v,5,53
+Theorem,R0R0_to_R1R0_reverse,R0到R1R0的闭包,collatz_part_18_1.v,56,96
+Theorem,R1R0_full_cycle_step,从 R1R0 分支出发，经过 R0R0 分支，再回到 R1R0 分支,collatz_part_18_1.v,100,129
+Theorem,R0R0_full_cycle_step,R0R0 分支也有对称的完整循环步骤,collatz_part_18_1.v,132,170
+Record,cycle_state,循环状态与迭代关系,collatz_part_18_1.v,174,180
+Definition,mk_cycle_state,构造循环状态,collatz_part_18_1.v,181,184
+Definition,valid_cycle_state,循环状态的有效性,collatz_part_18_1.v,185,198
+Inductive,cycle_step,循环步骤关系,collatz_part_18_1.v,199,236
+Inductive,cycle_steps,循环步骤的多步关系,collatz_part_18_1.v,237,246
+Definition,cycle_measure,循环步骤的度量,collatz_part_18_1.v,247,256
+Theorem,cycle_steps_convergence_R1R0,循环步骤的收敛性,collatz_part_18_1.v,257,291
+Theorem,cycle_steps_convergence_R0R0,R0R0 分支收敛性定理,collatz_part_18_1.v,294,341
+Theorem,cycle_state_reachability,循环状态可达性定理,collatz_part_18_1.v,344,375
+Theorem,canonical_R0_advantage,规范链的R0操作优势定理,collatz_part_18_1.v,378,412
+Lemma,valid_cycle_state_cycle_step,循环步性质封装,collatz_part_18_1.v,415,445
+Theorem,chain_characterization_with_advantage,对于任何有效的循环状态，存在一个有限步数k，使得经过k次循环步后，状态仍然保持在同一分支,collatz_part_18_1.v,448,491
+Theorem,R1R0_chain_ratio_formula,R1R0链比例公式,collatz_part_18_1.v,496,508
+Theorem,R0_chain_ratio_formula,R0链比例公式,collatz_part_18_1.v,511,523
+Theorem,unified_chain_ratio_formula,统一比例公式,collatz_part_18_1.v,526,540
+Theorem,R0_advantage_ratio_analysis,比例优势分析,collatz_part_18_1.v,543,556
+Theorem,total_operations_ratio_formula,序列组合的比例公式,collatz_part_18_1.v,559,576
+Theorem,pattern_toggle_deterministic,pattern_toggle_deterministic : 确定性模式切换定理,collatz_part_18_1.v,579,667
+Theorem,mod62_R0advantage,R0 advantage for the concatenated canonical chains.,collatz_part_18_1.v,670,771
+Theorem,mod62_macrostep_R0_net_advantage_ge_2,Macro-step advantage: mod6=2 numbers gain at least 2 net-R0 advantage,collatz_part_18_1.v,774,805
+Theorem,direct_conversion_to_mod6_2_orbit,Any valid m can reach a mod6=2 orbit,collatz_part_18_1.v,808,949
+Theorem,mod62_macrostep_iterated_lower_bound,迭代宏步展开的下界,collatz_part_18_1.v,952,1031
+Theorem,global_mod62_advantage_growth,a combination of the two previous theorems.,collatz_part_18_1.v,1034,1069
+Theorem,R0_advantage_growth,r0 优势随序列长度增长定理,collatz_part_18_1.v,1072,1126
+Theorem,R0_advantage_lower_bound,R0优势下界定理,collatz_part_18_1.v,1129,1176
 Lemma,build_k_steps_add,build_k_steps decomposition: k1 steps followed by k2 steps equals building from intermediate state,collatz_part_19.v,4,30
 Theorem,direct_conversion_to_mod6_2_orbit_canonical,Canonical conversion to mod6=2 orbit using build_k_steps as canonical prefix,collatz_part_19.v,33,174
 Theorem,mod62_R0advantage_canonical,Canonical R0 advantage for mod6=2 numbers: two-step chain with positive contribution,collatz_part_19.v,177,329
@@ -188,7 +219,3 @@ Fixpoint,canonical_mod62_iterated_end,Final state after t iterated canonical mac
 Lemma,canonical_mod62_macrostep_spec,Canonical macro-step preserves mod6=2 and has positive contribution,collatz_part_19.v,497,696
 Theorem,mod62_macrostep_iterated_lower_bound_canonical,Iterated canonical macro-steps for mod6=2: lower bound on total contributions,collatz_part_19.v,699,808
 Theorem,global_mod62_advantage_growth_canonical,Global advantage growth for mod6=2: linear growth of contributions,collatz_part_19.v,811,854
-Theorem,shortest_canonical_chain_is_R0R1R0,* For mod 6=2 orbit， the shortest canonical chain (d=1) forms the pattern R0R1R0. This is the minimal cycle structure on this orbit. Analysis: - R0R0 entry (entry_kind = false， d = 1): repeat_R0 1 ++ [R1; R0] = [R0] ++ [R1; R0] = [R0， R1， R0] - R1R0 entry (entry_kind = true， d = 1): repeat_R1R0 1 ++ [R0] = [R1; R0] ++ [R0] = [R1， R0， R0] The shortest canonical chain is R0R1R0 (R0R0 entry with d=1).,collatz_part_20.v,19,28
-Theorem,shortest_R1R0_chain_is_R1R0R0,* The other pattern for comparison: R1R0 entry with d=1 is R1R0R0,collatz_part_20.v,31,40
-Lemma,R0R1R0_cycle_mod62,* The shortest canonical chain R0R1R0 forms a cycle: Starting from an even number m = 2*n， applying [R0; R1; R0]: 1. R0: m -> m/2 = n (even) 2. R1: n -> 3n + 1 (even， since n is odd for mod6=2) 3. R0: 3n+1 -> (3n+1)/2 For mod6=2 orbit， n must be odd， so the result is back to mod6=2.,collatz_part_20.v,53,104
-Theorem,shortest_cycle_length,* The cycle length: R0R1R0 has length 3,collatz_part_20.v,107,114
