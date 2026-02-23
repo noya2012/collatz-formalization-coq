@@ -325,6 +325,16 @@ Building upon traditional Collatz research, this formalization supplies new anal
 - **Total Coq source files**: 19 core files + extensions
 - **Lines of Coq code**: 10,000+ (excluding proofs)
 
+### Coq Community
+- **Coq Zulip Chat**: https://coq.zulipchat.com/ (Real-time discussion)
+- **Coq GitHub Discussions**: https://github.com/coq/coq/discussions (Q&A)
+- **Coq Stack Overflow**: https://stackoverflow.com/questions/tagged/coq (Technical Q&A)
+- **Coq Discord**: https://discord.com/invite/X9d5uZc (Community chat)
+
+### Coq Learning Resources
+- **Coq Standard Library Docs**: https://coq.inria.fr/doc/
+- **Coq Platform**: https://coq.inria.fr/platform/ (Distribution)
+- **Coq Club Mailing List**: https://sympa.inria.fr/sympa/info/coq-club
 ---
 
 *This formalization represents ongoing research into the Collatz conjecture through rigorous mathematical analysis and computer‑assisted proof verification.*
