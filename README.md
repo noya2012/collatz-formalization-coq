@@ -335,6 +335,10 @@ Building upon traditional Collatz research, this formalization supplies new anal
 - **Coq Standard Library Docs**: https://coq.inria.fr/doc/
 - **Coq Platform**: https://coq.inria.fr/platform/ (Distribution)
 - **Coq Club Mailing List**: https://sympa.inria.fr/sympa/info/coq-club
+
+### Related Coq Formalizations
+- **Coq-BB5** (mxdys): [GitHub](https://github.com/ccz181078/Coq-BB5) | Formal verification of Busy Beaver function values. Establishes BB(5)=47,176,870 through machine-checked proof.
+- **H10** (Larchey-Wendler, Forster; Universität des Saarlandes): [GitHub](https://github.com/uds-psl/H10) | Coq formalization of the undecidability of Hilbert's 10th problem, published at FSCD 2019.
 ---
 
 *This formalization represents ongoing research into the Collatz conjecture through rigorous mathematical analysis and computer‑assisted proof verification.*
