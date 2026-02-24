@@ -16,6 +16,9 @@ description: |
   machine-verified proofs of key structural properties of Collatz sequences, 
   focusing on the mod-6≡2 invariant orbit and establishing rigorous 
   quantitative bounds on operation advantages.
+note: |
+  Based on research initiated in March 2023. This repository (collatz-formalization-coq) 
+  was migrated from the original project (collatz-prof1) in October 2025.
 keywords:
   - collatz-conjecture
   - 3n+1-problem
