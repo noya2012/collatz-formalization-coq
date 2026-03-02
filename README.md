@@ -75,7 +75,7 @@ The key technical contributions include:
 - Every natural number ≥1 can be uniquely classified as either an R1R0 or an R0R0 entry number
 - Establishes the algebraic foundation of Collatz sequences
 
-#### 2. Structural Control Theorem – `build_k_steps_structure` (collatz_part_6.v)
+#### 2. Structural Control Theorem – `build_k_steps_structure` (collatz_pargbut_6.v)
 - k‑step expansion uses exactly k division‑by‑2 operations and at most k odd‑branch operations
 - Sequence length is bounded above by 2k, creating an exact counting framework
 
@@ -279,9 +279,9 @@ Building upon traditional Collatz research, this formalization supplies new anal
 
 ## Documentation
 
-- **Project Wiki**: [GitHub Pages Wiki](https://noya2012.github.io/collatz-conjecture-coq-framework/wiki/Home.html) - Interactive documentation with core insights, quantitative results, theorem roadmap, and concept reference
+- **Project Wiki**: [GitHub Wiki](https://github.com/noya2012/collatz-conjecture-coq-framework/wiki) - Interactive documentation with core insights, quantitative results, theorem roadmap, and concept reference
 - **Interactive Visualization**: [Collatz Sequence Visualization](https://noya2012.github.io/collatz-conjecture-coq-framework/cz_ms_cc_visualization.html) - Interactive visualization of Collatz sequence patterns and macro-step analysis
-- **Theorem Index**: [`full_dependency_analysis/theorems_and_corollaries.txt`](full_dependency_analysis/theorems_and_corollaries.txt) - Index of key theorems/corollaries with locations
+- **Theorem Index**: [`docs/theorems_and_corollaries.txt`](docs/theorems_and_corollaries.txt) - Index of key theorems/corollaries with locations
 
 ## Contributing
 

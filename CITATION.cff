@@ -8,8 +8,8 @@ year: 2026
 date-released: 2026-02-01
 version: 1.0
 license: MIT
-url: https://github.com/noya2012/collatz-formalization-coq
-repository-code: https://github.com/noya2012/collatz-formalization-coq
+url: https://github.com/noya2012/collatz-conjecture-coq-framework
+repository-code: https://github.com/noya2012/collatz-conjecture-coq-framework
 description: |
   A comprehensive Coq formalization framework for the Collatz conjecture 
   (3n+1 problem) using combinatorial analysis. This project provides 
@@ -17,7 +17,7 @@ description: |
   focusing on the mod-6≡2 invariant orbit and establishing rigorous 
   quantitative bounds on operation advantages.
 note: |
-  Based on research initiated in March 2023. This repository (collatz-formalization-coq) 
+  Based on research initiated in March 2023. This repository (collatz-conjecture-coq-framework) 
   was migrated from the original project (collatz-prof1) in October 2025.
 keywords:
   - collatz-conjecture
