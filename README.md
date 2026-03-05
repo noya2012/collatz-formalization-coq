@@ -289,10 +289,7 @@ Building upon traditional Collatz research, this formalization supplies new anal
 - **Pull requests**: small, focused PRs are easiest to review (one theorem refactor or one tooling improvement at a time).
 - **Reproducibility**: if you change proof scripts, please keep `coqc collatz_part_19.v` working as the primary verification target.
 
-## Suggested GitHub Topics
 
-If you maintain the repository settings, these topics help GitHub search/discovery:
-`collatz-conjecture`, `3n-plus-1`, `syracuse-problem`, `coq`, `formal-verification`, `theorem-proving`, `number-theory`, `dynamical-systems`, `proof-assistant`
 
 ## Related Resources
 
